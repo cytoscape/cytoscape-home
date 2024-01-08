@@ -1,0 +1,19 @@
+{
+  "name": "cytoscape-home",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cytoscape/cytoscape-home.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cytoscape/cytoscape-home/issues"
+  },
+  "homepage": "https://github.com/cytoscape/cytoscape-home#readme"
+}
