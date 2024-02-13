@@ -1,8 +1,20 @@
-# React + Vite
+# Cytoscape Home
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Build targets
 
-Currently, two official plugins are available:
+First, ensure you've install the dependencies:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+npm install
+```
+
+Then:
+
+```
+npm run <target>
+```
+
+- `watch` or `dev` : Run a local dev server with automatic builds when you change the source
+- `lint` : Run the linter (ESLint)
+- `build` : Build for production
+
