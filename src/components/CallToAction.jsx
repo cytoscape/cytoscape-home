@@ -1,6 +1,7 @@
-import { AppStoreLink } from '@/components/AppStoreLink'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
+
+import { Button } from '@/components/Button'
 
 export function CallToAction() {
   return (
@@ -14,15 +15,16 @@ export function CallToAction() {
       <Container className="relative">
         <div className="mx-auto max-w-md sm:text-center">
           <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">
-            Get your first tips today
+            Get your first results
           </h2>
           <p className="mt-4 text-lg text-gray-300">
-            It takes 30 seconds to sign up. Download the app and create an
-            account today and we’ll send you a tip guaranteed to double your
-            first investment.
+            In just under a minute, we&apos;ll walk you through a few questions to find the perfect tool for your needs.
+            You don&apos;t even need to create an account or provide any personal information.
           </p>
           <div className="mt-8 flex justify-center">
-            <AppStoreLink color="white" />
+            <Button color="white" className="min-w-44 text-gray-900">
+              <span className="text-center">Start Now</span>
+            </Button>
           </div>
         </div>
       </Container>
