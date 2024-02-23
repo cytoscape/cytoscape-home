@@ -2,7 +2,6 @@ import { useId } from 'react'
 import clsx from 'clsx'
 
 import { AppDemo } from '@/components/AppDemo'
-import { AppStoreLink } from '@/components/AppStoreLink'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { PhoneFrame } from '@/components/PhoneFrame'
@@ -106,10 +105,14 @@ export function Hero() {
               Finding the perfect tool to search or create biological network figures has never been easier. 
               Whether you are exploring genes, proteins or pathways, our intuitive interface allows you to analyze your data and create beautiful figures that are ready to be published.
             </p>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
-              <AppStoreLink />
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4 justify-center sm:justify-start">
+              <Button className="pl-5 pr-5">
+                <span className="text-center">Get Started</span>
+              </Button>
               <Button
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                href="https://youtu.be/IFitLMiN42M?si=BQsTRz5-lKHcanZg"
+                target="_blank"
+                rel="noreferrer"
                 variant="outline"
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
