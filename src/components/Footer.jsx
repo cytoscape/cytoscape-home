@@ -1,11 +1,12 @@
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { TextField } from '@/components/Fields'
-import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
 import { NavLinks } from '@/components/NavLinks'
-import qrCode from '@/images/qr-code.svg'
 
-function QrCodeBorder(props) {
+import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
+import cytoscapeLogo from '@/images/logos/cytoscape.svg';
+
+function DownloadBorder(props) {
   return (
     <svg viewBox="0 0 96 96" fill="none" aria-hidden="true" {...props}>
       <path
@@ -34,18 +35,18 @@ export function Footer() {
           </div>
           <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-gray-100 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
             <div className="relative flex h-24 w-24 flex-none items-center justify-center">
-              <QrCodeBorder className="absolute inset-0 h-full w-full stroke-gray-300 transition-colors group-hover:stroke-cyan-500" />
-              <img src={qrCode} alt="" />
+              <DownloadBorder className="absolute inset-0 h-full w-full stroke-gray-300 transition-colors" />
+              <img src={cytoscapeLogo} alt="Download Cytoscape" />
             </div>
             <div className="ml-8 lg:w-64">
               <p className="text-base font-semibold text-gray-900">
-                <a href="#">
+                <a href="https://cytoscape.org/download.html" target="_blank" rel="noreferrer">
                   <span className="absolute inset-0 sm:rounded-2xl" />
-                  Download the app
+                  Download Cytoscape
                 </a>
               </p>
               <p className="mt-1 text-sm text-gray-700">
-                Scan the QR code to download the app from the App Store.
+                Download and install the Cytoscape software for more advanced features.
               </p>
             </div>
           </div>
