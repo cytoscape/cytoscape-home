@@ -6,7 +6,7 @@ import { useInView } from 'framer-motion'
 
 import { Container } from '@/components/Container'
 
-const reviews = [
+const citations = [
   {
     title: 'It really works.',
     body: 'I downloaded Pocket today and turned $5000 into $25,000 in half an hour.',
@@ -160,7 +160,7 @@ function splitArray(array, numParts) {
   return result
 }
 
-function ReviewColumn({ reviews, className, reviewClassName, msPerPixel = 0 }) {
+function ReviewColumn({ citations, className, reviewClassName, msPerPixel = 0 }) {
   let columnRef = useRef(null)
   let [columnHeight, setColumnHeight] = useState(0)
   let duration = `${columnHeight * msPerPixel}ms`
@@ -187,11 +187,11 @@ function ReviewColumn({ reviews, className, reviewClassName, msPerPixel = 0 }) {
       className={clsx('animate-marquee space-y-8 py-4', className)}
       style={{ '--marquee-duration': duration }}
     >
-      {reviews.concat(reviews).map((review, reviewIndex) => (
+      {citations.concat(citations).map((review, reviewIndex) => (
         <Review
           key={reviewIndex}
-          aria-hidden={reviewIndex >= reviews.length}
-          className={reviewClassName?.(reviewIndex % reviews.length)}
+          aria-hidden={reviewIndex >= citations.length}
+          className={reviewClassName?.(reviewIndex % citations.length)}
           {...review}
         />
       ))}
@@ -202,7 +202,7 @@ function ReviewColumn({ reviews, className, reviewClassName, msPerPixel = 0 }) {
 function ReviewGrid() {
   let containerRef = useRef(null)
   let isInView = useInView(containerRef, { once: true, amount: 0.4 })
-  let columns = splitArray(reviews, 3)
+  let columns = splitArray(citations, 3)
   let column1 = columns[0]
   let column2 = columns[1]
   let column3 = splitArray(columns[2], 2)
@@ -215,7 +215,7 @@ function ReviewGrid() {
       {isInView && (
         <>
           <ReviewColumn
-            reviews={[...column1, ...column3.flat(), ...column2]}
+            citations={[...column1, ...column3.flat(), ...column2]}
             reviewClassName={(reviewIndex) =>
               clsx(
                 reviewIndex >= column1.length + column3[0].length &&
@@ -226,7 +226,7 @@ function ReviewGrid() {
             msPerPixel={10}
           />
           <ReviewColumn
-            reviews={[...column2, ...column3[1]]}
+            citations={[...column2, ...column3[1]]}
             className="hidden md:block"
             reviewClassName={(reviewIndex) =>
               reviewIndex >= column2.length ? 'lg:hidden' : ''
@@ -234,7 +234,7 @@ function ReviewGrid() {
             msPerPixel={15}
           />
           <ReviewColumn
-            reviews={column3.flat()}
+            citations={column3.flat()}
             className="hidden lg:block"
             msPerPixel={10}
           />
@@ -249,13 +249,13 @@ function ReviewGrid() {
 export function Reviews() {
   return (
     <section
-      id="reviews"
-      aria-labelledby="reviews-title"
+      id="citations"
+      aria-labelledby="citations-title"
       className="pb-16 pt-20 sm:pb-24 sm:pt-32"
     >
       <Container>
         <h2
-          id="reviews-title"
+          id="citations-title"
           className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
         >
           Everyone is changing their life with Pocket.
