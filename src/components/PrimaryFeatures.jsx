@@ -334,7 +334,7 @@ function InvestScreen(props) {
                     <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
                       <path
                         d="M17 15V7H9M17 7 7 17"
-                        stroke="#06B6D4"
+                        stroke="#2f97c8"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
