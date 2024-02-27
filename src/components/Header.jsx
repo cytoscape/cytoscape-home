@@ -3,7 +3,6 @@
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLinks } from '@/components/NavLinks'
@@ -101,12 +100,12 @@ export function Header() {
                             <MobileNavLink href="/#citations">Citations</MobileNavLink>
                             <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
                           </div>
-                          <div className="mt-8 flex flex-col gap-4">
+                          {/* <div className="mt-8 flex flex-col gap-4">
                             <Button href="/login" variant="outline">
                               Log in
                             </Button>
                             <Button href="#">Download the app</Button>
-                          </div>
+                          </div> */}
                         </Popover.Panel>
                       </>
                     )}
@@ -114,12 +113,12 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <Button href="/login" variant="outline" className="hidden lg:block">
+            {/* <Button href="/login" variant="outline" className="hidden lg:block">
               Log in
             </Button>
             <Button href="#" className="hidden lg:block">
               Download
-            </Button>
+            </Button> */}
           </div>
         </Container>
       </nav>
