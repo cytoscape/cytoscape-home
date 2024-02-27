@@ -4,8 +4,8 @@ import '@/styles/tailwind.css'
 
 export const metadata = {
   title: {
-    template: '%s - Pocket',
-    default: 'Pocket - Invest at the perfect time.',
+    template: '%s - Cytoscape Home',
+    default: 'Cytoscape Home - Transform your bioinformatics research',
   },
   description:
     'By leveraging insights from our network of industry insiders, you’ll know exactly when to buy to maximize profit, and exactly when to sell to avoid painful losses.',

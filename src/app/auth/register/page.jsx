@@ -13,7 +13,7 @@ export default function Register() {
       subtitle={
         <>
           Already registered?{' '}
-          <a href="/login" className="text-cyan-600">
+          <a href="/login" className="text-complement-600">
             Sign in
           </a>{' '}
           to your account.
@@ -63,7 +63,7 @@ export default function Register() {
             <option>The “Never Use This” podcast</option>
           </SelectField>
         </div>
-        <Button type="submit" color="cyan" className="mt-8 w-full">
+        <Button type="submit" color="complement" className="mt-8 w-full">
           Get started today
         </Button>
       </form>

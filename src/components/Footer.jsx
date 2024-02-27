@@ -61,7 +61,7 @@ export function Footer() {
               required
               className="w-60 min-w-0 shrink"
             />
-            <Button type="submit" color="cyan" className="ml-4 flex-none">
+            <Button type="submit" color="complement" className="ml-4 flex-none">
               <span className="hidden lg:inline">Join our newsletter</span>
               <span className="lg:hidden">Join newsletter</span>
             </Button>

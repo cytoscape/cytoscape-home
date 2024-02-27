@@ -199,7 +199,7 @@ function InviteScreen(props) {
               </div>
             ))}
           </div>
-          <div className="mt-6 rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
+          <div className="mt-6 rounded-lg bg-complement-500 px-3 py-2 text-center text-sm font-semibold text-white">
             Invite person
           </div>
         </div>
@@ -295,7 +295,7 @@ function StocksScreen(props) {
                   className={clsx(
                     'text-xs leading-5',
                     stock.change.startsWith('+')
-                      ? 'text-cyan-500'
+                      ? 'text-complement-500'
                       : 'text-gray-500',
                   )}
                 >
@@ -355,7 +355,7 @@ function InvestScreen(props) {
                 </div>
               </div>
             ))}
-            <div className="rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
+            <div className="rounded-lg bg-complement-500 px-3 py-2 text-center text-sm font-semibold text-white">
               Buy shares
             </div>
           </div>
