@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { Logomark } from '@/components/Logo'
+import { CytoscapeLogomark } from '@/components/Logo'
 import clsx from 'clsx'
 
 function MenuIcon(props) {
@@ -19,7 +19,7 @@ export function AppScreen({ children, className, ...props }) {
   return (
     <div className={clsx('flex flex-col', className)} {...props}>
       <div className="flex justify-between px-4 text-gray-300">
-        <Logomark className="h-6 flex-none fill-gray-300" />
+        <CytoscapeLogomark className="h-6 flex-none" fill="#d4d4d4" />
         Sample Network
         <MenuIcon className="h-6 w-6 flex-none stroke-gray-300 invisible" />
       </div>
