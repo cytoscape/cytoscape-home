@@ -20,7 +20,7 @@ export function AppScreen({ children, className, ...props }) {
     <div className={clsx('flex flex-col', className)} {...props}>
       <div className="flex justify-between px-4 text-gray-300">
         <CytoscapeLogomark className="h-6 flex-none" fill="#d4d4d4" />
-        Sample Network
+          {props.title}
         <MenuIcon className="h-6 w-6 flex-none stroke-gray-300 invisible" />
       </div>
       {children}

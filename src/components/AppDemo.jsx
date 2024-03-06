@@ -4,7 +4,7 @@ import { AppScreen } from '@/components/AppScreen'
 
 export function AppDemo() {
   return (
-    <AppScreen>
+    <AppScreen title="Sample Network">
       <AppScreen.Body>
         <div className="p-4">
           <NetworkSvg />
