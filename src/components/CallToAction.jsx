@@ -22,8 +22,8 @@ export function CallToAction() {
             You don&apos;t even need to create an account or provide any personal information.
           </p>
           <div className="mt-8 flex justify-center">
-            <Button color="white" className="min-w-44 text-gray-900">
-              <span className="text-center">Start Now</span>
+            <Button variant="solid" color="primary" className="min-w-44 text-gray-900">
+              <span className="text-center">Get Started</span>
             </Button>
           </div>
         </div>
