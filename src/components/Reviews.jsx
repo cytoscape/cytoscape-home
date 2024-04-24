@@ -8,116 +8,85 @@ import { Container } from '@/components/Container'
 
 const citations = [
   {
-    title: 'It really works.',
-    body: 'I downloaded Pocket today and turned $5000 into $25,000 in half an hour.',
-    author: 'CrazyInvestor',
-    rating: 5,
+    title: 'PLOS ONE, 2022',
+    body: 'Identification of hub genes associated with COVID-19 and idiopathic pulmonary fibrosis by integrated bioinformatics analysis',
+    author: 'Qianyi Chen, et al.',
+    doi: 'https://doi.org/10.1371/journal.pone.0262737',
+    image: 'journal.pone.0262737.png',
   },
   {
-    title: 'You need this app.',
-    body: 'I didn’t understand the stock market at all before Pocket. I still don’t, but at least I’m rich now.',
-    author: 'CluelessButRich',
-    rating: 5,
+    title: 'J. Cellular Biochemistry, 2018',
+    body: 'Reconstruction and analysis of the aberrant lncRNA‐miRNA‐mRNA network based on competitive endogenous RNA in CESC',
+    author: 'Jukun Song, et al.',
+    doi: 'https://doi.org/10.1002%2Fjcb.26850',
+    image: 'jcb.26850.jpg',
   },
   {
-    title: 'This shouldn’t be legal.',
-    body: 'Pocket makes it so easy to win big in the stock market that I can’t believe it’s actually legal.',
-    author: 'LivingDaDream',
-    rating: 5,
+    title: 'Genome Biology, 2019',
+    body: 'Cytoscape Automation: empowering workflow-based network analysis',
+    author: 'David Otasek, et al.',
+    doi: 'https://doi.org/10.1186/s13059-019-1758-4',
+    image: 's13059-019-1758-4.png',
   },
   {
-    title: 'Screw financial advisors.',
-    body: 'I barely made any money investing in mutual funds. With Pocket, I’m doubling my net-worth every single month.',
-    author: 'JordanBelfort1962',
-    rating: 5,
+    title: 'BioData Mining, 2016',
+    body: 'Building a glaucoma interaction network using a text mining approach',
+    author: 'Maha Soliman, et al.',
+    doi: 'https://doi.org/10.1186%2Fs13040-016-0096-2',
+    image: 's13040-016-0096-2.png',
   },
   {
-    title: 'I love it!',
-    body: 'I started providing insider information myself and now I get new insider tips every 5 minutes. I don’t even have time to act on all of them. New Lamborghini is being delivered next week!',
-    author: 'MrBurns',
-    rating: 5,
+    title: 'Laboratory Investigation, 2008',
+    body: 'The fibromatosis signature defines a robust stromal response in breast carcinoma',
+    author: 'Andrew H Beck, et al.',
+    doi: 'https://doi.org/10.1038%2Flabinvest.2008.31',
+    image: 'labinvest.2008.31.png',
   },
   {
-    title: 'Too good to be true.',
-    body: 'I was making money so fast with Pocket that it felt like a scam. But I sold my shares and withdrew the money and it’s really there, right in my bank account. This app is crazy!',
-    author: 'LazyRich99',
-    rating: 5,
+    title: 'BMC Bioinformatics, 2013',
+    body: 'Visualization of protein interaction networks: problems and solutions',
+    author: 'Giuseppe Agapito, et al.',
+    doi: 'https://doi.org/10.1186%2F1471-2105-14-S1-S1',
+    image: '1471-2105-14-S1-S1.png',
   },
   {
-    title: 'Wish I could give 6 stars',
-    body: 'This is literally the most important app you will ever download in your life. Get on this before it’s so popular that everyone else is getting these tips too.',
-    author: 'SarahLuvzCash',
-    rating: 5,
+    title: 'Human Genomics, 2022',
+    body: 'Construction of the coexpression network involved in the pathogenesis of thyroid eye disease via bioinformatics analysis',
+    author: 'Jinxing Hu, et al.',
+    doi: 'https://doi.org/10.1186%2Fs40246-022-00412-0',
+    image: 's40246-022-00412-0.png',
   },
   {
-    title: 'Bought an island.',
-    body: 'Yeah, you read that right. Want your own island too? Get Pocket.',
-    author: 'ScroogeMcduck',
-    rating: 5,
+    title: 'Frontiers Bioeng. Biotechnol., 2020',
+    body: 'A Guide to Conquer the Biological Network Era Using Graph Theory',
+    author: 'Mikaela Koutrouli, et al.',
+    doi: 'https://doi.org/10.3389%2Ffbioe.2020.00034',
+    image: 'fbioe.2020.00034.png',
   },
   {
-    title: 'No more debt!',
-    body: 'After 2 weeks of trading on Pocket I was debt-free. Why did I even go to school at all when Pocket exists?',
-    author: 'BruceWayne',
-    rating: 5,
+    title: 'World Journal of Transplantation, 2016',
+    body: 'Proteomics for rejection diagnosis in renal transplant patients: Where are we now?',
+    author: 'Wilfried Gwinner, et al.',
+    doi: 'https://doi.org/10.5500%2Fwjt.v6.i1.28',
+    image: 'wjt.v6.i1.28.png',
   },
   {
-    title: 'I’m 13 and I’m rich.',
-    body: 'I love that with Pocket’s transaction anonymization I could sign up and start trading when I was 12 years old. I had a million dollars before I had armpit hair!',
-    author: 'RichieRich',
-    rating: 5,
+    title: 'Biochem. Biophys. Rep., 2021',
+    body: 'Gene expression analysis of human induced pluripotent stem cells cryopreserved by vitrification using StemCell Keep',
+    author: 'Akemi Ota, et al.',
+    doi: 'https://doi.org/10.1016%2Fj.bbrep.2021.101172',
+    image: 'j.bbrep.2021.101172.png',
   },
   {
-    title: 'Started an investment firm.',
-    body: 'I charge clients a 3% management fee and just throw all their investments into Pocket. Easy money!',
-    author: 'TheCountOfMonteChristo',
-    rating: 5,
-  },
-  {
-    title: 'It’s like a superpower.',
-    body: 'Every tip Pocket has sent me has paid off. It’s like playing Blackjack but knowing exactly what card is coming next!',
-    author: 'ClarkKent',
-    rating: 5,
-  },
-  {
-    title: 'Quit my job.',
-    body: 'I downloaded Pocket three days ago and quit my job today. I can’t believe no one else thought to build a stock trading app that works this way!',
-    author: 'GeorgeCostanza',
-    rating: 5,
-  },
-  {
-    title: 'Don’t download this app',
-    body: 'Unless you want to have the best life ever! I am literally writing this from a yacht.',
-    author: 'JeffBezos',
-    rating: 5,
+    title: 'F1000Research, 2021',
+    body: 'scNetViz: from single cells to networks using Cytoscape',
+    author: 'Krishna Choudhary, et al.',
+    doi: 'https://doi.org/10.12688%2Ff1000research.52460.1',
+    image: 'f1000research.52460.1.gif',
   },
 ]
 
-function StarIcon(props) {
-  return (
-    <svg viewBox="0 0 20 20" aria-hidden="true" {...props}>
-      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-    </svg>
-  )
-}
-
-function StarRating({ rating }) {
-  return (
-    <div className="flex">
-      {[...Array(5).keys()].map((index) => (
-        <StarIcon
-          key={index}
-          className={clsx(
-            'h-5 w-5',
-            rating > index ? 'fill-complement-500' : 'fill-gray-300',
-          )}
-        />
-      ))}
-    </div>
-  )
-}
-
-function Review({ title, body, author, rating, className, ...props }) {
+function Review({ title, body, author, doi, image, className, ...props }) {
   let animationDelay = useMemo(() => {
     let possibleAnimationDelays = ['0s', '0.1s', '0.2s', '0.3s', '0.4s', '0.5s']
     return possibleAnimationDelays[
@@ -126,25 +95,32 @@ function Review({ title, body, author, rating, className, ...props }) {
   }, [])
 
   return (
-    <figure
-      className={clsx(
-        'animate-fade-in rounded-3xl bg-white p-6 opacity-0 shadow-md shadow-gray-900/5',
-        className,
-      )}
-      style={{ animationDelay }}
-      {...props}
-    >
-      <blockquote className="text-gray-900">
-        <StarRating rating={rating} />
-        <p className="mt-4 text-lg font-semibold leading-6 before:content-['“'] after:content-['”']">
-          {title}
-        </p>
-        <p className="mt-3 text-base leading-7">{body}</p>
-      </blockquote>
-      <figcaption className="mt-3 text-sm text-gray-600 before:content-['–_']">
-        {author}
-      </figcaption>
-    </figure>
+    <a href={doi} target="_blank" rel="noreferrer" className="p-2">
+      <figure
+        className={clsx(
+          'group flex flex-row space-x-4 animate-fade-in rounded-3xl bg-white p-6 opacity-0 shadow-md shadow-gray-900/5 hover:shadow-xl',
+          className,
+        )}
+        style={{ animationDelay }}
+        {...props}
+      >
+        <img
+          className="max-w-36 object-contain grayscale-[75%] group-hover:grayscale-0"
+          src={'./src/images/publications/' + image}
+        />
+        <div>
+          <blockquote className="text-gray-900">
+            <p className="mt-4 text-xs font-semibold leading-6">
+              {title}
+            </p>
+            <p className="mt-3 text-sm leading-7">{body}</p>
+          </blockquote>
+          <figcaption className="mt-3 text-xs text-gray-600 before:content-['–_']">
+            {author}
+          </figcaption>
+        </div>
+      </figure>
+    </a>
   )
 }
 
@@ -200,41 +176,27 @@ function ReviewColumn({ citations, className, reviewClassName, msPerPixel = 0 })
 }
 
 function ReviewGrid() {
-  let containerRef = useRef(null)
-  let isInView = useInView(containerRef, { once: true, amount: 0.4 })
-  let columns = splitArray(citations, 3)
-  let column1 = columns[0]
-  let column2 = columns[1]
-  let column3 = splitArray(columns[2], 2)
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: true, amount: 0.4 })
+  const columns = splitArray(citations, 2)
+  console.log(columns)
+  const column1 = columns[0]
+  const column2 = columns[1]
 
   return (
     <div
       ref={containerRef}
-      className="relative -mx-4 mt-16 grid h-[49rem] max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden px-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
+      className="relative -mx-4 mt-16 grid h-[49rem] max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden px-4 sm:mt-20 lg:grid-cols-2"
     >
       {isInView && (
         <>
           <ReviewColumn
-            citations={[...column1, ...column3.flat(), ...column2]}
-            reviewClassName={(reviewIndex) =>
-              clsx(
-                reviewIndex >= column1.length + column3[0].length &&
-                  'md:hidden',
-                reviewIndex >= column1.length && 'lg:hidden',
-              )
-            }
-            msPerPixel={10}
-          />
-          <ReviewColumn
-            citations={[...column2, ...column3[1]]}
-            className="hidden md:block"
-            reviewClassName={(reviewIndex) =>
-              reviewIndex >= column2.length ? 'lg:hidden' : ''
-            }
+            citations={[...column1, ...column2]}
+            reviewClassName={(reviewIndex) => clsx(reviewIndex >= column1.length && 'md:hidden')}
             msPerPixel={15}
           />
           <ReviewColumn
-            citations={column3.flat()}
+            citations={column2}
             className="hidden lg:block"
             msPerPixel={10}
           />
@@ -258,10 +220,10 @@ export function Reviews() {
           id="citations-title"
           className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
         >
-          Everyone is changing their life with Pocket.
+          Many publications are citing Cytoscape.
         </h2>
         <p className="mt-2 text-lg text-gray-600 sm:text-center">
-          Thousands of people have doubled their net-worth in the last 30 days.
+          Thousands of researches have used Cytoscape tools and resources.
         </p>
         <ReviewGrid />
       </Container>
