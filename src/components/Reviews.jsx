@@ -106,7 +106,7 @@ function Review({ title, body, author, doi, image, className, ...props }) {
       >
         <img
           className="max-w-36 object-contain grayscale-[75%] group-hover:grayscale-0"
-          src={'./src/images/publications/' + image}
+          src={'/images/publications/' + image}
         />
         <div>
           <blockquote className="text-gray-900">
