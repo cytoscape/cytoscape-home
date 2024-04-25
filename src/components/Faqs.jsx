@@ -3,53 +3,53 @@ import { Container } from '@/components/Container'
 const faqs = [
   [
     {
-      question: 'How do I know the tips are good?',
+      question: 'Lorem ipsum dolor sit amet?',
       answer:
-        'Our whole business depends on our tips being good, so it’s in our best interest that they are. The results of our customers speak for themselves, just trust us.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget nunc nec nibh dapibus facilisis eu vitae nibh. Nulla facilisi. Quisque ullamcorper maximus consectetur.',
     },
     {
-      question: 'Isn’t this insider trading?',
+      question: 'Ut sed sem id nulla consequat porttitor et sed dolor?',
       answer:
-        'Yes exactly. But at scale! Historically you could only make insider trades with knowledge from your direct network. Pocket brings you insider trading tips from people you don’t even know.',
+        'Donec dignissim nisi eu efficitur vulputate. Nullam accumsan, nisi accumsan dictum rhoncus, augue leo vehicula odio, ac ultrices orci nunc nec lorem. Nullam at malesuada magna, quis rutrum magna.',
     },
     {
-      question: 'But isn’t insider trading illegal?',
+      question: 'Vestibulum hendrerit neque quis cursus elementum?',
       answer:
-        'Here’s the thing: you’re the one doing the insider trading, not us. We’re just giving you the tips and some tools to make trades. We’re not doing anything wrong here.',
-    },
-  ],
-  [
-    {
-      question: 'Do the people giving you tips realize what they are doing?',
-      answer:
-        'Again I would argue this isn’t really our responsibility. People make their own choices. If they don’t research the consequences that’s on them, not on us.',
-    },
-    {
-      question: 'Where is Pocket based?',
-      answer:
-        'Let’s just say it’s not somewhere where the SEC is going to find us.',
-    },
-    {
-      question: 'Is there any age limit to trading on Pocket?',
-      answer:
-        'For our free plan, the age limit is based on the minimum age to trade in your country of residence. Our VIP plan uses advanced transaction anonymization though, so you can use that plan even if you’re 9 years old. Or a dog.',
+        'Maecenas quis eros molestie, fringilla erat at, hendrerit erat. Morbi placerat, eros pretium lacinia feugiat, dolor arcu facilisis metus, placerat cursus nibh neque in orci.',
     },
   ],
   [
     {
-      question: 'How did you get this on the App Store?',
+      question: 'Lorem ipsum dolor sit amet consectetur adipiscing elit?',
       answer:
-        'Honestly we were surprised too, but eventually we found out that the app reviewer found the app so compelling they approved it just so they could use it themselves.',
+        'Ut vulputate feugiat nunc in finibus. Nunc lorem magna, pharetra a neque quis, tristique cursus sem. Quisque dignissim vestibulum lacus. ',
     },
     {
-      question: 'How do I explain the money I withdraw from Pocket to the IRS?',
+      question: 'Etiam vitae nunc vel velit volutpat cursus?',
       answer:
-        'This feels like one-hundred percent a you problem. Pocket is not responsible in any way for your tax returns.',
+        'Donec tortor elit, efficitur sit amet neque a, placerat efficitur tortor.',
     },
     {
-      question: 'How do I become an insider?',
+      question: 'Sed eu elit quis ligula cursus lacinia?',
       answer:
-        'Contact us with some details about your industry and the type of access you have to apply for an insider account. Once approved, we’ll send you a guide on collecting insider information without being detected at work.',
+        'Ut id felis pulvinar, dapibus elit eget, finibus purus. Aenean venenatis a risus et dapibus. Nam nec magna vestibulum ante ultrices aliquam. Nam mauris metus, consectetur nec purus nec, molestie accumsan neque. Etiam commodo sagittis massa eu sagittis.',
+    },
+  ],
+  [
+    {
+      question: 'Ut aliquam nulla bibendum finibus semper?',
+      answer:
+        'Cras ipsum lorem, facilisis ut pellentesque a, sagittis faucibus dui. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+    },
+    {
+      question: 'Donec quis urna convallis?',
+      answer:
+        'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In luctus luctus leo eu egestas.',
+    },
+    {
+      question: 'Sed eget ante vestibulum?',
+      answer:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget nunc nec nibh dapibus facilisis eu vitae nibh. Proin vehicula turpis ipsum, sed sodales massa tristique a. Nam arcu eros, convallis a ligula quis, consectetur vehicula purus.',
     },
   ],
 ]
@@ -57,14 +57,14 @@ const faqs = [
 export function Faqs() {
   return (
     <section
-      id="faqs"
-      aria-labelledby="faqs-title"
+      id="faq"
+      aria-labelledby="faq-title"
       className="border-t border-gray-200 py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2
-            id="faqs-title"
+            id="faq-title"
             className="text-3xl font-medium tracking-tight text-gray-900"
           >
             Frequently asked questions

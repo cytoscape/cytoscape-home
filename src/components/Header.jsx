@@ -98,7 +98,7 @@ export function Header() {
                           <div className="space-y-4">
                             <MobileNavLink href="/#features">Features</MobileNavLink>
                             <MobileNavLink href="/#citations">Citations</MobileNavLink>
-                            <MobileNavLink href="/#faqs">FAQs</MobileNavLink>
+                            <MobileNavLink href="/#faq">FAQ</MobileNavLink>
                           </div>
                           {/* <div className="mt-8 flex flex-col gap-4">
                             <Button href="/login" variant="outline">
