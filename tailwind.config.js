@@ -92,6 +92,9 @@ export default {
       maxWidth: {
         '2xl': '40rem',
       },
+      screens: {
+        'xs': '320px',
+      },
     },
   },
   plugins: [formsPlugin, headlessuiPlugin],

@@ -3,7 +3,7 @@ import { useId } from 'react'
 import { AppDemo } from '@/components/AppDemo'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
-import { PhoneFrame } from '@/components/PhoneFrame'
+import { BrowserFrame } from '@/components/BrowserFrame'
 
 import logoUCSD from '@/images/logos/ucsd.svg'
 import logoUCSF from '@/images/logos/ucsf.svg'
@@ -52,9 +52,9 @@ export function Hero() {
           </div>
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
             <div className="h-auto -mx-4 px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:-top-10 lg:px-0 lg:pt-10 xl:-bottom-32">
-              <PhoneFrame className="mx-auto max-w-[626px]">
+              <BrowserFrame className="mx-auto max-w-[626px]">
                 <AppDemo />
-              </PhoneFrame>
+              </BrowserFrame>
             </div>
           </div>
           <div className="relative mt-0 lg:col-span-7 lg:mt-2 lg:border-t xl:col-span-6">

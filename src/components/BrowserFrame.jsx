@@ -6,7 +6,7 @@ function WindowButton({ className }) {
   )
 }
 
-export function PhoneFrame({
+export function BrowserFrame({
   className,
   children,
   ...props

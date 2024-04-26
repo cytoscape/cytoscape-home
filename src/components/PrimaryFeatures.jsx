@@ -9,17 +9,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import { AppScreen } from '@/components/AppScreen'
 import { CircleBackground } from '@/components/CircleBackground'
 import { Container } from '@/components/Container'
-import { PhoneFrame } from '@/components/PhoneFrame'
-import {
-  DiageoLogo,
-  LaravelLogo,
-  MirageLogo,
-  ReversableLogo,
-  StatamicLogo,
-  StaticKitLogo,
-  TransistorLogo,
-  TupleLogo,
-} from '@/components/StockLogos'
+import { BrowserFrame } from '@/components/BrowserFrame'
 
 const MotionAppScreenHeader = motion(AppScreen.Header)
 const MotionAppScreenBody = motion(AppScreen.Body)
@@ -242,13 +232,13 @@ function ImportScreen(props) {
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
-              <th scope="col" className="whitespace-nowrap py-3.5 pl-4 text-sm font-semibold text-gray-900">
+              <th scope="col" className="whitespace-nowrap py-3.5 pl-4 text-sm font-semibold text-gray-900 xs:text-xs">
                 Gene 1
               </th>
-              <th scope="col" className="whitespace-nowrap px-2 py-3.5 text-sm font-semibold text-gray-900">
+              <th scope="col" className="whitespace-nowrap px-2 py-3.5 text-sm font-semibold text-gray-900 xs:text-xs">
                 Gene 2
               </th>
-              <th scope="col" className="whitespace-nowrap px-2 py-3.5 text-sm font-semibold text-gray-900">
+              <th scope="col" className="whitespace-nowrap px-2 py-3.5 text-sm font-semibold text-gray-900 xs:text-xs">
                 Weight
               </th>
             </tr>
@@ -256,9 +246,9 @@ function ImportScreen(props) {
           <tbody className="divide-y divide-gray-200 bg-white">
             {data.map((row, idx) => (
               <tr key={idx}>
-                <td className="whitespace-nowrap py-1 pl-4 pr-2 text-center text-sm text-gray-500">{row.source}</td>
-                <td className="whitespace-nowrap py-1 px-2 text-center text-sm text-gray-500">{row.target}</td>
-                <td className="whitespace-nowrap py-1 pl-4 pr-3 text-center text-sm text-gray-500">{row.weight}</td>
+                <td className="whitespace-nowrap py-1 pl-4 pr-2 text-center text-sm text-gray-500 xs:text-xs">{row.source}</td>
+                <td className="whitespace-nowrap py-1 px-2 text-center text-sm text-gray-500 xs:text-xs">{row.target}</td>
+                <td className="whitespace-nowrap py-1 pl-4 pr-3 text-center text-sm text-gray-500 xs:text-xs">{row.weight}</td>
               </tr>
             ))}
           </tbody>
@@ -439,7 +429,7 @@ function FeaturesDesktop() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <CircleBackground color="#13B5C8" className="animate-spin-slower" />
         </div>
-        <PhoneFrame className="z-10 mx-auto w-full max-w-[366px]">
+        <BrowserFrame className="z-10 mx-auto w-full max-w-[366px]">
           <Tab.Panels as={Fragment}>
             <AnimatePresence
               initial={false}
@@ -461,7 +451,7 @@ function FeaturesDesktop() {
               )}
             </AnimatePresence>
           </Tab.Panels>
-        </PhoneFrame>
+        </BrowserFrame>
       </div>
     </Tab.Group>
   )
@@ -518,9 +508,9 @@ function FeaturesMobile() {
                   className={featureIndex % 2 === 1 ? 'rotate-180' : undefined}
                 />
               </div>
-              <PhoneFrame className="relative mx-auto w-full max-w-[366px]">
+              <BrowserFrame className="relative mx-auto w-full max-w-[366px] xs:aspect-[246/408]">
                 <feature.screen />
-              </PhoneFrame>
+              </BrowserFrame>
               <div className="absolute inset-x-0 bottom-0 bg-gray-800/95 p-6 backdrop-blur sm:p-10">
                 <feature.icon className="h-8 w-8" />
                 <h3 className="mt-6 text-sm font-semibold text-white sm:text-lg">

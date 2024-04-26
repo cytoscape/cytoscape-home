@@ -38,7 +38,7 @@ AppScreen.Header = forwardRef(function AppScreenHeader({ children }, ref) {
 
 AppScreen.Title = forwardRef(function AppScreenTitle({ children }, ref) {
   return (
-    <div ref={ref} className="text-2xl text-white">
+    <div ref={ref} className="text-md md:text-2xl text-white">
       {children}
     </div>
   )
@@ -46,7 +46,7 @@ AppScreen.Title = forwardRef(function AppScreenTitle({ children }, ref) {
 
 AppScreen.Subtitle = forwardRef(function AppScreenSubtitle({ children }, ref) {
   return (
-    <div ref={ref} className="text-sm text-gray-500">
+    <div ref={ref} className="text-xs md:text-sm text-gray-500">
       {children}
     </div>
   )
