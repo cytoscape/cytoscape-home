@@ -19,7 +19,7 @@ const citations = [
     body: 'Reconstruction and analysis of the aberrant lncRNA‐miRNA‐mRNA network based on competitive endogenous RNA in CESC',
     author: 'Jukun Song, et al.',
     doi: 'https://doi.org/10.1002%2Fjcb.26850',
-    image: 'jcb.26850.jpg',
+    image: 'jcb.26850.png',
   },
   {
     title: 'Genome Biology, 2019',
@@ -82,11 +82,32 @@ const citations = [
     body: 'scNetViz: from single cells to networks using Cytoscape',
     author: 'Krishna Choudhary, et al.',
     doi: 'https://doi.org/10.12688%2Ff1000research.52460.1',
-    image: 'f1000research.52460.1.gif',
+    image: 'f1000research.52460.1.png',
+  },
+  {
+    title: 'Scientific Data, 2020',
+    body: 'Consensus transcriptional regulatory networks of coronavirus-infected human cells',
+    author: 'Scott A. Ochsner, et al.',
+    doi: 'https://doi.org/10.1038%2Fs41597-020-00628-6',
+    image: 's41597-020-00628-6.png',
+  },
+  {
+    title: 'Frontiers in Genetics, 2019',
+    body: 'Beyond Pathway Analysis: Identification of Active Subnetworks in Rett Syndrome',
+    author: 'Ryan A. Miller, et al.',
+    doi: 'https://doi.org/10.3389%2Ffgene.2019.00059',
+    image: 'fgene.2019.00059.png',
+  },
+  {
+    title: 'Metabolites, 2021',
+    body: 'Gut Microbiota Dysbiosis Is Associated with Elevated Bile Acids in Parkinson’s Disease',
+    author: 'Peipei Li, et al.',
+    doi: 'https://doi.org/10.3390%2Fmetabo11010029',
+    image: 'metabo11010029.png',
   },
 ]
 
-function Review({ title, body, author, doi, image, className, ...props }) {
+function Citation({ title, body, author, doi, image, className, ...props }) {
   let animationDelay = useMemo(() => {
     let possibleAnimationDelays = ['0s', '0.1s', '0.2s', '0.3s', '0.4s', '0.5s']
     return possibleAnimationDelays[
@@ -136,7 +157,7 @@ function splitArray(array, numParts) {
   return result
 }
 
-function ReviewColumn({ citations, className, reviewClassName, msPerPixel = 0 }) {
+function CitationColumn({ citations, className, citationClassName, msPerPixel = 0 }) {
   let columnRef = useRef(null)
   let [columnHeight, setColumnHeight] = useState(0)
   let duration = `${columnHeight * msPerPixel}ms`
@@ -163,23 +184,23 @@ function ReviewColumn({ citations, className, reviewClassName, msPerPixel = 0 })
       className={clsx('animate-marquee space-y-8 py-4', className)}
       style={{ '--marquee-duration': duration }}
     >
-      {citations.concat(citations).map((review, reviewIndex) => (
-        <Review
-          key={reviewIndex}
-          aria-hidden={reviewIndex >= citations.length}
-          className={reviewClassName?.(reviewIndex % citations.length)}
-          {...review}
+      {citations.concat(citations).map((citation, citationIndex) => (
+        <Citation
+          key={citationIndex}
+          aria-hidden={citationIndex >= citations.length}
+          className={citationClassName?.(citationIndex % citations.length)}
+          {...citation}
         />
       ))}
     </div>
   )
 }
 
-function ReviewGrid() {
+function CitationGrid() {
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.4 })
   const columns = splitArray(citations, 2)
-  console.log(columns)
+console.log(citations.length);
   const column1 = columns[0]
   const column2 = columns[1]
 
@@ -190,12 +211,12 @@ function ReviewGrid() {
     >
       {isInView && (
         <>
-          <ReviewColumn
+          <CitationColumn
             citations={[...column1, ...column2]}
-            reviewClassName={(reviewIndex) => clsx(reviewIndex >= column1.length && 'md:hidden')}
+            citationClassName={(citationIndex) => clsx(citationIndex >= column1.length && 'md:hidden')}
             msPerPixel={15}
           />
-          <ReviewColumn
+          <CitationColumn
             citations={column2}
             className="hidden lg:block"
             msPerPixel={10}
@@ -208,7 +229,7 @@ function ReviewGrid() {
   )
 }
 
-export function Reviews() {
+export function Citations() {
   return (
     <section
       id="citations"
@@ -230,11 +251,11 @@ export function Reviews() {
             rel="noreferrer"
             className="underline"
           >
-            researches
+            researchers
           </a>
           {' '}have used Cytoscape tools and resources.
         </p>
-        <ReviewGrid />
+        <CitationGrid />
       </Container>
     </section>
   )
