@@ -200,7 +200,6 @@ function CitationGrid() {
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.4 })
   const columns = splitArray(citations, 2)
-console.log(citations.length);
   const column1 = columns[0]
   const column2 = columns[1]
 

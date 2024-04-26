@@ -4,39 +4,39 @@ import { Container } from '@/components/Container'
 
 const features = [
   {
-    name: 'Invest any amount',
+    name: 'Lorem ipsum dolor',
     description:
-      'Whether it’s $1 or $1,000,000, we can put your money to work for you.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     icon: DeviceArrowIcon,
   },
   {
-    name: 'Build a balanced portfolio',
+    name: 'Etiam vitae nunc vel',
     description:
-      'Invest in different industries to find the most opportunities to win huge.',
+      'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.',
     icon: DeviceCardsIcon,
   },
   {
-    name: 'Trade in real-time',
+    name: 'Donec quis urna convallis',
     description:
-      'Get insider tips on big stock moves and act on them within seconds.',
+      'Donec tortor elit, efficitur sit amet neque a, placerat efficitur tortor.',
     icon: DeviceClockIcon,
   },
   {
-    name: 'Profit from your network',
+    name: 'Sed eu elit quis ligula',
     description:
-      'Invite new insiders to get tips faster and beat even other Pocket users.',
+      'Ut id felis pulvinar, dapibus elit eget, finibus purus.',
     icon: DeviceListIcon,
   },
   {
-    name: 'Encrypted and anonymized',
+    name: 'Vestibulum hendrerit',
     description:
-      'Cutting-edge security technology that even the NSA doesn’t know about keeps you hidden.',
+      'Nunc lorem magna, pharetra a neque quis, tristique cursus sem.',
     icon: DeviceLockIcon,
   },
   {
-    name: 'Portfolio tracking',
+    name: 'Nulla eget nunc nec nibh dapibus',
     description:
-      'Watch your investments grow exponentially, leaving other investors in the dust.',
+      'Nam mauris metus, consectetur nec purus nec, molestie accumsan neque.',
     icon: DeviceChartIcon,
   },
 ]
@@ -196,11 +196,11 @@ export function SecondaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-            Now is the time to build your portfolio.
+          Lorem ipsum dolor sit amet consectetur.
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            With typical market returns, you have to start young to secure your
-            future. With Pocket, it’s never too late to build your nest egg.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Nulla eget nunc nec nibh dapibus facilisis eu vitae nibh.
           </p>
         </div>
         <ul
