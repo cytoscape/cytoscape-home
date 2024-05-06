@@ -200,8 +200,8 @@ function DeviceChartIcon(props) {
 export function SecondaryFeatures() {
   return (
     <section
-      id="secondary-features"
-      aria-label="Features for building a portfolio"
+      id="tools"
+      aria-label="Tools available from the Cytoscape ecosystem"
       className="py-20 sm:py-32"
     >
       <Container>
