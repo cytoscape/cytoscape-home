@@ -1,68 +1,196 @@
+import { useState } from 'react'
+import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
+import { SelectMenu } from '@/components/SelectMenu'
+import { CytoscapeLogomark } from '@/components/Logo'
 import { ArrowTopRightOnSquareIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+
+const defGeneManiaOrgIdx = 5;
+const geneManiaOrgs = [
+  {
+    id: 'arabidopsis-thaliana',
+    name: 'Arabidopsis thaliana',
+    image: '/images/organisms/plant-32.svg',
+  },
+  {
+    id: 'caenorhabditis-elegans',
+    name: 'Caenorhabditis elegans',
+    image: '/images/organisms/worm-32.svg',
+  },
+  {
+    id: 'danio-rerio',
+    name: 'Danio rerio',
+    image: '/images/organisms/fish-32.svg',
+  },
+  {
+    id: 'drosophila-melanogaster',
+    name: 'Drosophila melanogaster',
+    image: '/images/organisms/fly-32.svg',
+  },
+  {
+    id: 'escherichia-coli',
+    name: 'Escherichia coli',
+    image: '/images/organisms/bacteria-32.svg',
+  },
+  {
+    id: 'homo-sapiens',
+    name: 'Homo sapiens',
+    image: '/images/organisms/human-32.svg',
+  },
+  {
+    id: 'mus-musculus',
+    name: 'Mus musculus',
+    image: '/images/organisms/mouse-32.svg',
+  },
+  {
+    id: 'rattus-norvegicus',
+    name: 'Rattus norvegicus',
+    image: '/images/organisms/rat-32.svg',
+  },
+  {
+    id: 'saccharomyces-cerevisiae',
+    name: 'Saccharomyces cerevisiae',
+    image: '/images/organisms/yeast-32.svg',
+  },
+]
+
+const parseGeneList = (text) => {
+  if (text.length > 0) {
+    let parts = text.split(/[\s,]+/);
+    return parts.filter(el => el.length > 0);
+  }
+  return [];
+}
 
 const searchNDEx = (evt) =>  {
   const val = evt.target.elements.search.value.trim();
   if (val.length > 0) {
-    const parts = val.split(/[\s,]+/);
-    const genes = parts.join('%2C');
-    const url = `https://www.ndexbio.org/iquery/?genes=${genes}`;
-    window.open(url, '_blank').focus();
+    const parts = parseGeneList(val);
+    if (parts.length > 0) {
+      const genes = parts.join('%2C');
+      const url = `https://www.ndexbio.org/iquery/?genes=${genes}`;
+      window.open(url, '_blank').focus();
+    }
   }
   evt.preventDefault();
 }
 
+const searchGeneMania = (orgId, searchText) =>  {
+  if (orgId && searchText && searchText.length > 0) {
+    const parts = parseGeneList(searchText);
+    if (parts.length > 0) {
+      const genes = parts.join('/');
+      const url = `https://genemania.org/search/${orgId}/${genes}`;
+      window.open(url, '_blank').focus();
+    }
+  }
+}
+
+const searchWikiPathways = (evt) =>  {
+  const val = evt.target.elements.search.value.trim();
+  if (val.length > 0) {
+    const parts = parseGeneList(val);
+    if (parts.length > 0) {
+      const genes = parts.join('%20');
+      const url = `https://www.wikipathways.org/search.html?query=${genes}`;
+      window.open(url, '_blank').focus();
+    }
+  }
+  evt.preventDefault();
+}
+
+const Link = ({ href, ariaLabel, children }) => <a href={href} aria-label={ariaLabel} target="_blank" rel="noreferrer" className="text-gray-900 underline">
+    {children}
+  </a>
+
+const SearchField = ({ placeholder }) => <div className="relative w-full mt-2 rounded-md shadow-sm">
+  <input
+    type="search"
+    id="search"
+    placeholder={placeholder || 'Enter gene list'}
+    className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-6"
+  />
+  <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
+    <MagnifyingGlassIcon
+      className="h-5 w-5 fill-complement-500"
+      aria-hidden="true"
+    />
+  </button>
+  </div>
+
+const GeneManiaForm = () => {
+  const [selGeneManiaOrg, setSelGeneManiaOrg ] = useState(geneManiaOrgs[defGeneManiaOrgIdx])
+
+  const onSubmit = (evt) => {
+    const searchVal = evt.target.elements.search.value.trim();
+    searchGeneMania(selGeneManiaOrg.id, searchVal)
+    evt.preventDefault();
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="w-full">
+      <SelectMenu data={geneManiaOrgs} selectedIndex={defGeneManiaOrgIdx} onChange={setSelGeneManiaOrg}  className="min-w-64" />
+      <SearchField />
+    </form>
+  )
+}
+
 const features = [
   {
-    name: 'NDEx Integrated Query',
+    name: 'NDEx IQuery',
     description: 'One search finds a variety of pathways and interaction networks relevant to your set of genes.',
     href: 'https://www.ndexbio.org/iquery/',
     icon: NDExIcon,
-    form: <form onSubmit={searchNDEx} className="flex w-full justify-center md:w-auto">
-      <div className="relative w-full mt-2 rounded-md shadow-sm">
-        <input
-          type="search"
-          id="search"
-          placeholder="Enter gene list"
-          className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-6"
-        />
-        <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
-          <MagnifyingGlassIcon
-            className="h-5 w-5 fill-complement-500"
-            aria-hidden="true"
-          />
-        </button>
-      </div>
-    </form>
+    form: <form onSubmit={searchNDEx} className="w-full"><SearchField placeholder="e.g. APAF1 BCL2 BID" /></form>
   },
   {
     name: 'GeneMANIA',
     description: 'GeneMANIA helps you predict the function of your favourite genes and gene sets.',
     href: 'https://genemania.org/',
     icon: GeneManiaIcon,
-    form: <></>,
+    form: <GeneManiaForm />,
   },
   {
     name: 'EnrichmentMap',
     description: 'Perform gene set enrichment analysis on a gene list then visualize the results as a network.',
     href: 'https://enrichmentmap.org/',
     icon: EnrichmentMapIcon,
-    form: <></>,
+    form: <div className="flex w-full justify-center">
+        <Button type="submit" href="https://enrichmentmap.org/" target="_blank" rel="noreferrer"  className="mt-4">
+          Go to EnrichmentMap
+          <ArrowTopRightOnSquareIcon className="ml-1.5 h-4 w-4" aria-hidden="true" />
+        </Button>
+      </div>,
   },
   {
-    name: 'Sed eu elit quis ligula',
-    description: 'Ut id felis pulvinar, dapibus elit eget, finibus purus.',
-    icon: DeviceListIcon,
+    name: 'WikiPathways',
+    description: 'Discover pathways of interest by organism, communities of domain experts, and ontology annotations.',
+    href: 'https://www.wikipathways.org/',
+    icon: WikiPathwaysIcon,
+    form: <form onSubmit={searchWikiPathways} className="flex w-full justify-center md:w-auto"><SearchField placeholder="e.g. ace2 aldosterone human" /></form>
+    ,
   },
   {
-    name: 'Vestibulum hendrerit',
-    description: 'Nunc lorem magna, pharetra a neque quis, tristique cursus sem.',
-    icon: DeviceLockIcon,
+    name: 'Cytoscape Web',
+    description: 'Create interactive networks from your data directly on the web, analyze and then export the results.',
+    href: 'https://web-stage.cytoscape.org/', // TODO: replace with prod URL when available!!!
+    icon: CytoscapeWebIcon,
+    form: <div className="flex w-full justify-center">
+        <Button type="submit" href="https://web-stage.cytoscape.org/" target="_blank" rel="noreferrer"  className="mt-4">
+          Go to Cytoscape Web
+          <ArrowTopRightOnSquareIcon className="ml-1.5 h-4 w-4" aria-hidden="true" />
+        </Button>
+      </div>,
   },
   {
-    name: 'Nulla eget nunc nec nibh dapibus',
-    description: 'Nam mauris metus, consectetur nec purus nec, molestie accumsan neque.',
-    icon: DeviceChartIcon,
+    name: 'Cytoscape ',
+    description: <>
+        Open source <Link href="https://cytoscape.org/download.html" ariaLabel="Download Cytoscape">software</Link> platform 
+        for visualizing complex networks and integrating these with any type of attribute data.<br /><br />
+        Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.
+      </>,
+    href: 'https://cytoscape.org/',
+    icon: CytoscapeLogomark,
   },
 ]
 
@@ -128,71 +256,28 @@ function EnrichmentMapIcon(props) {
   )
 }
 
-function DeviceListIcon(props) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-        fill="#737373"
-      />
-      <circle cx={11} cy={14} r={2} fill="#171717" />
-      <circle cx={11} cy={20} r={2} fill="#171717" />
-      <circle cx={11} cy={26} r={2} fill="#171717" />
-      <path
-        d="M16 14h6M16 20h6M16 26h6"
-        stroke="#737373"
-        strokeWidth={2}
-        strokeLinecap="square"
-      />
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
-    </svg>
-  )
-}
-
-function DeviceLockIcon(props) {
+function WikiPathwaysIcon(props) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M5 4a4 4 0 014-4h14a4 4 0 014 4v10h-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9a2 2 0 00-2 2v24a2 2 0 002 2h5v2H9a4 4 0 01-4-4V4z"
-        fill="#737373"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M18 19.5a3.5 3.5 0 117 0V22a2 2 0 012 2v6a2 2 0 01-2 2h-7a2 2 0 01-2-2v-6a2 2 0 012-2v-2.5zm2 2.5h3v-2.5a1.5 1.5 0 00-3 0V22z"
-        fill="#171717"
+        d="M6.968,11.625 L6.968,14.698 L5.955,14.698 L7.365,17.831 L8.741,14.698 L7.728,14.698 L7.728,11.625 L6.968,11.625 z M23.527,17.311 C24.038,17.289 24.444,16.869 24.447,16.357 C24.447,15.83 24.02,15.403 23.493,15.403 C22.966,15.403 22.539,15.83 22.539,16.357 C22.539,16.884 22.966,17.311 23.493,17.311 z M21.433,11.105 L25.579,11.105 L25.579,9.948 L21.399,9.948 z M13.8,6.165 C13.8,5.911 13.698,5.667 13.518,5.488 C13.337,5.309 13.092,5.21 12.837,5.211 C12.447,5.211 12.096,5.447 11.947,5.807 C11.799,6.169 11.883,6.583 12.16,6.858 C12.437,7.132 12.852,7.212 13.212,7.061 C13.571,6.909 13.803,6.555 13.8,6.165 z M7.729,27.047 C9.148,28.098 10.752,28.872 12.457,29.326 L12.457,26.371 C11.525,26.371 10.769,25.615 10.769,24.682 C10.769,23.75 11.525,22.994 12.457,22.994 L12.457,19.827 L10.194,19.827 L10.194,20.41 C10.194,20.62 10.024,20.79 9.814,20.79 L7.729,20.79 z M5.255,20.03 L9.476,20.03 L9.476,18.865 L5.255,18.865 z M13.8,24.682 C13.795,24.155 13.366,23.729 12.837,23.729 C12.447,23.729 12.096,23.964 11.947,24.324 C11.799,24.686 11.883,25.101 12.16,25.375 C12.437,25.649 12.852,25.729 13.212,25.578 C13.571,25.427 13.803,25.073 13.8,24.682 z M26.601,14.964 L29.742,16.374 L26.601,17.75 L26.601,16.737 L25.224,16.737 C25.224,17.67 24.468,18.426 23.535,18.426 C22.603,18.426 21.847,17.67 21.847,16.737 L19.448,16.737 L19.448,15.977 L21.847,15.977 C21.987,15.331 22.493,14.826 23.139,14.685 L23.139,11.873 L21.07,11.873 C20.859,11.869 20.69,11.697 20.69,11.485 L20.69,10.911 L13.8,10.911 L13.8,10.142 L20.673,10.142 L20.673,9.56 C20.673,9.35 20.844,9.18 21.053,9.18 L25.993,9.18 C26.205,9.18 26.377,9.349 26.381,9.56 L26.381,10.142 L28.83,10.142 C27.015,6 23.298,2.998 18.866,2.096 L18.866,9.56 L18.106,9.56 L18.106,1.96 C17.416,1.859 16.719,1.808 16.021,1.808 C15.082,1.807 14.146,1.9 13.226,2.087 L13.226,4.46 C14.158,4.46 14.914,5.216 14.914,6.148 C14.914,7.082 14.158,7.837 13.226,7.837 L13.226,15.977 L17.515,15.977 L17.515,16.737 L12.837,16.737 C12.628,16.737 12.457,16.567 12.457,16.357 L12.457,7.871 C11.525,7.871 10.769,7.115 10.769,6.182 C10.769,5.25 11.525,4.494 12.457,4.494 L12.457,2.264 C10.751,2.717 9.146,3.49 7.729,4.544 L7.729,9.56 L6.96,9.56 L6.96,5.152 C5.359,6.517 4.084,8.221 3.228,10.142 L11.875,10.142 L11.875,10.911 L2.958,10.911 C0.897,16.413 2.496,22.618 6.96,26.439 L6.96,20.79 L4.875,20.79 C4.664,20.79 4.491,20.621 4.486,20.41 L4.486,18.485 C4.491,18.274 4.664,18.105 4.875,18.105 L9.814,18.105 C10.024,18.105 10.194,18.275 10.194,18.485 L10.194,19.067 L12.837,19.067 C13.049,19.067 13.221,19.236 13.226,19.448 L13.226,22.994 C13.863,23.146 14.361,23.641 14.517,24.277 L18.072,24.277 L18.072,11.485 L18.832,11.485 L18.832,24.699 C18.832,24.91 18.663,25.08 18.452,25.08 L14.484,25.08 C14.333,25.72 13.833,26.22 13.192,26.371 L13.192,29.538 C14.112,29.725 15.049,29.819 15.987,29.816 C16.468,29.816 16.873,29.749 17.312,29.749 L17.118,28.71 L20.496,29.462 L17.701,31.438 L17.507,30.517 C17.014,30.568 16.517,30.593 16.021,30.593 C8.589,30.583 2.323,25.049 1.396,17.675 C0.469,10.301 5.169,3.388 12.368,1.538 C19.566,-0.311 27.017,3.48 29.758,10.387 C29.801,10.506 29.785,10.637 29.716,10.742 C29.647,10.847 29.529,10.91 29.404,10.911 L26.381,10.911 L26.381,11.485 C26.377,11.698 26.205,11.869 25.993,11.873 L23.907,11.873 L23.907,14.685 C24.554,14.826 25.059,15.331 25.199,15.977 L26.601,15.977 z"
+        fill="#000000"
       />
     </svg>
   )
 }
 
-function DeviceChartIcon(props) {
+function CytoscapeWebIcon(props) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
+    <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z"
-        fill="#737373"
+        d="M23.013,0 C25.89,-0 28.224,2.333 28.224,5.21 C28.209,7.495 26.637,9.691 24.372,10.237 L23.507,13.09 C24.571,14.166 25.069,15.51 25.116,17.007 C25.109,18.167 24.758,19.31 24.073,20.25 L24.752,21.603 C27.496,21.851 29.45,24.068 29.518,26.79 C29.518,29.667 27.185,32 24.308,32 C21.431,32 19.097,29.667 19.097,26.79 C19.112,25.872 19.327,24.928 19.822,24.144 L19.04,22.582 C18.502,22.547 17.974,22.413 17.474,22.217 L16.931,22.694 C16.738,24.641 15.084,26.011 13.173,26.059 C11.083,26.059 9.387,24.363 9.387,22.273 C9.405,21.353 9.718,20.379 10.382,19.715 C9.579,20.241 8.639,20.444 7.692,20.477 C4.815,20.477 2.482,18.143 2.482,15.266 C2.508,12.872 4.021,10.956 6.283,10.253 C5.954,9.572 5.824,8.83 5.805,8.08 C5.805,5.203 8.138,2.869 11.015,2.869 C12.418,2.88 13.586,3.386 14.613,4.322 L18.115,3.439 C18.804,1.353 20.878,0.049 23.013,0 z M23.013,1.557 C21.167,1.557 19.631,2.931 19.392,4.723 L14.064,6.067 C13.393,5.051 12.253,4.427 11.015,4.427 C8.998,4.427 7.362,6.063 7.362,8.08 C7.362,10.097 8.998,11.733 11.015,11.733 C11.517,11.733 12.011,11.631 12.468,11.433 L15.991,15.031 C15.958,15.091 15.925,15.152 15.895,15.214 L11.283,14.592 C10.966,12.886 9.467,11.613 7.692,11.613 C5.675,11.613 4.039,13.249 4.039,15.266 C4.039,17.283 5.675,18.92 7.692,18.92 C9.048,18.92 10.279,18.17 10.91,16.997 L15.522,17.619 C15.564,17.895 15.635,18.167 15.733,18.429 L13.798,20.133 C13.596,20.074 13.386,20.043 13.173,20.043 C11.942,20.043 10.944,21.042 10.944,22.273 C10.944,23.503 11.942,24.502 13.173,24.502 C14.404,24.502 15.402,23.503 15.402,22.273 C15.402,22.175 15.396,22.079 15.383,21.983 L17.241,20.347 C17.909,20.804 18.699,21.049 19.517,21.049 C19.678,21.049 19.839,21.04 19.999,21.021 L21.639,24.295 C21.009,24.968 20.654,25.855 20.654,26.79 C20.654,28.807 22.291,30.443 24.308,30.443 C26.325,30.443 27.961,28.807 27.961,26.79 C27.961,24.772 26.325,23.136 24.308,23.136 C24.136,23.136 23.965,23.148 23.796,23.172 L22.215,20.017 C23.066,19.255 23.559,18.166 23.559,17.007 C23.559,15.627 22.857,14.357 21.719,13.618 L23.163,8.861 C25.111,8.782 26.666,7.178 26.666,5.21 C26.666,3.193 25.03,1.557 23.013,1.557 z M19.903,7.127 C20.147,7.523 20.465,7.869 20.839,8.146 L19.376,12.968 C18.815,12.987 18.268,13.122 17.765,13.364 L14.251,9.776 C14.468,9.364 14.603,8.916 14.65,8.452 L19.903,7.127 z M18.962,8.97 L16.299,9.642 L18.176,11.558 L18.962,8.97 z M11.635,18.666 L11.36,18.953 C11.535,18.852 11.718,18.764 11.911,18.704 L11.635,18.666 z"
+        fill="#ea9122"
       />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M23 13.838V26a2 2 0 01-2 2H11a2 2 0 01-2-2V15.65l2.57 3.212a1 1 0 001.38.175L15.4 17.2a1 1 0 011.494.353l1.841 3.681c.399.797 1.562.714 1.843-.13L23 13.837z"
-        fill="#171717"
-      />
-      <path
-        d="M10 12h12"
-        stroke="#737373"
-        strokeWidth={2}
-        strokeLinecap="square"
-      />
-      <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
     </svg>
   )
 }
@@ -215,12 +300,12 @@ export function SecondaryFeatures() {
         </div>
         <ul
           role="list"
-          className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+          className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-2 text-sm sm:mt-20 sm:grid-cols-2 md:gap-4 md:gap-y-4 lg:max-w-none lg:grid-cols-3 lg:gap-6"
         >
           {features.map((feature) => (
             <li
               key={feature.name}
-              className="min-h-72 rounded-2xl border border-gray-200 p-8"
+              className="min-h-64 rounded-2xl border border-gray-200 p-4 lg:p-8 xs:min-h-52"
             >
               <div className="flex items-center">
                 <feature.icon className="h-8 w-8" />
@@ -231,7 +316,7 @@ export function SecondaryFeatures() {
                   <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 fill-gray-500 group-hover:fill-complement-500" />
                 </a>
               </div>
-              <p className="mt-2 text-gray-700">{feature.description}</p>
+              <p className="mt-2 text-gray-600">{feature.description}</p>
               <div className="mt-6">
                 {feature.form}
               </div>

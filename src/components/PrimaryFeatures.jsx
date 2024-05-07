@@ -559,7 +559,7 @@ export function PrimaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
           <h2 className="text-3xl font-medium tracking-tight text-white">
-            Every tool you need for your bioinformatics research.
+            Every tool you need for your bioinformatics research
           </h2>
           <p className="mt-2 text-lg text-gray-400">
             Cytoscape Home will guide you through the process of transforming your raw data into interactive networks.

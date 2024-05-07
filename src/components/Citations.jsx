@@ -240,7 +240,7 @@ export function Citations() {
           id="citations-title"
           className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
         >
-          Many publications are citing Cytoscape.
+          Many publications are citing Cytoscape
         </h2>
         <p className="mt-2 text-lg text-gray-600 sm:text-center">
           Thousands of{' '}
