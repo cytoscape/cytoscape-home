@@ -186,8 +186,9 @@ const features = [
     name: 'Cytoscape ',
     description: <>
         Open source <Link href="https://cytoscape.org/download.html" ariaLabel="Download Cytoscape">software</Link> platform 
-        for visualizing complex networks and integrating these with any type of attribute data.<br /><br />
-        Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.
+        for visualizing complex networks.<br /><br />
+        Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.<br /><br />
+        Use <Link href="https://doi.org/10.12688/f1000research.6767.1" ariaLabel="cyREST paper">cyREST</Link> to create reproducible workflows.
       </>,
     href: 'https://cytoscape.org/',
     icon: CytoscapeLogomark,
