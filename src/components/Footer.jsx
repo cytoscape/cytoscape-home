@@ -1,9 +1,8 @@
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-import { TextField } from '@/components/Fields'
+import { Button } from '@/components/base/Button'
+import { TextField } from '@/components/base/Fields'
+import { Container } from '@/components/base/Container'
 import { NavLinks } from '@/components/NavLinks'
-
-import { CytoscapeLogomark } from '@/components/Logo'
+import { CytoscapeLogo } from '@/components/Logos'
 import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
 
 function DownloadBorder(props) {
@@ -36,7 +35,7 @@ export function Footer() {
           <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-gray-100 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
             <div className="relative flex h-24 w-24 flex-none items-center justify-center">
               <DownloadBorder className="absolute inset-0 h-full w-full stroke-gray-300 transition-colors" />
-              <CytoscapeLogomark className="h-20" />
+              <CytoscapeLogo className="h-20" />
             </div>
             <div className="ml-8 lg:w-64">
               <p className="text-base font-semibold text-gray-900">

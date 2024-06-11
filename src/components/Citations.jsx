@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useInView } from 'framer-motion'
-
-import { Container } from '@/components/Container'
+import { Container } from '@/components/base/Container'
 
 const citations = [
   {

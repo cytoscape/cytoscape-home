@@ -2,9 +2,8 @@
 
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-
-import { Container } from '@/components/Container'
-import { Logo } from '@/components/Logo'
+import { Container } from '@/components/base/Container'
+import { AppLogo } from '@/components/Logos'
 import { NavLinks } from '@/components/NavLinks'
 
 function MenuIcon(props) {
@@ -50,7 +49,7 @@ export function Header() {
         <Container className="relative z-50 flex justify-between py-8">
           <div className="relative z-10 flex items-center gap-16">
             <a href="/" aria-label="Home">
-              <Logo className="h-10 w-auto" />
+              <AppLogo className="h-10 w-auto" />
             </a>
             <div className="hidden lg:flex lg:gap-10">
               <NavLinks />

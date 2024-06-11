@@ -1,12 +1,12 @@
 import { CirclesBackground } from '@/components/CirclesBackground'
-import { Logo } from '@/components/Logo'
+import { AppLogo } from '@/components/Logos'
 
 export function AuthLayout({ title, subtitle, children }) {
   return (
     <main className="flex min-h-full overflow-hidden pt-16 sm:py-28">
       <div className="mx-auto flex w-full max-w-2xl flex-col px-4 sm:px-6">
         <a href="/" aria-label="Home">
-          <Logo className="mx-auto h-10 w-auto" />
+          <AppLogo className="mx-auto h-10 w-auto" />
         </a>
         <div className="relative mt-12 sm:mt-16">
           <CirclesBackground

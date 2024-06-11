@@ -1,9 +1,8 @@
+import { Button } from '@/components/base/Button'
+import { Container } from '@/components/base/Container'
 import { CircleBackground } from '@/components/CircleBackground'
-import { Container } from '@/components/Container'
 
-import { Button } from '@/components/Button'
-
-export function CallToAction() {
+export function CallToAction({ onGetStarted }) {
   return (
     <section
       id="get-free-shares-today"
@@ -22,7 +21,7 @@ export function CallToAction() {
             You don&apos;t even need to create an account or provide any personal information.
           </p>
           <div className="mt-8 flex justify-center">
-            <Button variant="solid" color="primary" className="min-w-44 text-gray-900">
+            <Button variant="solid" color="primary" onClick={onGetStarted} className="min-w-44 text-gray-900">
               <span className="text-center">Get Started</span>
             </Button>
           </div>

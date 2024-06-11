@@ -1,8 +1,6 @@
-import { useId } from 'react'
-
+import { Button } from '@/components/base/Button'
+import { Container } from '@/components/base/Container'
 import { AppDemo } from '@/components/AppDemo'
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
 import { BrowserFrame } from '@/components/BrowserFrame'
 
 import logoUCSD from '@/images/logos/ucsd.svg'

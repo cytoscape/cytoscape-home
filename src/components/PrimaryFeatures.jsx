@@ -5,10 +5,9 @@ import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useDebouncedCallback } from 'use-debounce'
-
+import { Container } from '@/components/base/Container'
 import { AppScreen } from '@/components/AppScreen'
 import { CircleBackground } from '@/components/CircleBackground'
-import { Container } from '@/components/Container'
 import { BrowserFrame } from '@/components/BrowserFrame'
 
 const MotionAppScreenHeader = motion(AppScreen.Header)
