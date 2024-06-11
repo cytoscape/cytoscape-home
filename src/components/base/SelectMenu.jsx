@@ -7,8 +7,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function SelectMenu({ data, label, selectedIndex=0, onChange, className }) {
-  const [selected, setSelected] = useState(data[selectedIndex])
+export function SelectMenu({ data, label, selectedIndex, onChange, className }) {
+  const [selected, setSelected] = useState(selectedIndex >= 0 ? data[selectedIndex] : null)
 
   const handleChange = (item) => {
     setSelected(item)
@@ -30,14 +30,17 @@ export function SelectMenu({ data, label, selectedIndex=0, onChange, className }
           <div className="relative mt-2">
             <ListboxButton className={buttonClassName}>
               <span className="flex items-center">
-                <img src={selected.image} alt="" className="h-6 w-6 flex-shrink-0 rounded-full saturate-0" />
-                <span className="ml-3 block truncate">{selected.name}</span>
+                {selected ? (
+                  <>
+                    <img src={selected.image} alt="" className="h-6 w-6 flex-shrink-0 rounded-full saturate-0" />
+                    <span className="ml-3 block truncate">{selected.name}</span>
+                  </>
+                ) : <>&nbsp;</>}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
             </ListboxButton>
-
             <Transition
               show={open}
               as={Fragment}
