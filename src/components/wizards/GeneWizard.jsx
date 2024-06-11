@@ -62,7 +62,7 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
   const orgRef = useRef()
 
   useEffect(() => {
-    if (step >= 0 && step < stepsDef.length - 1) {
+    if (step >= 0 && step < stepsDef.length) {
       setTotalSteps(stepsDef.length)
       setTitle(stepsDef[step].title)
     }
