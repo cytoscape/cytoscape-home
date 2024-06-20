@@ -244,7 +244,7 @@ export function Citations() {
         <p className="mt-2 text-lg text-gray-600 sm:text-center">
           Thousands of{' '}
           <a
-            href="https://www.ncbi.nlm.nih.gov/pmc/?term=(cytoscape+OR+ndex+OR+genemania+OR+stringapp+OR+enrichmentmap)"
+            href="https://pubmed.ncbi.nlm.nih.gov/?term=(cytoscape+OR+ndex+OR+genemania+OR+stringapp+OR+enrichmentmap+OR+wikipathways)"
             target="_blank"
             rel="noreferrer"
             className="underline"
