@@ -65,7 +65,7 @@ const features = [
     href: 'https://enrichmentmap.org/',
     icon: EnrichmentMapLogo,
     form: <div className="flex w-full justify-center">
-        <Button type="submit" href="https://enrichmentmap.org/" target="_blank" rel="noreferrer"  className="mt-4">
+        <Button type="submit" variant="outline" href="https://enrichmentmap.org/" target="_blank" rel="noreferrer"  className="mt-4">
           Go to EnrichmentMap
           <ArrowTopRightOnSquareIcon className="ml-1.5 h-4 w-4" aria-hidden="true" />
         </Button>
@@ -85,7 +85,7 @@ const features = [
     href: 'https://web-stage.cytoscape.org/', // TODO: replace with prod URL when available!!!
     icon: CytoscapeWebLogo,
     form: <div className="flex w-full justify-center">
-        <Button type="submit" href="https://web-stage.cytoscape.org/" target="_blank" rel="noreferrer"  className="mt-4">
+        <Button type="submit" variant="outline" href="https://web-stage.cytoscape.org/" target="_blank" rel="noreferrer"  className="mt-4">
           Go to Cytoscape Web
           <ArrowTopRightOnSquareIcon className="ml-1.5 h-4 w-4" aria-hidden="true" />
         </Button>
