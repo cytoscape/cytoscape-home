@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button } from '@/components/base/Button'
+import { LinkButton } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { SelectMenu } from '@/components/base/SelectMenu'
 import { geneManiaOrganisms, searchNDEx, searchGeneMania, searchWikiPathways } from '@/components/tools/Common'
@@ -64,12 +64,7 @@ const features = [
     description: 'Perform gene set enrichment analysis on a gene list then visualize the results as a network.',
     href: 'https://enrichmentmap.org/',
     icon: EnrichmentMapLogo,
-    form: <div className="flex w-full justify-center">
-        <Button type="submit" variant="outline" href="https://enrichmentmap.org/" target="_blank" rel="noreferrer"  className="mt-4">
-          Go to EnrichmentMap
-          <ArrowTopRightOnSquareIcon className="ml-1.5 h-4 w-4" aria-hidden="true" />
-        </Button>
-      </div>,
+    form: <div className="flex w-full justify-center"><LinkButton href="https://enrichmentmap.org/">Go to EnrichmentMap</LinkButton></div>,
   },
   {
     name: 'WikiPathways',
@@ -84,12 +79,7 @@ const features = [
     description: 'Create interactive networks from your data directly on the web, analyze and then export the results.',
     href: 'https://web-stage.cytoscape.org/', // TODO: replace with prod URL when available!!!
     icon: CytoscapeWebLogo,
-    form: <div className="flex w-full justify-center">
-        <Button type="submit" variant="outline" href="https://web-stage.cytoscape.org/" target="_blank" rel="noreferrer"  className="mt-4">
-          Go to Cytoscape Web
-          <ArrowTopRightOnSquareIcon className="ml-1.5 h-4 w-4" aria-hidden="true" />
-        </Button>
-      </div>,
+    form: <div className="flex w-full justify-center"><LinkButton href="https://web-stage.cytoscape.org/">Go to Cytoscape Web</LinkButton></div>,
   },
   {
     name: 'Cytoscape ',
@@ -131,11 +121,11 @@ export function SecondaryFeatures() {
             >
               <div className="flex items-center">
                 <feature.icon className="h-8 w-8" />
-                <a href={feature.href} target="_blank" rel="noreferrer" className="flex items-center group">
+                <a href={feature.href} target="_blank" rel="noreferrer" className="flex items-start group">
                   <h3 className="ml-4 font-semibold text-gray-900 group-hover:text-complement-500">
                     {feature.name}
                   </h3>
-                  <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 fill-gray-500 group-hover:fill-complement-500" />
+                  <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 mt-1 fill-gray-400 group-hover:fill-complement-500" />
                 </a>
               </div>
               <p className="mt-2 text-gray-600">{feature.description}</p>

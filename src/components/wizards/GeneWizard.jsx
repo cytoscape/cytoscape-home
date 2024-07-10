@@ -74,7 +74,7 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
         onCanContinue(orgRef.current != null)
         break
       case 2:
-        onSubmit()
+        onSubmit({ title: 'Gene Analysis', genes: genesRef.current, organism: orgRef.current })
     }
   });
 

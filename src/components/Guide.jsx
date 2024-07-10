@@ -63,7 +63,7 @@ const WizardSelector = ({ onChange }) => {
   )
 }
 
-export function Guide({ open=false, onClose }) {
+export function Guide({ open=false, onClose, onSubmit }) {
   const [step, setStep] = useState(-1)
   const [totalSteps, setTotalSteps] = useState(2)
   const [title, setTitle] = useState(INITIAL_TITLE)
@@ -80,14 +80,14 @@ export function Guide({ open=false, onClose }) {
     wizardRef.current = false
   }
   const handleClose = () => {
-    reset()
     onClose()
   }
   const handleCanContinue = (b) => {
     setCanContinue(b)
   }
-  const onSubmit = () => {
-    alert('TODO...')
+  const handleSubmit = (data) => {
+    reset()
+    onSubmit(data)
   }
   const onPrevious = () => {
     if (step === 0) {
@@ -123,7 +123,7 @@ export function Guide({ open=false, onClose }) {
       {step < 0 ? 
         <WizardSelector onChange={onWizardChange} />
       :
-        <Wizard step={step} setTotalSteps={setTotalSteps} setTitle={setTitle} onCanContinue={handleCanContinue} onSubmit={onSubmit} />
+        <Wizard step={step} setTotalSteps={setTotalSteps} setTitle={setTitle} onCanContinue={handleCanContinue} onSubmit={handleSubmit} />
       }
     </WizardDialog>
   )

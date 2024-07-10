@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 
 const baseStyles = {
   solid: 'inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold outline-2 outline-offset-2 transition-colors',
@@ -37,5 +38,14 @@ export function Button({ className, ...props }) {
     <button className={className} {...props} />
   ) : (
     <a className={className} {...props} />
+  )
+}
+
+export function LinkButton({ href, children }) {
+  return (
+    <Button type="submit" variant="outline" href={href} target="_blank" rel="noreferrer" className="mt-4">
+      {children}
+      <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-1.5 mt-0.5 fill-gray-400" aria-hidden="true" />
+    </Button>
   )
 }

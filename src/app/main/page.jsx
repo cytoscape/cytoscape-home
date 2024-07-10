@@ -6,9 +6,20 @@ import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { Citations } from '@/components/Citations'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { Guide } from '@/components/Guide'
+import { Results } from '@/components/Results'
 
 export default function Home() {
   const [openGuide, setOpenGuide] = useState(false)
+  const [openResults, setOpenResults] = useState(false)
+  const [results, setResults] = useState()
+  
+  const onSubmit = (data) => {
+    setOpenGuide(false)
+    if (data && data.genes && data.genes.length > 0 && data.organism) {
+      setResults(data)
+      setOpenResults(true)
+    }
+  }
 
   return (
     <>
@@ -18,7 +29,8 @@ export default function Home() {
       <CallToAction onGetStarted={() => setOpenGuide(true)} />
       <Citations />
       <Faqs />
-      <Guide open={openGuide} onClose={() => setOpenGuide(false)} />
+      <Guide open={openGuide} onClose={() => setOpenGuide(false)} onSubmit={onSubmit} />
+      <Results open={openResults} title={results?.title} geneNames={results?.genes} organism={results?.organism} onClose={() => setOpenResults(false)} />
     </>
   )
 }
