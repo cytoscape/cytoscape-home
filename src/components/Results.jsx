@@ -103,7 +103,9 @@ const createCytoscape = (id) => {
   const cy = new Cytoscape({
     container: container,
     styleEnabled: true,
-    boxSelectionEnabled: true,
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
     selectionType: 'single',
   })
   cy.data({ id })
