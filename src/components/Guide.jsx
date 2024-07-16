@@ -2,13 +2,34 @@ import { useState, useRef } from 'react'
 import { Radio, RadioGroup } from '@headlessui/react'
 import { WizardDialog } from '@/components/base/WizardDialog'
 import { GeneWizard } from '@/components/wizards/GeneWizard'
+import { EnrichmentWizard } from '@/components/wizards/EnrichmentWizard'
+import { NetworkWizard } from '@/components/wizards/NetworkWizard'
 
 const INITIAL_TITLE = 'What would you like to do?'
+const DEF_SUBMIT_LABEL = 'Submit'
 
 const cards = [
-  { name: 'Gene Analysis', description: 'I have one gene or a simple list of genes.', wizard: GeneWizard },
-  { name: 'Enrichment Analysis', description: 'I have a file with differential expression data.', wizard: () => <>Enrichment Analysis Wizard -- TODO...</>  },
-  { name: 'Network Figure', description: 'I have data I want to visualize as a network.', wizard: () => <>Network Figure Wizard -- TODO...</>  },
+  {
+    type: 'gene',
+    name: 'Gene Analysis',
+    description: 'I have one gene or a simple list of genes.',
+    submitLabel: 'Results',
+    wizard: GeneWizard,
+  },
+  {
+    type: 'enrichment',
+    name: 'Enrichment Analysis',
+    description: 'I have a file with differential expression data.',
+    submitLabel: 'Go to EnrichmentMap',
+    wizard: EnrichmentWizard,
+  },
+  {
+    type: 'network',
+    name: 'Network Figure',
+    description: 'I have data I want to visualize as a network.',
+    submitLabel: 'Go to Cytoscape Web',
+    wizard: NetworkWizard,
+  },
 ]
 
 const classNames = (...classes) => {
@@ -67,6 +88,7 @@ export function Guide({ open=false, onClose, onSubmit }) {
   const [step, setStep] = useState(-1)
   const [totalSteps, setTotalSteps] = useState(2)
   const [title, setTitle] = useState(INITIAL_TITLE)
+  const [submitLabel, setSubmitLabel] = useState(DEF_SUBMIT_LABEL)
   const [canContinue, setCanContinue] = useState(false)
 
   const wizardRef = useRef()
@@ -76,10 +98,12 @@ export function Guide({ open=false, onClose, onSubmit }) {
     setStep(-1)
     setTotalSteps(2)
     setTitle(INITIAL_TITLE)
+    setSubmitLabel(DEF_SUBMIT_LABEL)
     setCanContinue(false)
-    wizardRef.current = false
+    wizardRef.current = null
   }
   const handleClose = () => {
+    reset()
     onClose()
   }
   const handleCanContinue = (b) => {
@@ -103,6 +127,7 @@ export function Guide({ open=false, onClose, onSubmit }) {
   const onWizardChange = (card) => {
     if (card) {
       wizardRef.current = card.wizard
+      setSubmitLabel(card.submitLabel)
       setCanContinue(true)
     }
   }
@@ -115,6 +140,7 @@ export function Guide({ open=false, onClose, onSubmit }) {
       totalSteps={totalSteps}
       step={step}
       title={title}
+      submitLabel={submitLabel}
       onClose={handleClose}
       onPrevious={onPrevious}
       onNext={onNext}
@@ -123,7 +149,13 @@ export function Guide({ open=false, onClose, onSubmit }) {
       {step < 0 ? 
         <WizardSelector onChange={onWizardChange} />
       :
-        <Wizard step={step} setTotalSteps={setTotalSteps} setTitle={setTitle} onCanContinue={handleCanContinue} onSubmit={handleSubmit} />
+        <Wizard
+          step={step}
+          setTotalSteps={setTotalSteps}
+          setTitle={setTitle}
+          onCanContinue={handleCanContinue}
+          onSubmit={handleSubmit}
+        />
       }
     </WizardDialog>
   )

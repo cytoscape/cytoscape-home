@@ -57,47 +57,47 @@ export const geneManiaOrganisms = [
 
 export const parseGeneList = (text) => {
   if (text.length > 0) {
-    let parts = text.split(/[\s,]+/);
-    parts = parts.filter(el => el.length > 0);
+    let parts = text.split(/[\s,]+/)
+    parts = parts.filter(el => el.length > 0)
     return [...new Set(parts)]
   }
-  return [];
+  return []
 }
 
 export const searchNDEx = (evt) =>  {
-  const val = evt.target.elements.search.value.trim();
+  const val = evt.target.elements.search.value.trim()
   if (val.length > 0) {
-    const parts = parseGeneList(val);
+    const parts = parseGeneList(val)
     if (parts.length > 0) {
-      const genes = parts.join('%2C');
-      const url = `https://www.ndexbio.org/iquery/?genes=${genes}`;
-      window.open(url, '_blank').focus();
+      const genes = parts.join('%2C')
+      const url = `https://www.ndexbio.org/iquery/?genes=${genes}`
+      window.open(url, '_blank').focus()
     }
   }
-  evt.preventDefault();
+  evt.preventDefault()
 }
 
 export const searchGeneMania = (orgId, searchText) =>  {
   if (orgId && searchText && searchText.length > 0) {
-    const parts = parseGeneList(searchText);
+    const parts = parseGeneList(searchText)
     if (parts.length > 0) {
-      const genes = parts.join('/');
-      const url = `https://genemania.org/search/${orgId}/${genes}`;
-      window.open(url, '_blank').focus();
+      const genes = parts.join('/')
+      const url = `https://genemania.org/search/${orgId}/${genes}`
+      window.open(url, '_blank').focus()
     }
   }
 }
 
 export const searchWikiPathways = (evt) =>  {
-  const val = evt.target.elements.search.value.trim();
+  const val = evt.target.elements.search.value.trim()
   if (val.length > 0) {
-    const parts = parseGeneList(val);
+    const parts = parseGeneList(val)
     if (parts.length > 0) {
-      const genes = parts.join('%20');
-      const url = `https://www.wikipathways.org/search.html?query=${genes}`;
-      window.open(url, '_blank').focus();
+      const genes = parts.join('%20')
+      const url = `https://www.wikipathways.org/search.html?query=${genes}`
+      window.open(url, '_blank').focus()
     }
   }
-  evt.preventDefault();
+  evt.preventDefault()
 }
 

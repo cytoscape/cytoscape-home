@@ -15,9 +15,13 @@ export default function Home() {
   
   const onSubmit = (data) => {
     setOpenGuide(false)
-    if (data && data.genes && data.genes.length > 0 && data.organism) {
-      setResults(data)
-      setOpenResults(true)
+    if (data) {
+      if (data.url) {
+        window.open(data.url, '_blank').focus()
+      } else {
+        setResults(data)
+        setOpenResults(true)
+      }
     }
   }
 
@@ -30,7 +34,7 @@ export default function Home() {
       <Citations />
       <Faqs />
       <Guide open={openGuide} onClose={() => setOpenGuide(false)} onSubmit={onSubmit} />
-      <Results open={openResults} title={results?.title} geneNames={results?.genes} organism={results?.organism} onClose={() => setOpenResults(false)} />
+      <Results open={openResults} data={results} onClose={() => setOpenResults(false)} />
     </>
   )
 }

@@ -2,7 +2,18 @@ import { useState, useRef, useEffect } from 'react'
 import { SelectMenu } from '@/components/base/SelectMenu'
 import { geneManiaOrganisms, parseGeneList } from '@/components/tools/Common'
 
-const GenesPanel = ({ initialValue, onChange }) => {
+const stepsDef = [
+  {
+    title: "Genes",
+    component: GenesPanel,
+  },
+  {
+    title: "Organisms",
+    component: OrganismsPanel,
+  },
+]
+
+function GenesPanel({ initialValue, onChange }) {
   const [value, setValue] = useState('')
 
   const handleChange = (event) => {
@@ -11,7 +22,7 @@ const GenesPanel = ({ initialValue, onChange }) => {
     val = val.trim()
     let genes = []
     if (val.length > 0) {
-      genes = parseGeneList(val);
+      genes = parseGeneList(val)
     }
     onChange(genes)
   }
@@ -35,7 +46,7 @@ const GenesPanel = ({ initialValue, onChange }) => {
   )
 }
 
-const OrganismsPanel = ({ onChange }) => {
+function OrganismsPanel({ onChange }) {
   return (
     <div>
       <label htmlFor="organism" className="block text-sm font-medium leading-6 text-gray-900">
@@ -45,17 +56,6 @@ const OrganismsPanel = ({ onChange }) => {
     </div>
   )
 }
-
-const stepsDef = [
-  {
-    title: "Genes",
-    component: GenesPanel,
-  },
-  {
-    title: "Organisms",
-    component: OrganismsPanel,
-  },
-]
 
 export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSubmit }) {
   const genesRef = useRef([])
@@ -74,9 +74,9 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
         onCanContinue(orgRef.current != null)
         break
       case 2:
-        onSubmit({ title: 'Gene Analysis', genes: genesRef.current, organism: orgRef.current })
+        onSubmit({ type: 'gene', title: 'Gene Analysis', genes: genesRef.current, organism: orgRef.current })
     }
-  });
+  })
 
   const handleChange = (value) => {
     switch (step) {

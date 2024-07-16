@@ -2,12 +2,12 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@
 import { Button } from '@/components/base/Button'
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
-
 export function WizardDialog({
   open=false,
   totalSteps=0,
   step=-1,
   title,
+  submitLabel,
   children,
   onClose,
   onPrevious,
@@ -75,8 +75,8 @@ export function WizardDialog({
                     className="inline-flex gap-2 min-w-32"
                     onClick={onNext}
                   >
-                    <span>{ step === totalSteps - 1 ? 'Submit' : 'Next' }</span>
-                    <ChevronRightIcon className="-mr-5 h-6 w-6" />
+                    <span>{ step === totalSteps - 1 ? (submitLabel || 'Submit') : 'Next' }</span>
+                    <ChevronRightIcon className="h-6 w-6" />
                   </Button>
                 </div>
               </DialogPanel>

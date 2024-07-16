@@ -8,29 +8,6 @@ import { GeneManiaLogo } from '@/components/Logos'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
-// async function fetchGeneMetadata(symbol, organism='human') {
-//   try {
-//     const baseUrl = 'https://www.ebi.ac.uk/proteins/api/proteins'
-//     const params = `gene=${symbol}&organism=${organism}`
-//     const response = await fetch(`${baseUrl}?${params}`, {
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json',
-//       },
-//     })
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`)
-//     }
-//     return response
-//
-//        //const functionComment = data && data.length > 0 && data[0].comments ? data[0].comments.find(comment => comment.type === 'FUNCTION') : {}
-//        //const description = functionComment && functionComment.text && functionComment.text.length > 0 ? functionComment.text[0].value : null
-//   } catch (error) {
-//     console.error('Error:', error.message)
-//     return 'An error occurred while fetching genes data from EMBL-EBI.'
-//   }
-// }
-
 async function fetchGeneMetadata(symbol, taxon=9606) {
   try {
     const response = await fetch(`https://api.ncbi.nlm.nih.gov/datasets/v1/gene/symbol/${symbol}/taxon/${taxon}`, {
@@ -325,7 +302,7 @@ const GeneManiaCard = ({ genes, organism }) => {
     fetchData()
   }, [genes, organism])
 
-  const href = `https://genemania.org/search/${organism.id}/${genes.join('/')}`;
+  const href = `https://genemania.org/search/${organism.id}/${genes.join('/')}`
 
   return (
     <div className="rounded-xl border border-gray-400 p-4 shadow-lg shadow-gray-200">
@@ -361,13 +338,12 @@ const GeneManiaCard = ({ genes, organism }) => {
   )
 }
 
-export function Results({
-  open=false,
-  title,
-  geneNames=[],
-  organism,
-  onClose
-}) {
+export function Results({ open=false, data, onClose }) {
+  const type = data?.type
+  const title = data?.title || 'Results'
+  const geneNames = data?.genes || []
+  const organism = data?.organism
+
   return (
     <Transition show={open}>
       <Dialog
@@ -408,30 +384,32 @@ export function Results({
                   <DialogTitle as="h2" className="mt-0.5 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
                     {title}
                   </DialogTitle>
-                  {geneNames.length > 0 && organism && (
-                    <div className="mt-2 bg-black text-gray-400 text-left py-2">
-                      <p className="flex flex-row items-center px-6">
-                        <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
-                        <span className="pl-2 italic">{organism.name}</span>
-                        <span className="ml-2">&#40;{geneNames.length} query gene{geneNames.length > 1 ? 's' : ''}&#41;</span>
-                      </p>
-                    </div>
-                  )}
-                  <div className="flex flex-col space-y-8 items-start mt-5 px-6 sm:space-x-4 sm:flex-row sm:space-y-0">
-                    <ul
-                      role="list"
-                      className="grid mx-auto w-full sm:w-1/2 grid-cols-1 gap-2 text-sm text-left sm:grid-cols-1 lg:grid-cols-2"
-                    >
-                      {geneNames.map((name) => (
-                        <GeneCard key={name} name={name} organism={organism} />
-                      ))}
-                    </ul>
-                    {geneNames.length > 0 && organism && (
-                      <div className="w-full sm:w-1/2">
-                        <GeneManiaCard genes={geneNames} organism={organism} />
+                  {type === 'gene' && (
+                    <>
+                      <div className="mt-2 bg-black text-gray-400 text-left py-2">
+                        <p className="flex flex-row items-center px-6">
+                          <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
+                          <span className="pl-2 italic">{organism.name}</span>
+                          <span className="ml-2">&#40;{geneNames.length} query gene{geneNames.length > 1 ? 's' : ''}&#41;</span>
+                        </p>
                       </div>
-                    )}
-                  </div>
+                      <div className="flex flex-col space-y-8 items-start mt-5 px-6 sm:space-x-4 sm:flex-row sm:space-y-0">
+                        <ul
+                          role="list"
+                          className="grid mx-auto w-full sm:w-1/2 grid-cols-1 gap-2 text-sm text-left sm:grid-cols-1 lg:grid-cols-2"
+                        >
+                          {geneNames.map((name) => (
+                            <GeneCard key={name} name={name} organism={organism} />
+                          ))}
+                        </ul>
+                        {geneNames.length > 0 && organism && (
+                          <div className="w-full sm:w-1/2">
+                            <GeneManiaCard genes={geneNames} organism={organism} />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </DialogPanel>
             </TransitionChild>
