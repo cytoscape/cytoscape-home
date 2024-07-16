@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import Cytoscape from 'cytoscape'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { LinkButton } from '@/components/base/Button'
+import { LoadingMessage } from '@/components/base/Loading'
 import { GeneManiaLogo } from '@/components/Logos'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
@@ -140,7 +141,7 @@ const GeneCard = ({ name, organism }) => {
   const href = ncbiId ? `https://www.ncbi.nlm.nih.gov/gene/${ncbiId}` : null
 
   return (
-    <li className={`p-4 rounded-xl min-h-32 sm:min-h-40 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
+    <li className={`p-4 rounded-xl min-h-28 sm:min-h-40 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
       <div className="flex items-center">
         <a
           href={href}
@@ -156,49 +157,53 @@ const GeneCard = ({ name, organism }) => {
           )}
         </a>
       </div>
-      <div className="mt-4 mmin-h-32 max-h-32 overflow-y-auto">
-        {loading ? 
-          <p className="text-gray-400 animate-pulse">loading...</p>
-        :
-          error ?
-            <span className="flex items-start justify-start text-red-800">
-              <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
-              <span className="ml-2 font-light">
-                {error.message ? error.message : 'Unable to fetch description'}
-              </span>
-            </span>
-          :
-            <>
-              <p className="text-gray-600">{description}</p>
-              {((source && sourceId) || (synonyms && synonyms.length > 0)) && (
-                <hr className="mt-4 mb-1 border-dashed" />
-              )}
-              {source && sourceId && (
-                <p className="flex items-start mt-2 text-xs text-gray-600">
-                  Source:&nbsp;&nbsp;
-                  <a
-                    href={sourceHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`flex items-start group ${sourceHref ? '' : 'pointer-events-none'}`}
-                  >
-                    <span className={sourceHref ? `underline underline-offset-2 group-hover:underline-complement-500 group-hover:text-complement-500` : ''}>
-                      {source} &mdash; {sourceId}
-                    </span>
-                    {sourceHref && (
-                      <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 fill-gray-400 group-hover:fill-complement-500" />
-                    )}
-                  </a>
-                </p>
-              )}
-              {synonyms && synonyms.length > 0 && (
-                <p className="flex items-start mt-2 text-xs text-gray-600">
-                  Synonyms:&nbsp;&nbsp;
-                  <span>{synonyms.join(', ')}</span>
-                </p>
-              )}
-            </>
-        }
+      <div className="mt-4 max-h-32 overflow-y-auto">
+        {loading && ( 
+          <LoadingMessage />
+        )}
+        {!loading && (
+          <>
+            <p className="text-gray-600">
+              {error ?
+                <span className="flex items-start justify-center text-red-800">
+                  <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
+                  <span className="ml-2 font-light">
+                    {error.message ? error.message : 'Unable to fetch description'}
+                  </span>
+                </span>
+                :
+                <>{description}</>
+              }
+            </p>
+            {((source && sourceId) || (synonyms && synonyms.length > 0)) && (
+              <hr className="mt-4 mb-1 border-dashed" />
+            )}
+            {source && sourceId && (
+              <p className="flex items-start mt-2 text-xs text-gray-600">
+                Source:&nbsp;&nbsp;
+                <a
+                  href={sourceHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`flex items-start group ${sourceHref ? '' : 'pointer-events-none'}`}
+                >
+                  <span className={sourceHref ? `underline underline-offset-2 group-hover:underline-complement-500 group-hover:text-complement-500` : ''}>
+                    {source} &mdash; {sourceId}
+                  </span>
+                  {sourceHref && (
+                    <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 fill-gray-400 group-hover:fill-complement-500" />
+                  )}
+                </a>
+              </p>
+            )}
+            {synonyms && synonyms.length > 0 && (
+              <p className="flex items-start mt-2 text-xs text-gray-600">
+                Synonyms:&nbsp;&nbsp;
+                <span>{synonyms.join(', ')}</span>
+              </p>
+            )}
+          </>
+        )}
       </div>
     </li>
   )
@@ -330,20 +335,22 @@ const GeneManiaCard = ({ genes, organism }) => {
         </a>
       </div>
       <div className="w-full mt-4">
-        {loading ? 
-          <p className="text-gray-400 animate-pulse">loading...</p>
-        :
-          error ?
-            <span className="flex items-start justify-start text-red-800">
+        {!loading && !error && (
+          <p className="text-right text-xs text-gray-600 overflow-y-auto">{data.resultGenes.length} result genes</p>
+        )}
+        <div id="genemania-cy" className="w-full h-96 mt-2 border">
+          {loading && (
+            <LoadingMessage className="mt-10" />
+          )}
+          {error && (
+            <span className="flex items-start justify-center mt-10 text-red-800">
               <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
               <span className="ml-2 font-light">
                 {error.message ? error.message : 'Unable to fetch network'}
               </span>
             </span>
-          :
-            <p className="text-right text-xs text-gray-600 overflow-y-auto">{data.resultGenes.length} result genes</p>
-        }
-        <div id="genemania-cy" className={`w-full h-96 mt-2 border ${data ? 'block' : 'invisible'}`} />
+          )}
+        </div>
       </div>
       <div className="flex w-full justify-center">
         <LinkButton href={href}>Go to GeneMANIA</LinkButton>
