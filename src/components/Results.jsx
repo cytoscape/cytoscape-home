@@ -193,7 +193,8 @@ const GeneManiaCard = ({ genes, organism }) => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(true)
 
-  let cyRef = useRef()
+  const isMounted = useRef(false)
+  const cyRef = useRef()
 
   const edgeColors = [
     { code: 'coexp', color: '#d0b7d5' },
@@ -211,12 +212,29 @@ const GeneManiaCard = ({ genes, organism }) => {
   ]
 
   useEffect(() => {
+    isMounted.current = true
+
+    return () => {
+      isMounted.current = false
+      if (cyRef.current) {
+        // Make sure Cytoscape is destroyed when the component is unmounted
+        cyRef.current.destroy()
+        cyRef.current = null
+      }
+    }
+  }, [])
+
+  useEffect(() => {
     const fetchData = async () => {
       const json = await fetchGeneManiaNetwork(genes.join('\n'), organism.id)
       if (json.error) {
         setError(json.error)
       } else {
         setData(json)
+        if (!isMounted.current) {
+          // Do not attempt to create Cytoscape if the component is unmounted!
+          return
+        }
         // -- Create the Cytoscape instance --
         const cy = createCytoscape('genemania-cy')
         cyRef.current = cy
@@ -295,7 +313,6 @@ const GeneManiaCard = ({ genes, organism }) => {
           nodeRepulsion: 100000,
           padding: 10,
         }).run()
-        console.log('Cytoscape -- nodes:', cy.nodes().length, 'edges:', cy.edges().length)
       }
       setLoading(false)
     }
@@ -317,12 +334,13 @@ const GeneManiaCard = ({ genes, organism }) => {
         {!loading && !error && (
           <p className="text-right text-xs text-gray-600 overflow-y-auto">{data.resultGenes.length} result genes</p>
         )}
-        <div id="genemania-cy" className="w-full h-96 mt-2 border">
+        <div className="relative w-full mt-2 border-4 rounded-lg">
+          <div id="genemania-cy" className="w-full h-96" />
           {loading && (
-            <LoadingMessage className="mt-10" />
+            <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
           )}
           {error && (
-            <span className="flex items-start justify-center mt-10 text-red-800">
+            <span className="w-full flex items-start justify-center text-red-800 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
               <span className="ml-2 font-light">
                 {error.message ? error.message : 'Unable to fetch network'}
