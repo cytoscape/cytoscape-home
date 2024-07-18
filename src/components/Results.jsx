@@ -24,7 +24,7 @@ async function fetchGeneMetadata(symbol, taxon=9606) {
 
 async function fetchGeneManiaNetwork(genes, organismId=4) {
   try {
-    const baseUrl = 'http://api.genemania.org/json/search_results'
+    const baseUrl = 'https://genemania.org/json/search_results'
     const response = await fetch(`${baseUrl}`, {
       method: 'POST',
       headers: {
