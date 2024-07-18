@@ -46,7 +46,7 @@ export function Header() {
   return (
     <header>
       <nav>
-        <Container className="relative z-50 flex justify-between py-8">
+        <Container className="relative z-10 flex justify-between py-8">
           <div className="relative z-10 flex items-center gap-16">
             <a href="/" aria-label="Home">
               <AppLogo className="h-10 w-auto" />
