@@ -71,8 +71,7 @@ const features = [
     description: 'Discover pathways of interest by organism, communities of domain experts, and ontology annotations.',
     href: 'https://www.wikipathways.org/',
     icon: WikiPathwaysLogo,
-    form: <form onSubmit={searchWikiPathways} className="flex w-full justify-center md:w-auto"><SearchField placeholder="e.g. ace2 aldosterone human" /></form>
-    ,
+    form: <form onSubmit={searchWikiPathways} className="flex w-full justify-center md:w-auto"><SearchField placeholder="e.g. ace2 aldosterone human" /></form>,
   },
   {
     name: 'Cytoscape Web',
@@ -85,8 +84,8 @@ const features = [
     name: 'Cytoscape ',
     description: <>
         Open source <Link href="https://cytoscape.org/download.html" ariaLabel="Download Cytoscape">software</Link> platform 
-        for visualizing complex networks.<br /><br />
-        Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.<br /><br />
+        for visualizing complex networks.<br />
+        Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.<br />
         Use <Link href="https://doi.org/10.12688/f1000research.6767.1" ariaLabel="cyREST paper">cyREST</Link> to create reproducible workflows.
       </>,
     href: 'https://cytoscape.org/',
@@ -117,7 +116,7 @@ export function SecondaryFeatures() {
           {features.map((feature) => (
             <li
               key={feature.name}
-              className="min-h-64 rounded-2xl border border-gray-200 p-4 lg:p-8 xs:min-h-52"
+              className="rounded-2xl border border-gray-200 p-4 lg:p-8 min-h-36 md:min-h-48"
             >
               <div className="flex items-center">
                 <feature.icon className="h-8 w-8" />
@@ -129,9 +128,9 @@ export function SecondaryFeatures() {
                 </a>
               </div>
               <p className="mt-2 text-gray-600">{feature.description}</p>
-              <div className="mt-6">
+              {/* <div className="mt-6">
                 {feature.form}
-              </div>
+              </div> */}
             </li>
           ))}
         </ul>
