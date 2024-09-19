@@ -10,7 +10,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 
-const ndexClient = new NDEx('https://ndexbio.org/v2')
+const ndexClient = new NDEx('https://dev.ndexbio.org/v2')
 
 
 async function fetchGeneMetadata(symbol, taxon=9606) {
