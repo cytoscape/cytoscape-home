@@ -41,9 +41,17 @@ export function Button({ className, ...props }) {
   )
 }
 
-export function LinkButton({ href, children }) {
+export function LinkButton({ href, children, className, variant='outline', ...props }) {
   return (
-    <Button type="submit" variant="outline" href={href} target="_blank" rel="noreferrer" className="mt-4">
+    <Button
+      type="submit"
+      variant={variant}
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className={className}
+      {...props}
+    >
       {children}
       <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-1.5 mt-0.5 fill-gray-400" aria-hidden="true" />
     </Button>

@@ -360,7 +360,7 @@ const GeneManiaCard = ({ genes, organism }) => {
         </div>
       </div>
       <div className="flex w-full justify-center">
-        <LinkButton href={href}>Go to GeneMANIA</LinkButton>
+        <LinkButton href={href} className="mt-4">Go to GeneMANIA</LinkButton>
       </div>
     </div>
   )
@@ -459,7 +459,7 @@ const NDExCard = ({ genes }) => {
         )}
       </div>
       <div className="flex w-full justify-center">
-        <LinkButton href={href}>More Results on NDEx</LinkButton>
+        <LinkButton href={href} className="mt-4">More Results on NDEx</LinkButton>
       </div>
     </div>
   )

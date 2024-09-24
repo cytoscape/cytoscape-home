@@ -2,6 +2,7 @@
 
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Button } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { AppLogo } from '@/components/Logos'
 import { NavLinks } from '@/components/NavLinks'
@@ -100,12 +101,25 @@ export function Header() {
                             <MobileNavLink href="/#citations">Citations</MobileNavLink>
                             <MobileNavLink href="/#faq">FAQ</MobileNavLink>
                           </div>
-                          {/* <div className="mt-8 flex flex-col gap-4">
-                            <Button href="/login" variant="outline">
-                              Log in
-                            </Button>
-                            <Button href="#">Download the app</Button>
-                          </div> */}
+                          <div className="mt-8 flex flex-col gap-4">
+                          <Button
+                            href="https://web-stage.cytoscape.org/"
+                            target="_blank"
+                            rel="noreferrer"
+                            variant="outline"
+                            color="primary"
+                          >
+                            Go to Cytoscape Web
+                          </Button>
+                          <Button
+                            href="https://cytoscape.org/"
+                            target="_blank"
+                            rel="noreferrer"
+                            color="primary"
+                          >
+                            Download Cytoscape
+                          </Button>
+                          </div>
                         </Popover.Panel>
                       </>
                     )}
@@ -113,12 +127,25 @@ export function Header() {
                 </>
               )}
             </Popover>
-            {/* <Button href="/login" variant="outline" className="hidden lg:block">
-              Log in
+            <Button
+              href="https://web-stage.cytoscape.org/"
+              target="_blank"
+              rel="noreferrer"
+              variant="outline"
+              color="primary"
+              className="hidden lg:inline-flex"
+            >
+              Go to Cytoscape Web
             </Button>
-            <Button href="#" className="hidden lg:block">
-              Download
-            </Button> */}
+            <Button
+              href="https://cytoscape.org/"
+              target="_blank"
+              rel="noreferrer"
+              color="primary"
+               className="hidden lg:inline-flex"
+            >
+              Download Cytoscape
+            </Button>
           </div>
         </Container>
       </nav>
