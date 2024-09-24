@@ -14,9 +14,9 @@ const variantStyles = {
     gray: 'bg-gray-800 text-white hover:bg-gray-900 active:bg-gray-800 active:text-white/80 disabled:text-gray-100 disabled:bg-gray-300 disabled:pointer-events-none',
   },
   outline: {
-    primary: 'border-2 border-primary-500 text-gray-900 font-semibold bg-primary-50 hover:bg-primary-100 active:bg-primary-200 active:text-gray-900/80 disabled:pointer-events-none',
-    complement: 'border border-complement-300 text-complement-500 bg-complement-50 hover:border-complement-500 active:bg-complement-100 active:text-complement-500/80 disabled:pointer-events-none',
-    gray: 'border border-gray-300 text-gray-700 hover:border-gray-400 active:bg-gray-100 active:text-gray-700/80 disabled:pointer-events-none',
+    primary: 'border-primary-500/50 text-gray-700 hover:border-primary-500 active:bg-primary-50/75 disabled:pointer-events-none',
+    complement: 'border-complement-300 text-complement-500 hover:border-complement-500 active:bg-complement-50 active:text-complement-500/80 disabled:pointer-events-none',
+    gray: 'border-gray-300 text-gray-700 hover:border-gray-400 active:bg-gray-100 active:text-gray-700/80 disabled:pointer-events-none',
   },
 }
 
