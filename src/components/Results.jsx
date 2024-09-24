@@ -10,7 +10,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 
-const ndexClient = new NDEx('https://dev.ndexbio.org/v2')
+const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
 
 async function fetchGeneMetadata(symbol, taxon=9606) {
@@ -373,7 +373,7 @@ const NDExCard = ({ genes }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const json = await ndexClient.searchNetworks(genes.join('\n'))
+      const json = await ndexClient.searchNetworks(genes.join(' '))
       console.log(json)
       if (json.error) {
         setError(json.error)
@@ -385,7 +385,7 @@ const NDExCard = ({ genes }) => {
     fetchData()
   }, [genes])
 
-  const href = `https://dev.ndexbio.org/index.html#/search?searchType=All&searchString=${genes.join('%20')}&searchTermExpansion=false`
+  const href = `https://www.ndexbio.org/index.html#/search?searchType=All&searchString=${genes.join('%20')}&searchTermExpansion=false`
 
   return (
     <div className={`relative w-full lg:w-3/5 p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
@@ -438,7 +438,7 @@ const NDExCard = ({ genes }) => {
                 <tr key={net.externalId}>
                   <td className="whitespace-nowrap px-3 py-2 text-left text-sm text-gray-500">
                     <a
-                      href={`https://dev.ndexbio.org/viewer/networks/${net.externalId}`}
+                      href={`https://www.ndexbio.org/viewer/networks/${net.externalId}`}
                       target="_blank"
                       rel="noreferrer"
                       className=" group text-wrap"
