@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
-import { useQuery } from "@tanstack/react-query"
-import Cytoscape from 'cytoscape'
-import { NDEx } from '@js4cytoscape/ndex-client'
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { LinkButton } from '@/components/base/Button'
 import { LoadingMessage } from '@/components/base/Loading'
-import { GeneManiaLogo, NDExLogo } from '@/components/Logos'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import GeneManiaLogo from '@/images/logos/gene-mania.svg'
+import NDExLogo from '@/images/logos/ndex.svg'
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import { NDEx } from '@js4cytoscape/ndex-client'
+import { useQuery } from "@tanstack/react-query"
+import Cytoscape from 'cytoscape'
+import { useEffect, useRef, useState } from 'react'
 
 
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
