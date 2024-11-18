@@ -4,6 +4,8 @@ import { Container } from '@/components/base/Container'
 import { NavLinks } from '@/components/NavLinks'
 import { CytoscapeLogo } from '@/components/Logos'
 import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
+import { UseCytoscapeDialog } from './UseCytoscapeDialog'
+import { useState } from 'react'
 
 function DownloadBorder(props) {
   return (
@@ -18,7 +20,9 @@ function DownloadBorder(props) {
 }
 
 export function Footer() {
-  return (
+  const [openUseCy, setOpenUseCy] = useState(false);
+
+  return ( <>
     <footer className="border-t border-gray-200">
       <Container>
         <div className="flex flex-col items-start justify-between gap-y-12 pb-6 pt-16 lg:flex-row lg:items-center lg:py-16">
@@ -39,13 +43,13 @@ export function Footer() {
             </div>
             <div className="ml-8 lg:w-64">
               <p className="text-base font-semibold text-gray-900">
-                <a href="https://cytoscape.org/download.html" target="_blank" rel="noreferrer">
+                <a onClick={() => setOpenUseCy(true)} className="cursor-pointer">
                   <span className="absolute inset-0 sm:rounded-2xl" />
-                  Download Cytoscape
+                  Use Cytoscape
                 </a>
               </p>
               <p className="mt-1 text-sm text-gray-700">
-                Download and install the Cytoscape software for more advanced features.
+                Use Cytoscape to analyze and visualize the networks in your research.
               </p>
             </div>
           </div>
@@ -71,5 +75,6 @@ export function Footer() {
         </div>
       </Container>
     </footer>
-  )
+    <UseCytoscapeDialog open={openUseCy} onClose={() => setOpenUseCy(false)} />
+  </>)
 }
