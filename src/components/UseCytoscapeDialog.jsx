@@ -8,7 +8,7 @@ function LinkOptions() {
       <div>
         <Button
           as="a"
-          href="https://web-stage.cytoscape.org/"
+          href="https://web.cytoscape.org/"
           target="_blank"
           rel="noopener noreferrer"
           className="w-full"

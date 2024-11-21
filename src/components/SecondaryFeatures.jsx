@@ -76,9 +76,9 @@ const features = [
   {
     name: 'Cytoscape Web',
     description: 'Create interactive networks from your data directly on the web, analyze and then export the results.',
-    href: 'https://web-stage.cytoscape.org/', // TODO: replace with prod URL when available!!!
+    href: 'https://web.cytoscape.org/',
     icon: CytoscapeWebLogo,
-    form: <div className="flex w-full justify-center"><LinkButton href="https://web-stage.cytoscape.org/">Go to Cytoscape Web</LinkButton></div>,
+    form: <div className="flex w-full justify-center"><LinkButton href="https://web.cytoscape.org/">Go to Cytoscape Web</LinkButton></div>,
   },
   {
     name: 'Cytoscape ',

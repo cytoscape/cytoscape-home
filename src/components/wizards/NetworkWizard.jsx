@@ -32,7 +32,7 @@ export function NetworkWizard({ step, setTotalSteps, setTitle, setSubmitLabel, o
         onCanContinue(true)
         break
       case 1:
-        onSubmit({ url: 'https://web-stage.cytoscape.org/' }) // TODO replace with PROD url!
+        onSubmit({ url: 'https://web.cytoscape.org/' })
     }
   })
 
