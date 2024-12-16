@@ -1,6 +1,6 @@
+import { AppDemo } from '@/components/AppDemo'
 import { Button } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
-import { AppDemo } from '@/components/AppDemo'
 import { BrowserFrame } from '@/components/BrowserFrame'
 
 import logoUCSD from '@/images/logos/ucsd.svg'
@@ -64,10 +64,10 @@ export function Hero({ onGetStarted }) {
                 ['University of California San Diego', logoUCSD, 'https://ucsd.edu/'],
                 ['University of California San Francisco', logoUCSF, 'https://www.ucsf.edu/'],
                 ['University of Toronto', logoUofT, 'https://www.utoronto.ca/'],
-              ].map(([name, logo, href]) => (
+              ].map(([name, Logo, href]) => (
                 <li key={name}>
                   <a href={href} target="_blank" rel="noreferrer">
-                    <img src={logo} alt={name} className="h-12" />
+                    <Logo className="h-12" />
                   </a>
                 </li>
               ))}

@@ -1,6 +1,6 @@
-import { forwardRef } from 'react'
-import { CytoscapeLogo } from '@/components/Logos'
+import CytoscapeLogo from '@/images/logos/cytoscape.svg'
 import clsx from 'clsx'
+import { forwardRef } from 'react'
 
 function MenuIcon(props) {
   return (
@@ -19,7 +19,7 @@ export function AppScreen({ children, className, ...props }) {
   return (
     <div className={clsx('flex flex-col', className)} {...props}>
       <div className="flex justify-between px-4 text-gray-300">
-        <CytoscapeLogo className="h-6 flex-none" fill="#d4d4d4" />
+        <CytoscapeLogo className="h-6 flex-none" color="#d4d4d4" />
           {props.title}
         <MenuIcon className="h-6 w-6 flex-none stroke-gray-300 invisible" />
       </div>
