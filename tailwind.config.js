@@ -1,5 +1,6 @@
 import formsPlugin from '@tailwindcss/forms';
 import headlessuiPlugin from '@headlessui/tailwindcss';
+import scrollbarPlugin from 'tailwind-scrollbar';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -97,5 +98,5 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin, headlessuiPlugin],
+  plugins: [formsPlugin, headlessuiPlugin, scrollbarPlugin],
 }
