@@ -1,5 +1,5 @@
 import { CirclesBackground } from '@/components/CirclesBackground'
-import { AppLogo } from '@/components/Logos'
+import AppLogo from '@/images/logos/app.svg'
 
 export function AuthLayout({ title, subtitle, children }) {
   return (

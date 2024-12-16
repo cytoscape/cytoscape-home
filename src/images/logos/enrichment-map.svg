@@ -1,0 +1,10 @@
+<svg viewBox="0 0 32 32" aria-hidden="true">
+    <path fillRule="evenodd" clipRule="evenodd" d="M-0,7.607 L32,7.607 L32,24.393 L-0,24.393 L-0,7.607 z"
+        fill="#ffffff" />
+    <path fillRule="evenodd" clipRule="evenodd"
+        d="M16,8.393 L16,12.385 L9.138,12.385 L9.138,14.073 L16,14.073 L16,17.859 L9.138,17.859 L9.138,19.615 L16,19.615 L16,23.607 L0.787,23.607 L0.787,8.393 L16,8.393 z"
+        fill="#1f78b4" />
+    <path fillRule="evenodd" clipRule="evenodd"
+        d="M31.213,23.607 L27.222,23.607 L27.222,16.745 L25.534,16.745 L25.534,23.607 L21.748,23.607 L21.748,16.745 L19.991,16.745 L19.991,23.607 L16,23.607 L16,8.393 L31.213,8.393 L31.213,23.607 z"
+        fill="#33a02c" />
+</svg>

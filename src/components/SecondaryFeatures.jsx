@@ -1,10 +1,15 @@
-import { useState } from 'react'
 import { LinkButton } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { SelectMenu } from '@/components/base/SelectMenu'
-import { geneManiaOrganisms, searchNDEx, searchGeneMania, searchWikiPathways } from '@/components/tools/Common'
-import { CytoscapeLogo, NDExLogo, GeneManiaLogo, EnrichmentMapLogo, WikiPathwaysLogo, CytoscapeWebLogo } from '@/components/Logos'
+import { geneManiaOrganisms, searchGeneMania, searchNDEx, searchWikiPathways } from '@/components/tools/Common'
+import CytoscapeWebLogo from '@/images/logos/cytoscape-web.svg'
+import CytoscapeLogo from '@/images/logos/cytoscape.svg'
+import EnrichmentMapLogo from '@/images/logos/enrichment-map.svg'
+import GeneManiaLogo from '@/images/logos/gene-mania.svg'
+import NDExLogo from '@/images/logos/ndex.svg'
+import WikiPathwaysLogo from '@/images/logos/wiki-pathways.svg'
 import { ArrowTopRightOnSquareIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react'
 
 const defGeneManiaOrgIdx = 5;
 
