@@ -1,6 +1,7 @@
 import { Button } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { CircleBackground } from '@/components/CircleBackground'
+import PropTypes from 'prop-types'
 
 export function CallToAction({ onGetStarted }) {
   return (
@@ -29,4 +30,7 @@ export function CallToAction({ onGetStarted }) {
       </Container>
     </section>
   )
+}
+CallToAction.propTypes = {
+  onGetStarted: PropTypes.func.isRequired,
 }

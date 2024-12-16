@@ -1,5 +1,6 @@
 import { CirclesBackground } from '@/components/CirclesBackground'
 import AppLogo from '@/images/logos/app.svg'
+import PropTypes from "prop-types";
 
 export function AuthLayout({ title, subtitle, children }) {
   return (
@@ -27,4 +28,9 @@ export function AuthLayout({ title, subtitle, children }) {
       </div>
     </main>
   )
+}
+AuthLayout.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.node,
+  children: PropTypes.node.isRequired,
 }

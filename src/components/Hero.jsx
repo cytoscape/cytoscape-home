@@ -1,11 +1,12 @@
-import { AppDemo } from '@/components/AppDemo'
-import { Button } from '@/components/base/Button'
-import { Container } from '@/components/base/Container'
-import { BrowserFrame } from '@/components/BrowserFrame'
+import { AppDemo } from "@/components/AppDemo";
+import { Button } from "@/components/base/Button";
+import { Container } from "@/components/base/Container";
+import { BrowserFrame } from "@/components/BrowserFrame";
+import PropTypes from "prop-types";
 
-import logoUCSD from '@/images/logos/ucsd.svg'
-import logoUCSF from '@/images/logos/ucsf.svg'
-import logoUofT from '@/images/logos/uoft.svg'
+import logoUCSD from "@/images/logos/ucsd.svg";
+import logoUCSF from "@/images/logos/ucsf.svg";
+import logoUofT from "@/images/logos/uoft.svg";
 
 function PlayIcon(props) {
   return (
@@ -17,7 +18,7 @@ function PlayIcon(props) {
         stroke="#A3A3A3"
       />
     </svg>
-  )
+  );
 }
 
 export function Hero({ onGetStarted }) {
@@ -30,11 +31,19 @@ export function Hero({ onGetStarted }) {
               Transform your bioinformatics research
             </h1>
             <p className="mt-6 text-lg text-gray-600">
-              Finding the perfect tool to search or create biological network figures has never been easier. 
-              Whether you are exploring genes, proteins or pathways, our intuitive interface allows you to analyze your data and create beautiful figures that are ready to be published.
+              Finding the perfect tool to search or create biological network
+              figures has never been easier. Whether you are exploring genes,
+              proteins or pathways, our intuitive interface allows you to
+              analyze your data and create beautiful figures that are ready to
+              be published.
             </p>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4 justify-center sm:justify-start">
-              <Button variant="solid" color="gray" onClick={onGetStarted} className="pl-5 pr-5">
+              <Button
+                variant="solid"
+                color="gray"
+                onClick={onGetStarted}
+                className="pl-5 pr-5"
+              >
                 <span className="text-center">Get Started</span>
               </Button>
               <Button
@@ -61,9 +70,17 @@ export function Hero({ onGetStarted }) {
               className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
             >
               {[
-                ['University of California San Diego', logoUCSD, 'https://ucsd.edu/'],
-                ['University of California San Francisco', logoUCSF, 'https://www.ucsf.edu/'],
-                ['University of Toronto', logoUofT, 'https://www.utoronto.ca/'],
+                [
+                  "University of California San Diego",
+                  logoUCSD,
+                  "https://ucsd.edu/",
+                ],
+                [
+                  "University of California San Francisco",
+                  logoUCSF,
+                  "https://www.ucsf.edu/",
+                ],
+                ["University of Toronto", logoUofT, "https://www.utoronto.ca/"],
               ].map(([name, Logo, href]) => (
                 <li key={name}>
                   <a href={href} target="_blank" rel="noreferrer">
@@ -76,5 +93,8 @@ export function Hero({ onGetStarted }) {
         </div>
       </Container>
     </div>
-  )
+  );
 }
+Hero.propTypes = {
+  onGetStarted: PropTypes.func.isRequired,
+};
