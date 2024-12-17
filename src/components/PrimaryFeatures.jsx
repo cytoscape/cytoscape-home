@@ -20,6 +20,9 @@ export function PrimaryFeatures() {
             Cytoscape Home will guide you through the process of transforming
             your raw data into interactive networks. Use our tools to analyze
             the results, share them with collaborators and finally publish them.
+            Cytoscape Home will guide you through the process of transforming
+            your raw data into interactive networks. Use our tools to analyze
+            the results, share them with collaborators and finally publish them.
           </p>
         </div>
       </Container>
@@ -30,5 +33,6 @@ export function PrimaryFeatures() {
         <ContentTabsDesktop />
       </Container>
     </section>
+  );
   );
 }

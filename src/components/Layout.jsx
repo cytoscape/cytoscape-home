@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import PropTypes from "prop-types";
 import { ModalProvider } from "./context/ModalContext";
 
 export function Layout({ children }) {
@@ -11,3 +12,6 @@ export function Layout({ children }) {
     </ModalProvider>
   );
 }
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

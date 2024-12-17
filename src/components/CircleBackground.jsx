@@ -1,7 +1,8 @@
-import { useId } from 'react'
+import PropTypes from "prop-types";
+import { useId } from "react";
 
 export function CircleBackground({ color, ...props }) {
-  let id = useId()
+  let id = useId();
 
   return (
     <svg
@@ -36,5 +37,8 @@ export function CircleBackground({ color, ...props }) {
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
+CircleBackground.propTypes = {
+  color: PropTypes.string.isRequired,
+};

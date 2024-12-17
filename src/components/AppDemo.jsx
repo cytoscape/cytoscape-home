@@ -14,7 +14,7 @@ export function AppDemo() {
   )
 }
 
-function NetworkSvg(props) {
+function NetworkSvg() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0, 0, 610.671, 667.163">
       <style>
