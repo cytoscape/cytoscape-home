@@ -34,5 +34,4 @@ export function PrimaryFeatures() {
       </Container>
     </section>
   );
-  );
 }

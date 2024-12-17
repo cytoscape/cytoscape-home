@@ -4,7 +4,7 @@ import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/base/Button";
 import { Container } from "@/components/base/Container";
-import { AppLogo } from "@/components/Logos";
+import AppLogo from "@/images/logos/app.svg";
 import { NavLinks } from "@/components/NavLinks";
 import { useEffect, useState } from "react";
 import { useModal } from "./context/ModalContext";
