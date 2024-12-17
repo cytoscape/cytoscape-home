@@ -1,9 +1,9 @@
 import { Button } from '@/components/base/Button'
-import { TextField } from '@/components/base/Fields'
 import { Container } from '@/components/base/Container'
+import { TextField } from '@/components/base/Fields'
 import { NavLinks } from '@/components/NavLinks'
-import { CytoscapeLogo } from '@/components/Logos'
-import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
+import ConsortiumLogo from '@/images/logos/cytoscape-consortium.svg'
+import CytoscapeLogo from '@/images/logos/cytoscape.svg'
 
 function DownloadBorder(props) {
   return (
@@ -28,7 +28,7 @@ export function Footer() {
             </nav>
             <div className="flex items-center mt-11 text-gray-900">
               <a href="https://cytoscape.org/" alt="The Cytoscape Consortium" target="_blank" rel="noreferrer">
-                <img src={consortiumLogo}  className="h-12" />
+                <ConsortiumLogo className="h-12"  />
               </a>
             </div>
           </div>
