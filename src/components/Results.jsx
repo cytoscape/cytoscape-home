@@ -18,6 +18,7 @@ import { NDEx } from "@js4cytoscape/ndex-client";
 import Cytoscape from "cytoscape";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
+import { useModal } from "./context/ModalContext";
 
 const ndexClient = new NDEx("https://www.ndexbio.org/v2");
 
@@ -406,6 +407,12 @@ export function Results({ open = false, data, onClose }) {
   const geneNames = data?.genes || [];
   const organism = data?.organism;
 
+  const { setIsModalOpen } = useModal();
+  useEffect(() => {
+    setIsModalOpen(open);
+    return () => setIsModalOpen(false);
+  }, [open, setIsModalOpen]);
+
   return (
     <Transition show={open}>
       <Dialog
@@ -422,7 +429,7 @@ export function Results({ open = false, data, onClose }) {
         >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </TransitionChild>
-        <div className="fixed inset-0 z-10 w-screen h-screen">
+        <div className="fixed inset-0 z-10 w-full h-full justify-center">
           <div className="flex w-full h-full items-end justify-center p-0 text-center sm:items-center sm:p-2">
             <TransitionChild
               enter="ease-out duration-300"

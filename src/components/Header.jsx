@@ -4,9 +4,10 @@ import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/base/Button";
 import { Container } from "@/components/base/Container";
-import { AppLogo } from "@/components/Logos";
+import AppLogo from "@/images/logos/app.svg";
 import { NavLinks } from "@/components/NavLinks";
 import { useEffect, useState } from "react";
+import { useModal } from "./context/ModalContext";
 
 function MenuIcon(props) {
   return (
@@ -47,26 +48,29 @@ function MobileNavLink(props) {
 export function Header() {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { isModalOpen } = useModal();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setShowHeader(false);
-      } else {
-        setShowHeader(true);
+      if (!isModalOpen) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setShowHeader(false);
+        } else {
+          setShowHeader(true);
+        }
+        setLastScrollY(currentScrollY);
       }
-      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, [lastScrollY, isModalOpen]);
 
   return (
     <header
       className={`fixed top-0 z-50 w-full bg-white shadow-md transition-transform duration-300 ${
-        showHeader ? "translate-y-0" : "-translate-y-full"
+        showHeader && !isModalOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <nav>
