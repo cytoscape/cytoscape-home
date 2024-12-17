@@ -119,7 +119,7 @@ function Citation({ title, body, author, doi, image, className, ...props }) {
     <a href={doi} target="_blank" rel="noreferrer" className="p-2">
       <figure
         className={clsx(
-          'group flex flex-row space-x-4 animate-fade-in rounded-3xl bg-white p-6 opacity-0 shadow-md shadow-gray-900/5 hover:shadow-xl',
+          'group flex flex-row space-x-4 rounded-3xl bg-white p-6 shadow-md shadow-gray-900/5 hover:shadow-xl',
           className,
         )}
         style={{ animationDelay }}
@@ -165,38 +165,15 @@ function splitArray(array, numParts) {
   return result
 }
 
-function CitationColumn({ citations, className, citationClassName, msPerPixel = 0 }) {
-  let columnRef = useRef(null)
-  let [columnHeight, setColumnHeight] = useState(0)
-  let duration = `${columnHeight * msPerPixel}ms`
-
-  useEffect(() => {
-    if (!columnRef.current) {
-      return
-    }
-
-    let resizeObserver = new window.ResizeObserver(() => {
-      setColumnHeight(columnRef.current?.offsetHeight ?? 0)
-    })
-
-    resizeObserver.observe(columnRef.current)
-
-    return () => {
-      resizeObserver.disconnect()
-    }
-  }, [])
-
+function CitationColumn({ citations, className, citationClassName }) {
   return (
     <div
-      ref={columnRef}
-      className={clsx('animate-marquee space-y-8 py-4', className)}
-      style={{ '--marquee-duration': duration }}
+      className={clsx('space-y-8 py-4 overflow-y-auto max-h-[600px] scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100', className)}
     >
-      {citations.concat(citations).map((citation, citationIndex) => (
+      {citations.map((citation, citationIndex) => (
         <Citation
           key={citationIndex}
-          aria-hidden={citationIndex >= citations.length}
-          className={citationClassName?.(citationIndex % citations.length)}
+          className={citationClassName?.(citationIndex)}
           {...citation}
         />
       ))}
@@ -226,13 +203,11 @@ function CitationGrid() {
         <>
           <CitationColumn
             citations={[...column1, ...column2]}
-            citationClassName={(citationIndex) => clsx(citationIndex >= column1.length && 'md:hidden')}
-            msPerPixel={15}
+            citationClassName={(citationIndex) => clsx(citationIndex >= column1.length && 'lg:hidden')}
           />
           <CitationColumn
             citations={column2}
             className="hidden lg:block"
-            msPerPixel={10}
           />
         </>
       )}
