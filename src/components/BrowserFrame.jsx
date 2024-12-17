@@ -1,9 +1,13 @@
 import clsx from 'clsx'
+import PropTypes from 'prop-types';
 
 function WindowButton({ className }) {
   return (
     <div className={clsx('size-3.5 rounded-full mr-1.5 opacity-50', className)} />
   )
+}
+WindowButton.propTypes = {
+  className: PropTypes.string,
 }
 
 export function BrowserFrame({
@@ -26,4 +30,8 @@ export function BrowserFrame({
       </div>
     </div>
   )
+}
+BrowserFrame.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
 }

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './TailwindDemo.css';
 
 const people = [

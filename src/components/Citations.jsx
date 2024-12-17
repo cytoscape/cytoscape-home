@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { useInView } from 'framer-motion'
+import PropTypes from "prop-types";
 import { Container } from '@/components/base/Container'
 
 const citations = [
@@ -143,6 +144,14 @@ function Citation({ title, body, author, doi, image, className, ...props }) {
     </a>
   )
 }
+Citation.propTypes = {
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  doi: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  className: PropTypes.string,
+}
 
 function splitArray(array, numParts) {
   let result = []
@@ -170,6 +179,12 @@ function CitationColumn({ citations, className, citationClassName }) {
       ))}
     </div>
   )
+}
+CitationColumn.propTypes = {
+  citations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  className: PropTypes.string,
+  citationClassName: PropTypes.func,
+  msPerPixel: PropTypes.number,
 }
 
 function CitationGrid() {

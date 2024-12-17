@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import PropTypes from 'prop-types';
 
 import '@/styles/tailwind.css'
 
@@ -22,4 +23,8 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   )
+}
+
+RootLayout.propTypes = {
+  children: PropTypes.node.isRequired,
 }

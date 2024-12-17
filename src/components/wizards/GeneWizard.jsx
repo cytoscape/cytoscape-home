@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { SelectMenu } from '@/components/base/SelectMenu'
 import { geneManiaOrganisms, parseGeneList } from '@/components/tools/Common'
+import PropTypes from "prop-types";
 
 const stepsDef = [
   {
@@ -13,7 +14,7 @@ const stepsDef = [
   },
 ]
 
-function GenesPanel({ initialValue, onChange }) {
+function GenesPanel({ onChange }) {
   const [value, setValue] = useState('')
 
   const handleChange = (event) => {
@@ -45,6 +46,9 @@ function GenesPanel({ initialValue, onChange }) {
     </div>
   )
 }
+GenesPanel.propTypes = {
+  onChange: PropTypes.func.isRequired,
+}
 
 function OrganismsPanel({ onChange }) {
   return (
@@ -55,6 +59,9 @@ function OrganismsPanel({ onChange }) {
       <SelectMenu data={geneManiaOrganisms} onChange={onChange} className="min-w-64" />
     </div>
   )
+}
+OrganismsPanel.propTypes = {
+  onChange: PropTypes.func.isRequired,
 }
 
 export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSubmit }) {
@@ -101,3 +108,10 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
     </div>
   )
 }
+GeneWizard.propTypes = {
+  step: PropTypes.number.isRequired,
+  setTotalSteps: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired,
+  onCanContinue: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};

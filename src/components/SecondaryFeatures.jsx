@@ -1,102 +1,187 @@
-import { LinkButton } from '@/components/base/Button'
-import { Container } from '@/components/base/Container'
-import { SelectMenu } from '@/components/base/SelectMenu'
-import { geneManiaOrganisms, searchGeneMania, searchNDEx, searchWikiPathways } from '@/components/tools/Common'
-import CytoscapeWebLogo from '@/images/logos/cytoscape-web.svg'
-import CytoscapeLogo from '@/images/logos/cytoscape.svg'
-import EnrichmentMapLogo from '@/images/logos/enrichment-map.svg'
-import GeneManiaLogo from '@/images/logos/gene-mania.svg'
-import NDExLogo from '@/images/logos/ndex.svg'
-import WikiPathwaysLogo from '@/images/logos/wiki-pathways.svg'
-import { ArrowTopRightOnSquareIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { useState } from 'react'
+import { LinkButton } from "@/components/base/Button";
+import { Container } from "@/components/base/Container";
+import { SelectMenu } from "@/components/base/SelectMenu";
+import {
+  geneManiaOrganisms,
+  searchGeneMania,
+  searchNDEx,
+  searchWikiPathways,
+} from "@/components/tools/Common";
+import CytoscapeWebLogo from "@/images/logos/cytoscape-web.svg";
+import CytoscapeLogo from "@/images/logos/cytoscape.svg";
+import EnrichmentMapLogo from "@/images/logos/enrichment-map.svg";
+import GeneManiaLogo from "@/images/logos/gene-mania.svg";
+import NDExLogo from "@/images/logos/ndex.svg";
+import WikiPathwaysLogo from "@/images/logos/wiki-pathways.svg";
+import {
+  ArrowTopRightOnSquareIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
+import PropTypes from "prop-types";
+import { useState } from "react";
 
 const defGeneManiaOrgIdx = 5;
 
-const Link = ({ href, ariaLabel, children }) => <a href={href} aria-label={ariaLabel} target="_blank" rel="noreferrer" className="text-gray-900 underline">
-  {children}
-</a>
+const Link = ({ href, ariaLabel, children }) => (
+  <a
+    href={href}
+    aria-label={ariaLabel}
+    target="_blank"
+    rel="noreferrer"
+    className="text-gray-900 underline"
+  >
+    {children}
+  </a>
+);
+Link.propTypes = {
+  href: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
-const SearchField = ({ placeholder }) => <div className="relative w-full mt-2 rounded-md shadow-sm">
-  <input
-    type="search"
-    id="search"
-    placeholder={placeholder || 'Enter gene list'}
-    className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-6"
-  />
-  <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
-    <MagnifyingGlassIcon
-      className="h-5 w-5 fill-complement-500"
-      aria-hidden="true"
+const SearchField = ({ placeholder }) => (
+  <div className="relative w-full mt-2 rounded-md shadow-sm">
+    <input
+      type="search"
+      id="search"
+      placeholder={placeholder || "Enter gene list"}
+      className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-6"
     />
-  </button>
-</div>
+    <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
+      <MagnifyingGlassIcon
+        className="h-5 w-5 fill-complement-500"
+        aria-hidden="true"
+      />
+    </button>
+  </div>
+);
+SearchField.propTypes = {
+  placeholder: PropTypes.string,
+};
 
 const GeneManiaForm = () => {
-  const [selGeneManiaOrg, setSelGeneManiaOrg ] = useState(geneManiaOrganisms[defGeneManiaOrgIdx])
+  const [selGeneManiaOrg, setSelGeneManiaOrg] = useState(
+    geneManiaOrganisms[defGeneManiaOrgIdx]
+  );
 
   const onSubmit = (evt) => {
     const searchVal = evt.target.elements.search.value.trim();
-    searchGeneMania(selGeneManiaOrg.id, searchVal)
+    searchGeneMania(selGeneManiaOrg.id, searchVal);
     evt.preventDefault();
-  }
+  };
 
   return (
     <form onSubmit={onSubmit} className="w-full">
-      <SelectMenu data={geneManiaOrganisms} selectedIndex={defGeneManiaOrgIdx} onChange={setSelGeneManiaOrg} className="min-w-64" />
+      <SelectMenu
+        data={geneManiaOrganisms}
+        selectedIndex={defGeneManiaOrgIdx}
+        onChange={setSelGeneManiaOrg}
+        className="min-w-64"
+      />
       <SearchField />
     </form>
-  )
-}
+  );
+};
 
 const features = [
   {
-    name: 'NDEx IQuery',
-    description: 'One search finds a variety of pathways and interaction networks relevant to your set of genes.',
-    href: 'https://www.ndexbio.org/iquery/',
+    name: "NDEx IQuery",
+    description:
+      "One search finds a variety of pathways and interaction networks relevant to your set of genes.",
+    href: "https://www.ndexbio.org/iquery/",
     icon: NDExLogo,
-    form: <form onSubmit={searchNDEx} className="w-full"><SearchField placeholder="e.g. APAF1 BCL2 BID" /></form>
+    form: (
+      <form onSubmit={searchNDEx} className="w-full">
+        <SearchField placeholder="e.g. APAF1 BCL2 BID" />
+      </form>
+    ),
   },
   {
-    name: 'GeneMANIA',
-    description: 'GeneMANIA helps you predict the function of your favourite genes and gene sets.',
-    href: 'https://genemania.org/',
+    name: "GeneMANIA",
+    description:
+      "GeneMANIA helps you predict the function of your favourite genes and gene sets.",
+    href: "https://genemania.org/",
     icon: GeneManiaLogo,
     form: <GeneManiaForm />,
   },
   {
-    name: 'EnrichmentMap',
-    description: 'Perform gene set enrichment analysis on a gene list then visualize the results as a network.',
-    href: 'https://enrichmentmap.org/',
+    name: "EnrichmentMap",
+    description:
+      "Perform gene set enrichment analysis on a gene list then visualize the results as a network.",
+    href: "https://enrichmentmap.org/",
     icon: EnrichmentMapLogo,
-    form: <div className="flex w-full justify-center"><LinkButton href="https://enrichmentmap.org/">Go to EnrichmentMap</LinkButton></div>,
+    form: (
+      <div className="flex w-full justify-center">
+        <LinkButton href="https://enrichmentmap.org/">
+          Go to EnrichmentMap
+        </LinkButton>
+      </div>
+    ),
   },
   {
-    name: 'WikiPathways',
-    description: 'Discover pathways of interest by organism, communities of domain experts, and ontology annotations.',
-    href: 'https://www.wikipathways.org/',
+    name: "WikiPathways",
+    description:
+      "Discover pathways of interest by organism, communities of domain experts, and ontology annotations.",
+    href: "https://www.wikipathways.org/",
     icon: WikiPathwaysLogo,
-    form: <form onSubmit={searchWikiPathways} className="flex w-full justify-center md:w-auto"><SearchField placeholder="e.g. ace2 aldosterone human" /></form>,
+    form: (
+      <form
+        onSubmit={searchWikiPathways}
+        className="flex w-full justify-center md:w-auto"
+      >
+        <SearchField placeholder="e.g. ace2 aldosterone human" />
+      </form>
+    ),
   },
   {
-    name: 'Cytoscape Web',
-    description: 'Create interactive networks from your data directly on the web, analyze and then export the results.',
-    href: 'https://web-stage.cytoscape.org/', // TODO: replace with prod URL when available!!!
+    name: "Cytoscape Web",
+    description:
+      "Create interactive networks from your data directly on the web, analyze and then export the results.",
+    href: "https://web-stage.cytoscape.org/", // TODO: replace with prod URL when available!!!
     icon: CytoscapeWebLogo,
-    form: <div className="flex w-full justify-center"><LinkButton href="https://web-stage.cytoscape.org/">Go to Cytoscape Web</LinkButton></div>,
+    form: (
+      <div className="flex w-full justify-center">
+        <LinkButton href="https://web-stage.cytoscape.org/">
+          Go to Cytoscape Web
+        </LinkButton>
+      </div>
+    ),
   },
   {
-    name: 'Cytoscape ',
-    description: <>
-        Open source <Link href="https://cytoscape.org/download.html" ariaLabel="Download Cytoscape">software</Link> platform 
-        for visualizing complex networks.<br />
-        Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.<br />
-        Use <Link href="https://doi.org/10.12688/f1000research.6767.1" ariaLabel="cyREST paper">cyREST</Link> to create reproducible workflows.
-      </>,
-    href: 'https://cytoscape.org/',
+    name: "Cytoscape ",
+    description: (
+      <>
+        Open source{" "}
+        <Link
+          href="https://cytoscape.org/download.html"
+          ariaLabel="Download Cytoscape"
+        >
+          software
+        </Link>{" "}
+        platform for visualizing complex networks.
+        <br />
+        Customize it through the use of{" "}
+        <Link
+          href="https://apps.cytoscape.org/"
+          ariaLabel="Cytoscape App Store"
+        >
+          app extensions
+        </Link>
+        .<br />
+        Use{" "}
+        <Link
+          href="https://doi.org/10.12688/f1000research.6767.1"
+          ariaLabel="cyREST paper"
+        >
+          cyREST
+        </Link>{" "}
+        to create reproducible workflows.
+      </>
+    ),
+    href: "https://cytoscape.org/",
     icon: CytoscapeLogo,
   },
-]
+];
 
 export function SecondaryFeatures() {
   return (
@@ -125,7 +210,12 @@ export function SecondaryFeatures() {
             >
               <div className="flex items-center">
                 <feature.icon className="h-8 w-8" />
-                <a href={feature.href} target="_blank" rel="noreferrer" className="flex items-start group">
+                <a
+                  href={feature.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-start group"
+                >
                   <h3 className="ml-4 font-semibold text-gray-900 group-hover:text-complement-500">
                     {feature.name}
                   </h3>
@@ -141,5 +231,5 @@ export function SecondaryFeatures() {
         </ul>
       </Container>
     </section>
-  )
+  );
 }
