@@ -1,5 +1,7 @@
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { Button } from '@/components/base/Button'
+import { GlobeAltIcon } from '@heroicons/react/24/outline'
+import { ComputerDesktopIcon } from '@heroicons/react/24/solid'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 function LinkOptions() {
@@ -13,6 +15,7 @@ function LinkOptions() {
           rel="noopener noreferrer"
           className="w-full"
         >
+          <GlobeAltIcon className="h-6 w-6 mr-2" />
           Cytoscape Web
         </Button>
         <p className="mt-2 text-xs text-gray-600 text-center">
@@ -27,6 +30,7 @@ function LinkOptions() {
           rel="noopener noreferrer"
           className="w-full"
         >
+          <ComputerDesktopIcon className="h-6 w-6 mr-2" />
           Cytoscape Desktop
         </Button>
         <p className="mt-2 text-xs text-gray-600 text-center">

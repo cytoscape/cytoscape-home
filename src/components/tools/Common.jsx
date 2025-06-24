@@ -55,29 +55,27 @@ export const geneManiaOrganisms = [
   },
 ]
 
-export const parseGeneList = (text) => {
-  if (text.length > 0) {
-    let parts = text.split(/[\s,]+/)
+export const parseGeneList = (searchText) => {
+  if (searchText.length > 0) {
+    let parts = searchText.split(/[\s,]+/)
     parts = parts.filter(el => el.length > 0)
     return [...new Set(parts)]
   }
   return []
 }
 
-export const searchNDEx = (evt) =>  {
-  const val = evt.target.elements.search.value.trim()
-  if (val.length > 0) {
-    const parts = parseGeneList(val)
+export const searchNDEx = (searchText) =>  {
+  if (searchText.length > 0) {
+    const parts = parseGeneList(searchText)
     if (parts.length > 0) {
       const genes = parts.join('%2C')
       const url = `https://www.ndexbio.org/iquery/?genes=${genes}`
       window.open(url, '_blank').focus()
     }
   }
-  evt.preventDefault()
 }
 
-export const searchGeneMania = (orgId, searchText) =>  {
+export const searchGeneMania = (searchText, orgId=4) =>  {
   if (orgId && searchText && searchText.length > 0) {
     const parts = parseGeneList(searchText)
     if (parts.length > 0) {
@@ -88,16 +86,14 @@ export const searchGeneMania = (orgId, searchText) =>  {
   }
 }
 
-export const searchWikiPathways = (evt) =>  {
-  const val = evt.target.elements.search.value.trim()
-  if (val.length > 0) {
-    const parts = parseGeneList(val)
+export const searchWikiPathways = (searchText) =>  {
+  if (searchText.length > 0) {
+    const parts = parseGeneList(searchText)
     if (parts.length > 0) {
       const genes = parts.join('%20')
       const url = `https://www.wikipathways.org/search.html?query=${genes}`
       window.open(url, '_blank').focus()
     }
   }
-  evt.preventDefault()
 }
 

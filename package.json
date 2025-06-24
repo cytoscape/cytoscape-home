@@ -20,10 +20,15 @@
     "clsx": "^2.1.0",
     "cytoscape": "^3.30.0",
     "cytoscape-fcose": "^2.2.0",
+    "eventemitter3": "^5.0.1",
     "framer-motion": "^11.0.5",
+    "mark.js": "^8.11.1",
+    "minisearch": "^7.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "use-debounce": "^10.0.0"
+    "react-mark.js": "^10.0.10",
+    "use-debounce": "^10.0.0",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

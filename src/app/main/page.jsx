@@ -7,13 +7,17 @@ import { Citations } from '@/components/Citations'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { Guide } from '@/components/Guide'
 import { Results } from '@/components/Results'
+import { useSearchStateStore } from '@/model/store'
 
-export default function Home() {
+
+export default function Home({ searchEngine}) {
+  const [searchCategory, setSearchCategory] = useState('gene')
   const [openGuide, setOpenGuide] = useState(false)
   const [openResults, setOpenResults] = useState(false)
   const [results, setResults] = useState()
   
-  const onSubmit = (data) => {
+
+  const handleSubmit = (data) => {
     setOpenGuide(false)
     if (data) {
       if (data.url) {
@@ -24,17 +28,34 @@ export default function Home() {
       }
     }
   }
+  const handleGetStarted = (category, clearSearch) => {
+    if (clearSearch) {
+      // Clear the search state store to open the wizard with no previous terms (should show the wizard selector)
+      useSearchStateStore.getState().clearTerms()
+    }
+    setSearchCategory(category)
+    if (category === 'tutorial') {
+      // If the category is 'tutorial', we open the results directly
+      handleSubmit({
+        type: 'tutorial',
+        title: 'Tutorial Search',
+        queryTerms: useSearchStateStore.getState().getTerms(), // TODO: rename to terms
+      })
+    } else {
+      setOpenGuide(true)
+    }
+  }
 
   return (
     <>
-      <Hero onGetStarted={() => setOpenGuide(true)} />
+      <Hero onGetStarted={(category) => handleGetStarted(category, false)} />
       <PrimaryFeatures />
       <SecondaryFeatures />
-      <CallToAction onGetStarted={() => setOpenGuide(true)} />
+      <CallToAction onGetStarted={() => handleGetStarted('gene', true)} />
       <Citations />
       <Faqs />
-      <Guide open={openGuide} onClose={() => setOpenGuide(false)} onSubmit={onSubmit} />
-      <Results open={openResults} data={results} onClose={() => setOpenResults(false)} />
+      <Guide open={openGuide} type={searchCategory} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
+      <Results open={openResults} data={results} searchEngine={searchEngine} onClose={() => setOpenResults(false)} />
     </>
   )
 }

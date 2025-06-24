@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useQuery } from "@tanstack/react-query"
+import { Marker } from "react-mark.js"
 import Cytoscape from 'cytoscape'
 import { NDEx } from '@js4cytoscape/ndex-client'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
@@ -9,6 +10,8 @@ import { GeneManiaLogo, NDExLogo } from '@/components/Logos'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
+
+const BASE_TUTORIALS_URL = 'https://cytoscape.org/cytoscape-tutorials/protocols/enrichmentmap-pipeline/#'
 
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
@@ -374,7 +377,6 @@ const NDExCard = ({ genes }) => {
   useEffect(() => {
     const fetchData = async () => {
       const json = await ndexClient.searchNetworks(genes.join(' '))
-      console.log(json)
       if (json.error) {
         setError(json.error)
       } else {
@@ -465,10 +467,69 @@ const NDExCard = ({ genes }) => {
   )
 }
 
-export function Results({ open=false, data, onClose }) {
+const TutorialsCard = ({ queryTerms, searchEngine }) => {
+  const [results, setResults] = useState()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    console.debug('Searching tutorials with terms:', queryTerms.join(' '))
+    const res = searchEngine.searchTutorials(queryTerms.join(' '))
+    console.debug('Tutorials search results:', res)
+    setResults(res)
+    setLoading(false)
+  }, [queryTerms])
+
+  const createSearchUrl = (section, parent) => {
+    const path1 = parent != null && !isNaN(section) ? parent : section
+    const path2 = path1 === parent ? section : null
+    console.debug('>>>', path1, path2 )
+    if (path1 != null && path2 == null) {
+      return `${BASE_TUTORIALS_URL}/${path1}`
+    }
+    if (path1 != null && path2 != null) {
+      return `${BASE_TUTORIALS_URL}/${path1}/${path2}`
+    }
+    return BASE_TUTORIALS_URL
+  }
+
+  return (
+    <div className="w-full p-4 lg:pl-48 md:pl-16 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 border border-gray-200 text-left">
+      {/* <div className="flex items-center">
+        <h3 className="text-gray-900 font-semibold">Tutorials</h3>
+      </div> */}
+      <ul className="mt-4 space-y-2">
+        {loading && (
+          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+        )}
+        {results && results.map(({ section, parent, title, text, terms }, idx) => (
+          <li key={idx} className="p-2 max-w-screen-md">
+            <span className="font-medium">
+              <a
+                href={createSearchUrl(section, parent)}
+                target='_blank'
+                rel='noreferrer'
+                className="hover:underline hover:underline-offset-2 text-complement-500"
+              >
+                {title}
+              </a>
+            </span>
+            <div className="text-sm text-gray-600">
+              <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
+                {text}
+              </Marker>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+
+export function Results({ open=false, data, searchEngine, onClose }) {
   const type = data?.type
   const title = data?.title || 'Results'
-  const geneNames = data?.genes || []
+  const queryTerms = data?.queryTerms || []
   const organism = data?.organism
 
   return (
@@ -517,18 +578,21 @@ export function Results({ open=false, data, onClose }) {
                         <p className="flex flex-row items-center px-6">
                           <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
                           <span className="pl-2 italic">{organism.name}</span>
-                          <span className="ml-2">&#40;{geneNames.length} query gene{geneNames.length > 1 ? 's' : ''}&#41;</span>
+                          <span className="ml-2">&#40;{queryTerms.length} query gene{queryTerms.length > 1 ? 's' : ''}&#41;</span>
                         </p>
                       </div>
                       <div className="flex flex-col lg:flex-row space-y-2 items-start mt-5 px-6 sm:space-x-4 sm:space-y-0">
-                        {geneNames.length > 0 && organism && (
-                          <GeneManiaCard genes={geneNames} organism={organism} />
+                        {queryTerms.length > 0 && organism && (
+                          <GeneManiaCard genes={queryTerms} organism={organism} />
                         )}
-                        {geneNames.length > 0 && (
-                          <NDExCard genes={geneNames} />
+                        {queryTerms.length > 0 && (
+                          <NDExCard genes={queryTerms} />
                         )}
                       </div>
                     </>
+                  )}
+                  {type === 'tutorial' && (
+                    <TutorialsCard queryTerms={queryTerms} searchEngine={searchEngine} />
                   )}
                 </div>
               </DialogPanel>

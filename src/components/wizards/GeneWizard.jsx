@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { SelectMenu } from '@/components/base/SelectMenu'
 import { geneManiaOrganisms, parseGeneList } from '@/components/tools/Common'
+import { useSearchStateStore } from '@/model/store'
 
 const stepsDef = [
   {
@@ -13,8 +14,20 @@ const stepsDef = [
   },
 ]
 
-function GenesPanel({ initialValue, onChange }) {
-  const [value, setValue] = useState('')
+function GenesPanel({ initialGenes, initialOrganism, onChange }) {
+  const [value, setValue] = useState(initialGenes?.length > 0 ? initialGenes.join('\n') : null)
+
+  useEffect(() => {
+    if (initialGenes?.length > 0 && value === null) {
+      // If initialGenes is provided, set the value to the joined string
+      console.debug('IINIT ---> ', initialGenes)
+      // Join the initialGenes array into a string with newlines
+      // and set it as the value
+      // This is to ensure that the textarea shows the initial genes
+      // when the component mounts or when initialGenes changes
+      setValue(initialGenes.join('\n'))
+    }
+  }, [initialGenes])
 
   const handleChange = (event) => {
     let val = event.target.value
@@ -37,7 +50,7 @@ function GenesPanel({ initialValue, onChange }) {
           rows={7}
           name="genes"
           id="genes"
-          value={value}
+          value={value || ''}
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-5"
           onChange={handleChange}
         />
@@ -46,7 +59,7 @@ function GenesPanel({ initialValue, onChange }) {
   )
 }
 
-function OrganismsPanel({ onChange }) {
+function OrganismsPanel({ initialGenes, initialOrganism, onChange }) {
   return (
     <div>
       <label htmlFor="organism" className="block text-sm font-medium leading-6 text-gray-900">
@@ -57,7 +70,9 @@ function OrganismsPanel({ onChange }) {
   )
 }
 
-export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSubmit }) {
+export function GeneWizard({ step, searchText, setTotalSteps, setTitle, onCanContinue, onSubmit }) {
+  const setSearchTerms = useSearchStateStore((state) => state.setTerms)
+  
   const genesRef = useRef([])
   const orgRef = useRef()
 
@@ -65,6 +80,15 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
     if (step >= 0 && step < stepsDef.length) {
       setTotalSteps(stepsDef.length)
       setTitle(stepsDef[step].title)
+    }
+    if (searchText?.trim().length > 0) {
+      // If searchText is provided, we assume it's a gene list
+      genesRef.current = parseGeneList(searchText)
+      onCanContinue(genesRef.current.length > 0)
+    } else {
+      genesRef.current = []
+      orgRef.current = null
+      onCanContinue(false)
     }
     switch (step) {
       case 0:
@@ -74,13 +98,19 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
         onCanContinue(orgRef.current != null)
         break
       case 2:
-        onSubmit({ type: 'gene', title: 'Gene Analysis', genes: genesRef.current, organism: orgRef.current })
+        onSubmit({
+          type: 'gene',
+          title: 'Gene Analysis',
+          queryTerms: useSearchStateStore.getState().getTerms(),
+          organism: orgRef.current
+        })
     }
   })
 
   const handleChange = (value) => {
     switch (step) {
       case 0:
+        setSearchTerms(value)
         genesRef.current = value
         onCanContinue(value.length > 0)
         break
@@ -95,7 +125,7 @@ export function GeneWizard({ step, setTotalSteps, setTitle, onCanContinue, onSub
     <div className="min-h-48">
       {stepsDef.map(({ component: Comp }, idx) => (
         <div key={idx} style={step !== idx ? {display: 'none'} : {}}>
-          <Comp onChange={handleChange} />
+          <Comp initialGenes={genesRef?.current} initialOrganism={orgRef?.current} onChange={handleChange} />
         </div>
       ))}
     </div>

@@ -1,11 +1,16 @@
+import { useState } from 'react'
 import { Button } from '@/components/base/Button'
 import { TextField } from '@/components/base/Fields'
 import { Container } from '@/components/base/Container'
 import { NavLinks } from '@/components/NavLinks'
 import { CytoscapeLogo } from '@/components/Logos'
-import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
 import { UseCytoscapeDialog } from './UseCytoscapeDialog'
-import { useState } from 'react'
+
+import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
+import logoUCSD from '@/images/logos/ucsd.svg'
+import logoUCSF from '@/images/logos/ucsf.svg'
+import logoUofT from '@/images/logos/uoft.svg'
+
 
 function DownloadBorder(props) {
   return (
@@ -20,7 +25,7 @@ function DownloadBorder(props) {
 }
 
 export function Footer() {
-  const [openUseCy, setOpenUseCy] = useState(false);
+  const [openUseCy, setOpenUseCy] = useState(false)
 
   return ( <>
     <footer className="border-t border-gray-200">
@@ -30,10 +35,24 @@ export function Footer() {
             <nav className="flex gap-8">
               <NavLinks />
             </nav>
-            <div className="flex items-center mt-11 text-gray-900">
-              <a href="https://cytoscape.org/" alt="The Cytoscape Consortium" target="_blank" rel="noreferrer">
-                <img src={consortiumLogo}  className="h-12" />
-              </a>
+            <div className="relative mt-11 lg:col-span-7 xl:col-span-6">
+              <ul
+                role="list"
+                className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
+              >
+                {[
+                  ['The Cytoscape Consortium', consortiumLogo, 'https://cytoscapeconsortium.org/'],
+                  ['University of California San Diego', logoUCSD, 'https://ucsd.edu/'],
+                  ['University of California San Francisco', logoUCSF, 'https://www.ucsf.edu/'],
+                  ['University of Toronto', logoUofT, 'https://www.utoronto.ca/'],
+                ].map(([name, logo, href]) => (
+                  <li key={name}>
+                    <a href={href} target="_blank" rel="noreferrer">
+                      <img src={logo} alt={name} className="h-10" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-gray-100 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">

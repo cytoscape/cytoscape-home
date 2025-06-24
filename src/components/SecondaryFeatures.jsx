@@ -6,7 +6,7 @@ import { geneManiaOrganisms, searchNDEx, searchGeneMania, searchWikiPathways } f
 import { CytoscapeLogo, NDExLogo, GeneManiaLogo, EnrichmentMapLogo, WikiPathwaysLogo, CytoscapeWebLogo } from '@/components/Logos'
 import { ArrowTopRightOnSquareIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
-const defGeneManiaOrgIdx = 5;
+const defGeneManiaOrgIdx = 5
 
 const Link = ({ href, ariaLabel, children }) => <a href={href} aria-label={ariaLabel} target="_blank" rel="noreferrer" className="text-gray-900 underline">
   {children}
@@ -31,9 +31,9 @@ const GeneManiaForm = () => {
   const [selGeneManiaOrg, setSelGeneManiaOrg ] = useState(geneManiaOrganisms[defGeneManiaOrgIdx])
 
   const onSubmit = (evt) => {
-    const searchVal = evt.target.elements.search.value.trim();
-    searchGeneMania(selGeneManiaOrg.id, searchVal)
-    evt.preventDefault();
+    const searchVal = evt.target.elements.search.value.trim()
+    searchGeneMania(searchVal, selGeneManiaOrg.id)
+    evt.preventDefault()
   }
 
   return (
@@ -44,13 +44,39 @@ const GeneManiaForm = () => {
   )
 }
 
+const NDExForm = () => {
+  const onSubmit = (evt) => {
+    const searchVal = evt.target.elements.search.value.trim()
+    searchNDEx(searchVal)
+    evt.preventDefault()
+  }
+  return (
+    <form onSubmit={onSubmit} className="w-full">
+      <SearchField placeholder="e.g. APAF1 BCL2 BID" />
+    </form>
+  )
+}
+
+const WikiPathwaysForm = () => {
+  const onSubmit = (evt) => {
+    const searchVal = evt.target.elements.search.value.trim()
+    searchWikiPathways(searchVal)
+    evt.preventDefault()
+  }
+  return (
+    <form onSubmit={onSubmit} className="flex w-full justify-center md:w-auto">
+      <SearchField placeholder="e.g. ace2 aldosterone human" />
+    </form>
+  )
+}
+
 const features = [
   {
     name: 'NDEx IQuery',
     description: 'One search finds a variety of pathways and interaction networks relevant to your set of genes.',
     href: 'https://www.ndexbio.org/iquery/',
     icon: NDExLogo,
-    form: <form onSubmit={searchNDEx} className="w-full"><SearchField placeholder="e.g. APAF1 BCL2 BID" /></form>
+    form: <NDExForm />
   },
   {
     name: 'GeneMANIA',
@@ -71,7 +97,7 @@ const features = [
     description: 'Discover pathways of interest by organism, communities of domain experts, and ontology annotations.',
     href: 'https://www.wikipathways.org/',
     icon: WikiPathwaysLogo,
-    form: <form onSubmit={searchWikiPathways} className="flex w-full justify-center md:w-auto"><SearchField placeholder="e.g. ace2 aldosterone human" /></form>,
+    form: <WikiPathwaysForm />,
   },
   {
     name: 'Cytoscape Web',

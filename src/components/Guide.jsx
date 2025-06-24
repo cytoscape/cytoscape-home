@@ -1,9 +1,11 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Radio, RadioGroup } from '@headlessui/react'
+import { useSearchStateStore } from '@/model/store'
 import { WizardDialog } from '@/components/base/WizardDialog'
 import { GeneWizard } from '@/components/wizards/GeneWizard'
 import { EnrichmentWizard } from '@/components/wizards/EnrichmentWizard'
 import { NetworkWizard } from '@/components/wizards/NetworkWizard'
+import { TutorialWizard } from '@/components/wizards/TutorialWizard'
 
 const INITIAL_TITLE = 'What would you like to do?'
 const DEF_SUBMIT_LABEL = 'Submit'
@@ -29,6 +31,13 @@ const cards = [
     description: 'I have data I want to visualize as a network.',
     submitLabel: 'Go to Cytoscape Web',
     wizard: NetworkWizard,
+  },
+  {
+    type: 'tutorial',
+    name: 'Search Tutorials and Protocols',
+    description: 'I want to search for tutorials and protocols.',
+    submitLabel: 'Search',
+    wizard: TutorialWizard,
   },
 ]
 
@@ -84,12 +93,13 @@ const WizardSelector = ({ onChange }) => {
   )
 }
 
-export function Guide({ open=false, onClose, onSubmit }) {
+export function Guide({ open=false, type, onClose, onSubmit }) {
   const [step, setStep] = useState(-1)
   const [totalSteps, setTotalSteps] = useState(2)
   const [title, setTitle] = useState(INITIAL_TITLE)
   const [submitLabel, setSubmitLabel] = useState(DEF_SUBMIT_LABEL)
   const [canContinue, setCanContinue] = useState(false)
+  const [searchText, setSearchText] = useState()
 
   const wizardRef = useRef()
 
@@ -100,8 +110,34 @@ export function Guide({ open=false, onClose, onSubmit }) {
     setTitle(INITIAL_TITLE)
     setSubmitLabel(DEF_SUBMIT_LABEL)
     setCanContinue(false)
+    setSearchText(undefined)
     wizardRef.current = null
   }
+
+  useEffect(() => {
+    // Reset the wizard when the component mounts
+    if (!open) {
+      reset()
+      return
+    }
+    wizardRef.current = cards.find(card => card.type === type)?.wizard || GeneWizard
+    setTotalSteps(2) // Default total steps
+    setTitle(INITIAL_TITLE) // Default title
+    setSubmitLabel(DEF_SUBMIT_LABEL) // Default submit label
+    setCanContinue(false) // Default canContinue state
+    const text = useSearchStateStore.getState().getText()
+    if (text == null) {
+      setStep(-1) // Show the card selector
+    } else {
+      setStep(type === 'tutorial' || text.trim().length === 0 ? 0 : 1) // Show the second step if searchText is provided
+      setSearchText(text)
+    }
+    // setTitle(INITIAL_TITLE)
+    // setSubmitLabel(DEF_SUBMIT_LABEL)
+    // setCanContinue(hasText)
+  }, [open])
+
+
   const handleClose = () => {
     reset()
     onClose()
@@ -151,6 +187,7 @@ export function Guide({ open=false, onClose, onSubmit }) {
       :
         <Wizard
           step={step}
+          searchText={searchText}
           setTotalSteps={setTotalSteps}
           setTitle={setTitle}
           onCanContinue={handleCanContinue}
