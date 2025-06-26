@@ -3,55 +3,55 @@ export const geneManiaOrganisms = [
     id: 1,
     name: 'Arabidopsis thaliana',
     image: '/images/organisms/plant-32.svg',
-    taxon: 3702,
+    taxon: '3702',
   },
   {
     id: 2,
     name: 'Caenorhabditis elegans',
     image: '/images/organisms/worm-32.svg',
-    taxon: 6239,
+    taxon: '6239',
   },
   {
     id: 8,
     name: 'Danio rerio',
     image: '/images/organisms/fish-32.svg',
-    taxon: 7955,
+    taxon: '7955',
   },
   {
     id: 3,
     name: 'Drosophila melanogaster',
     image: '/images/organisms/fly-32.svg',
-    taxon: 7227,
+    taxon: '7227',
   },
   {
     id: 9,
     name: 'Escherichia coli',
     image: '/images/organisms/bacteria-32.svg',
-    taxon: 511145, //83333
+    taxon: '511145', //83333
   },
   {
     id: 4,
     name: 'Homo sapiens',
     image: '/images/organisms/human-32.svg',
-    taxon: 9606,
+    taxon: '9606',
   },
   {
     id: 5,
     name: 'Mus musculus',
     image: '/images/organisms/mouse-32.svg',
-    taxon: 10090,
+    taxon: '10090',
   },
   {
     id: 7,
     name: 'Rattus norvegicus',
     image: '/images/organisms/rat-32.svg',
-    taxon: 10116,
+    taxon: '10116',
   },
   {
     id: 6,
     name: 'Saccharomyces cerevisiae',
     image: '/images/organisms/yeast-32.svg',
-    taxon: 559292, //4932
+    taxon: '559292', //4932
   },
 ]
 
@@ -75,12 +75,12 @@ export const searchNDEx = (searchText) =>  {
   }
 }
 
-export const searchGeneMania = (searchText, orgId=4) =>  {
-  if (orgId && searchText && searchText.length > 0) {
+export const searchGeneMania = (searchText, orgName='homo-sapiens') =>  {
+  if (orgName && searchText && searchText.length > 0) {
     const parts = parseGeneList(searchText)
     if (parts.length > 0) {
       const genes = parts.join('/')
-      const url = `https://genemania.org/search/${orgId}/${genes}`
+      const url = `https://genemania.org/search/${orgName}/${genes}`
       window.open(url, '_blank').focus()
     }
   }

@@ -16,7 +16,7 @@ const BASE_TUTORIALS_URL = 'https://cytoscape.org/cytoscape-tutorials/protocols/
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
 
-async function fetchGeneMetadata(symbol, taxon=9606) {
+async function fetchGeneMetadata(symbol, taxon='9606') {
   try {
     const response = await fetch(`https://api.ncbi.nlm.nih.gov/datasets/v1/gene/symbol/${symbol}/taxon/${taxon}`, {
       method: 'GET',
@@ -328,7 +328,7 @@ const GeneManiaCard = ({ genes, organism }) => {
     fetchData()
   }, [genes, organism])
 
-  const href = `https://genemania.org/search/${organism.id}/${genes.join('/')}`
+  const href = `https://genemania.org/search/${organism.name.toLowerCase().replace(' ', '-')}/${genes.join('/')}`
 
   return (
     <div className={`w-full lg:w-2/5 p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>

@@ -32,7 +32,7 @@ const GeneManiaForm = () => {
 
   const onSubmit = (evt) => {
     const searchVal = evt.target.elements.search.value.trim()
-    searchGeneMania(searchVal, selGeneManiaOrg.id)
+    searchGeneMania(searchVal, selGeneManiaOrg?.name.toLowerCase().replace(' ', '-'))
     evt.preventDefault()
   }
 
