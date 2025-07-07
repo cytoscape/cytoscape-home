@@ -69,10 +69,10 @@ export function TutorialWizard({ step, searchText, setTotalSteps, setTitle, onCa
         onSubmit({
           type: 'tutorial',
           title: 'Tutorial Search',
-          queryTerms: useSearchStateStore.getState().getTerms(), // TODO: rename to terms
+          queryTerms: useSearchStateStore.getState().getTerms(),
         })
     }
-  })
+  }, [step, searchText, setTotalSteps, setTitle, onCanContinue, onSubmit])
 
   const handleChange = (value) => {
     switch (step) {

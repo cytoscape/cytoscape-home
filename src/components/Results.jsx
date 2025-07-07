@@ -474,7 +474,6 @@ const TutorialsCard = ({ queryTerms, searchEngine }) => {
   useEffect(() => {
     console.debug('Searching tutorials with terms:', queryTerms.join(' '))
     const res = searchEngine.searchTutorials(queryTerms.join(' '))
-    console.debug('Tutorials search results:', res)
     setResults(res)
     setLoading(false)
   }, [queryTerms])
@@ -482,7 +481,6 @@ const TutorialsCard = ({ queryTerms, searchEngine }) => {
   const createSearchUrl = (section, parent) => {
     const path1 = parent != null && !isNaN(section) ? parent : section
     const path2 = path1 === parent ? section : null
-    console.debug('>>>', path1, path2 )
     if (path1 != null && path2 == null) {
       return `${BASE_TUTORIALS_URL}/${path1}`
     }
@@ -527,6 +525,7 @@ const TutorialsCard = ({ queryTerms, searchEngine }) => {
 
 
 export function Results({ open=false, data, searchEngine, onClose }) {
+  console.log('Results component data:', data)
   const type = data?.type
   const title = data?.title || 'Results'
   const queryTerms = data?.queryTerms || []

@@ -187,7 +187,7 @@ export function Guide({ open=false, type, onClose, onSubmit }) {
       :
         <Wizard
           step={step}
-          searchText={searchText}
+          initialSearchText={searchText}
           setTotalSteps={setTotalSteps}
           setTitle={setTitle}
           onCanContinue={handleCanContinue}

@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import clsx from 'clsx'
 import { Fragment, useState } from 'react'
 import { Listbox, ListboxButton, Label, ListboxOption, ListboxOptions, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -9,6 +11,15 @@ function classNames(...classes) {
 
 export function SelectMenu({ data, label, selectedIndex, onChange, className }) {
   const [selected, setSelected] = useState(selectedIndex >= 0 ? data[selectedIndex] : null)
+
+  useEffect(() => {
+    if (selectedIndex >= 0 && selectedIndex < data.length && data[selectedIndex] !== selected) {
+      const newSelected = data[selectedIndex]
+      if (newSelected !== selected) {
+        setSelected(newSelected)
+      }
+    }
+  }, [selectedIndex, data])
 
   const handleChange = (item) => {
     setSelected(item)

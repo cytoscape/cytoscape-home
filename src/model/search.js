@@ -18,17 +18,17 @@ export class SearchEngine {
   }
 
   isTutorialsIndexed() {
-    return this.tutorialsReady;
+    return this.tutorialsReady
   }
 
   searchTutorials(query) {
     if (!this.isTutorialsIndexed()) {
-      throw "The tutorials haven't been fetched yet!";
+      throw "The tutorials haven't been fetched yet!"
     }
     if (query && query.length > 0) {
-      return this.tutorialsSearch.search(query, { fields: ['title', 'text'], prefix: true });
+      return this.tutorialsSearch.search(query, { fields: ['title', 'text'], prefix: true })
     }
-    return [];
+    return []
   }
 
   async _indexTutorials() {
@@ -51,8 +51,6 @@ export class SearchEngine {
         return []
       })
     
-    console.log('Loaded tutorials:', tutorials)
-
     if (!tutorials || tutorials.length === 0) {
       return
     }
@@ -63,7 +61,7 @@ export class SearchEngine {
       'has', 'have', 'if', 'in', 'is', 'it', 'of', 'on', 'or', 'that',
       'the', 'this', 'to', 'with'
     ])
-console.log('-------- Creating MiniSearch instance...')
+
     this.tutorialsSearch = new MiniSearch({
       fields: ['title', 'text'],
       storeFields: ['section', 'parent', 'title', 'text'],
