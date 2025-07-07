@@ -185,12 +185,9 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
 
   const handleGenesChange = (value) => {
     setSearchText(value)
-    genesRef.current = value
-    onCanContinue(value.length > 0)
   }
   const handleOrganismsChange = (value) => {
     orgRef.current = value
-    onCanContinue(value != null)
   }
 
   return (

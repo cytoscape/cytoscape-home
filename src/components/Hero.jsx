@@ -128,12 +128,15 @@ function SearchBar({
     onTextChange(newText)
   }
   const handleSubmit = (event) => {
-    // if (text?.trim() !== '') {
-    event.preventDefault()
-    event.stopPropagation()
-    setSearchTerms(text.trim().split(/\s+/).filter(term => term.length > 0))
-    onSubmit()
-    // }
+    if (text?.trim() !== '') {
+      event.preventDefault()
+      event.stopPropagation()
+      setSearchTerms(text.trim().split(/\s+/).filter(term => term.length > 0))
+      onSubmit()
+    } else {
+      event.preventDefault()
+      event.stopPropagation()
+    }
   }
 
   return (
@@ -183,7 +186,7 @@ function SearchBar({
             className="w-full pl-4 pr-12 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:border-complement-500 focus:outline-none focus:ring-complement-500 shadow-sm focus:shadow"
           />
           <button
-            // disabled={!text || text.trim() === ''}
+            disabled={!text || text.trim() === ''}
             onClick={handleSubmit}
             className="absolute inset-y-1 right-1 w-9 h-9 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200 fill-complement-500 disabled:pointer-events-none disabled:fill-gray-400"
           >

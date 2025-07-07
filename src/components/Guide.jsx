@@ -135,8 +135,7 @@ export function Guide({ open=false, type, onClose, onSubmit }) {
     // setTitle(INITIAL_TITLE)
     // setSubmitLabel(DEF_SUBMIT_LABEL)
     // setCanContinue(hasText)
-  }, [open])
-
+  }, [open, type])
 
   const handleClose = () => {
     reset()

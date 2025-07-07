@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react'
-import { useSearchStateStore } from '@/model/store'
+import { useState, useEffect, useMemo } from 'react'
 import { parseGeneList } from '@/components/tools/Common'
+
 
 const stepsDef = [
   {
@@ -9,14 +9,13 @@ const stepsDef = [
   },
 ]
 
-function SearchPanel({ initialTerms, onChange }) {
+
+function SearchPanel({ initialValue, onChange }) {
   const [value, setValue] = useState()
 
   useEffect(() => {
-    if (initialTerms?.length > 0) {
-      setValue(initialTerms.join(' '))
-    }
-  }, [initialTerms])
+    setValue(initialValue)
+  }, [initialValue])
 
   const handleChange = (event) => {
     let val = event.target.value
@@ -44,56 +43,43 @@ function SearchPanel({ initialTerms, onChange }) {
   )
 }
 
-export function TutorialWizard({ step, searchText, setTotalSteps, setTitle, onCanContinue, onSubmit }) {
-  const setSearchTerms = useSearchStateStore((state) => state.setTerms)
+export function TutorialWizard({ step, initialSearchText, setTotalSteps, setTitle, onCanContinue, onSubmit }) {
+  const [searchText, setSearchText] = useState(initialSearchText || '')
+
+  const terms = useMemo(
+    () => searchText ? parseGeneList(searchText) : [],
+    [searchText]
+  )
   
-  const termsRef = useRef('')
+  useEffect(() => {
+    setSearchText(initialSearchText || '')
+  }, [initialSearchText])
 
   useEffect(() => {
     if (step >= 0 && step < stepsDef.length) {
       setTotalSteps(stepsDef.length)
       setTitle(stepsDef[step].title)
     }
-    if (searchText) {
-      termsRef.current = parseGeneList(searchText)
-      onCanContinue(termsRef.current.length > 0)
-    } else {
-      termsRef.current = ''
-      onCanContinue(false)
-    }
     switch (step) {
       case 0:
-        onCanContinue(termsRef.current.length > 0)
+        onCanContinue(terms.length > 0)
         break
       case 1:
         onSubmit({
           type: 'tutorial',
           title: 'Tutorial Search',
-          queryTerms: useSearchStateStore.getState().getTerms(),
+          queryTerms: terms,
         })
     }
-  }, [step, searchText, setTotalSteps, setTitle, onCanContinue, onSubmit])
+  }, [step, setTotalSteps, setTitle, onCanContinue, onSubmit, terms])
 
   const handleChange = (value) => {
-    switch (step) {
-      case 0:
-        setSearchTerms(value)
-        termsRef.current = value
-        onCanContinue(value.length > 0)
-        break
-      case 1:
-        onCanContinue(value != null)
-        break
-    }
+    setSearchText(value)
   }
 
   return (
     <div className="min-h-48">
-      {stepsDef.map(({ component: Comp }, idx) => (
-        <div key={idx} style={step !== idx ? {display: 'none'} : {}}>
-          <Comp initialTerms={termsRef?.current} onChange={handleChange} />
-        </div>
-      ))}
+      <SearchPanel initialValue={searchText} onChange={handleChange} />
     </div>
   )
 }
