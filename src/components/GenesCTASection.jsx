@@ -10,29 +10,33 @@ const features = [
     name: 'Find gene function',
     description: 'Find out more information about gene function for one or more genes.',
     icon: MagnifyingGlassIcon,
-    button: 'Use GeneMANIA',
-    link: 'https://genemania.org'
+    tool: 'GeneMANIA',
+    toolLink: 'https://genemania.org',
+    tutorialLink: 'https://wikipedia.org'
   },
   { 
     name: 'Run pathway enrichment analysis', 
     description: 'Run pathway enrichment analysis on genomics data or a gene list.',
     icon: PlayIcon,
-    button: 'Use EnrichmentMap',
-    link: 'https://enrichmentmap.org'
+    tool: 'EnrichmentMap',
+    toolLink: 'https://enrichmentmap.org',
+    tutorialLink: 'https://www.pathwaycommons.org/guide/workflows/rna_seq_to_enrichment_map/'
   },
   {
     name: 'Get a network',
     description: 'Search for published networks from researchers all over the world.',
     icon: ShareIcon,
-    button: 'Use NDEX',
-    link: 'https://ndexbio.org'
+    tool: 'NDEx',
+    toolLink: 'https://ndexbio.org',
+    tutorialLink: 'https://wikipedia.org'
   },
   {
     name: 'Predict gene regulatory networks',
-    description: 'Predict gene regulatory networks controlling co-regulated genes',
+    description: 'Predict gene regulatory networks controlling co-regulated genes.',
     icon: ArrowsRightLeftIcon,
-    button: 'Use iRegulon',
-    link: 'https://iregulon.org'
+    tool: 'iRegulon',
+    toolLink: 'https://iregulon.org',
+    tutorialLink: 'https://wikipedia.org'
   }
 ]
 
@@ -59,9 +63,14 @@ export function GenesCTASection() {
                 </dt>
                 <dd className="mt-2">{feature.description}</dd>
                 <dd className="mt-2">
-                  <a href={feature.link} target="_blank">
-                    <Button variant="outline" color="secondary" className="">
-                      <span className="text-center">{feature.button}</span>
+                  <a href={feature.tutorialLink} target="_blank">
+                    <Button variant="outline" color="primary">
+                      <span className="text-center">Learn more</span>
+                    </Button>
+                  </a>
+                  <a href={feature.toolLink} target="_blank">
+                      <Button color="secondary" className="ml-1">
+                      <span className="text-center font-normal underline">Or use {feature.tool}</span>
                     </Button>
                   </a>
                 </dd>

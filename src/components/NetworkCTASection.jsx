@@ -10,22 +10,25 @@ const features = [
     name: 'Visualize a network',
     description: 'Turn your network data into an editable visualization.  Drag and drop, zoom and pan, and style your network with ease.  Export to publication-quality PDFs.',
     icon: CursorArrowRaysIcon,
-    button: 'Use Cytoscape Web',
-    link: 'https://cytoscapeweb.org'
+    tool: 'Cytoscape Web',
+    toolLink: 'https://web.cytoscape.org/',
+    tutorialLink: 'https://cytoscape-web.readthedocs.io/en/latest/Creating_Networks.html'
   },
   { 
     name: 'Cluster a network', 
     description: 'Run clustering analysis on your network to find modules.  Visualize the results with fitting layouts and styles.',
     icon: CubeTransparentIcon,
-    button: 'Use Cytoscape Web',
-    link: 'https://cytoscapeweb.org'
+    tool: 'Cytoscape Web',
+    toolLink: 'https://web.cytoscape.org/',
+    tutorialLink: 'https://wikipedia.org'
   },
   {
     name: 'Run toplogy analysis',
     description: 'Run clustering analysis on your network to find sets of nodes with similar attributes.  Visualize the results with fitting layouts and styles.',
     icon: CpuChipIcon,
-    button: 'Use Cytoscape Web',
-    link: 'https://cytoscapeweb.org'
+    tool: 'Cytoscape Web',
+    toolLink: 'https://web.cytoscape.org/',
+    tutorialLink: 'https://wikipedia.org'
   }
 ]
 
@@ -54,9 +57,14 @@ export function NetworkCTASection() {
                 </dt>
                 <dd className="mt-2">{feature.description}</dd>
                 <dd className="mt-2">
-                  <a href={feature.link} target="_blank">
-                    <Button variant="outline" color="secondary" className="">
-                      <span className="text-center">{feature.button}</span>
+                  <a href={feature.tutorialLink} target="_blank">
+                    <Button variant="outline" color="primary">
+                      <span className="text-center">Learn more</span>
+                    </Button>
+                  </a>
+                  <a href={feature.toolLink} target="_blank">
+                      <Button color="secondary" className="ml-1">
+                      <span className="text-center font-normal underline">Or use {feature.tool}</span>
                     </Button>
                   </a>
                 </dd>
