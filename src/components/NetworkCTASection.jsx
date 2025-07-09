@@ -1,5 +1,6 @@
 import { CursorArrowRaysIcon, CpuChipIcon, CubeTransparentIcon } from '@heroicons/react/20/solid'
 import { Button } from '@/components/base/Button'
+import { HoverPopover } from './base/HoverPopover'
 
 const tagLine = 'Visualize and analyze with ease';
 const title = 'Start with a network';
@@ -56,17 +57,21 @@ export function NetworkCTASection() {
                   {feature.name}
                 </dt>
                 <dd className="mt-2">{feature.description}</dd>
-                <dd className="mt-2">
+                <dd className="mt-2 flex items-center">
                   <a href={feature.tutorialLink} target="_blank">
                     <Button variant="outline" color="primary">
                       <span className="text-center">Learn more</span>
                     </Button>
                   </a>
-                  <a href={feature.toolLink} target="_blank">
+                  <HoverPopover
+                    content={<span>This is where a screenshot would go.</span>}
+                  >
+                    <a href={feature.toolLink} target="_blank">
                       <Button color="secondary" className="ml-1">
-                      <span className="text-center font-normal underline">Or use {feature.tool}</span>
-                    </Button>
-                  </a>
+                        <span className="text-center font-normal underline">Or use {feature.tool}</span>
+                      </Button>
+                    </a>
+                  </HoverPopover>
                 </dd>
               </div>
             ))}

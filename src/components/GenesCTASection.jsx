@@ -1,5 +1,6 @@
 import { MagnifyingGlassIcon, ShareIcon, PlayIcon, ArrowsRightLeftIcon } from '@heroicons/react/20/solid'
 import { Button } from '@/components/base/Button'
+import { HoverPopover } from '@/components/base/HoverPopover'
 
 const tagLine = 'Just paste your genes';
 const title = 'Start with a gene list (1+)';
@@ -62,17 +63,21 @@ export function GenesCTASection() {
                   {feature.name}
                 </dt>
                 <dd className="mt-2">{feature.description}</dd>
-                <dd className="mt-2">
+                <dd className="mt-2 flex items-center">
                   <a href={feature.tutorialLink} target="_blank">
                     <Button variant="outline" color="primary">
                       <span className="text-center">Learn more</span>
                     </Button>
                   </a>
-                  <a href={feature.toolLink} target="_blank">
+                  <HoverPopover
+                    content={<span>This is where a screenshot would go.</span>}
+                  >
+                    <a href={feature.toolLink} target="_blank">
                       <Button color="secondary" className="ml-1">
-                      <span className="text-center font-normal underline">Or use {feature.tool}</span>
-                    </Button>
-                  </a>
+                        <span className="text-center font-normal underline">Or use {feature.tool}</span>
+                      </Button>
+                    </a>
+                  </HoverPopover>
                 </dd>
               </div>
             ))}
