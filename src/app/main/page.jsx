@@ -5,6 +5,8 @@ import { Hero } from '@/components/Hero'
 import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { Citations } from '@/components/Citations'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
+import { GenesCTASection } from '@/components/GenesCTASection'
+import { NetworkCTASection } from '@/components/NetworkCTASection'
 import { Guide } from '@/components/Guide'
 import { Results } from '@/components/Results'
 import { useSearchStateStore } from '@/model/store'
@@ -50,6 +52,8 @@ export default function Home({ searchEngine}) {
     <>
       <Hero onGetStarted={(category) => handleGetStarted(category, false)} />
       <PrimaryFeatures />
+      <GenesCTASection />
+      <NetworkCTASection />
       <SecondaryFeatures />
       <CallToAction onGetStarted={() => handleGetStarted('gene', true)} />
       <Citations />
