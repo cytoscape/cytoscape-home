@@ -8,7 +8,7 @@ import { BrowserFrame } from '@/components/BrowserFrame'
 import { searchNDEx, searchGeneMania, searchWikiPathways } from '@/components/tools/Common'
 import { useSearchStateStore } from '@/model/store'
 
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid'
+import { ChevronDoubleDownIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import { CytoscapeWebLogo, GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
 
 
@@ -140,7 +140,7 @@ function SearchBar({
   }
 
   return (
-    <div className="w-full max-w-lg min-w-[200px]">
+    <div className="w-full min-w-[200px]">
       <div className="relative mt-2">
         {/*<div className="absolute top-1 left-1 flex items-center">
           <button
@@ -183,7 +183,7 @@ function SearchBar({
             value={text || ''}
             placeholder={placeholder || 'Enter your search term here...'}
             onChange={handleTextChange}
-            className="w-full pl-4 pr-12 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:border-complement-500 focus:outline-none focus:ring-complement-500 shadow-sm focus:shadow"
+            className="w-full pl-4 pr-12 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-black rounded-b-md rounded-r-md transition duration-300 ease focus:border-complement-500 focus:outline-none focus:ring-complement-500 shadow-sm focus:shadow"
           />
           <button
             disabled={!text || text.trim() === ''}
@@ -248,7 +248,7 @@ export function Hero({ onGetStarted }) {
   const filteredExamples = searchExamples.filter(example => example.category === selectedCategory?.value)
 
   return (
-    <div className="overflow-hidden py-5 lg:py-20 lg:pb-32 xl:pb-36">
+    <div className="overflow-hidden py-5 lg:py-20">
       <Container>
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
           <div className="relative mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
@@ -259,23 +259,23 @@ export function Hero({ onGetStarted }) {
               Finding the perfect tool to search or create biological network figures has never been easier.
               Whether you are exploring genes, proteins or pathways, our intuitive interface allows you to analyze your data and create beautiful figures that are ready to be published.
             </p>
-            <div className="mt-8 flex flex-col gap-y-0 sm:items-start xs:items-center">
+            <div className="mt-8 flex flex-col gap-y-0 sm:items-start xs:items-start">
               <span className="isolate inline-flex mb-5">
                 <Button
                   variant={selectedCategory?.value === 'gene' ? 'solid' : 'outline'}
-                  color="primary"
+                  color="gray"
                   value="gene"
                   onClick={handleCategoryClick}
-                  className="relative -ml-px inline-flex items-center rounded-none rounded-l-md"
+                  className="relative -mb-7 inline-flex items-center rounded-none rounded-t-md"
                 >
                   <DNAIcon
-                    fill={selectedCategory?.value === 'gene' ? '#fff' : '#a3a3a3'}
+                    fill={selectedCategory?.value === 'gene' ? '#b5b5b5' : '#a3a3a3'}
                     aria-hidden="true"
-                    className="size-5"
+                    className="size-5 mr-3"
                   />
                   Try it now!
                 </Button>
-                <Button
+                {/* <Button
                   variant={selectedCategory?.value === 'tutorial' ? 'solid' : 'outline'}
                   color="primary"
                   value="tutorial"
@@ -288,10 +288,10 @@ export function Hero({ onGetStarted }) {
                     className="mr-2 size-5"
                   />
                   What else can I do?
-                </Button>
+                </Button> */}
               </span>
               <SearchBar
-                placeholder={selectedCategory?.value === 'gene' ? 'Enter a gene, pathway or any term' : 'Enter a tutorial topic'}
+                placeholder={selectedCategory?.value === 'gene' ? 'Enter one or more genes, a pathway or any terms' : 'Enter a tutorial topic'}
                 initialCategory={selectedCategory.value}
                 initialText={searchText}
                 onTextChange={handleTextChange}
@@ -312,7 +312,7 @@ export function Hero({ onGetStarted }) {
                   </span>
                 ))}
               </div>
-              <div className={`${selectedCategory?.value === 'gene' ? 'visible' : 'collapse'} none mt-4 inline-flex items-center gap-2 text-sm text-gray-500`}>
+              {/* <div className={`${selectedCategory?.value === 'gene' ? 'visible' : 'collapse'} none mt-4 inline-flex items-center gap-2 text-sm text-gray-500`}>
                 Open:
                 {searchPresets.map((preset) => (
                   <Button
@@ -331,12 +331,28 @@ export function Hero({ onGetStarted }) {
                     {preset.label}
                   </Button>
                 ))}
-              </div>
+              </div> */}
+            </div>
+            <div className="mt-10 flex flex-col sm:flex-row sm:items-center">
+              <Button
+                variant={selectedCategory?.value === 'gene' ? 'solid' : 'outline'}
+                color="primary"
+                value="gene"
+                onClick={() => window.open('/#genes', '_self')}
+                className="relative ml-auto mr-auto pr-5 items-center"
+              >
+                <ChevronDoubleDownIcon
+                  fill={selectedCategory?.value === 'gene' ? '#fff' : '#a3a3a3'}
+                  aria-hidden="true"
+                  className="size-5 mr-2"
+                />
+                What else can I do?
+              </Button>
             </div>
           </div>
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-            <div className="h-auto -mx-4 px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:-top-10 lg:px-0 lg:pt-10 xl:-bottom-32">
-              <BrowserFrame className="mx-auto max-w-[626px]">
+            <div className="h-auto -mx-4 px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-bottom-20 lg:-top-10 lg:pt-10 xl:-bottom-32">
+              <BrowserFrame className="mx-auto max-w-[640px]">
                 <AppDemo />
               </BrowserFrame>
             </div>
