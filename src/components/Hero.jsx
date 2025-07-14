@@ -261,12 +261,11 @@ export function Hero({ onGetStarted }) {
             </p>
             <div className="mt-8 flex flex-col gap-y-0 sm:items-start xs:items-start">
               <span className="isolate inline-flex mb-5">
-                <Button
-                  variant={selectedCategory?.value === 'gene' ? 'solid' : 'outline'}
+                <div
                   color="gray"
                   value="gene"
                   onClick={handleCategoryClick}
-                  className="relative -mb-7 inline-flex items-center rounded-none rounded-t-md"
+                  className="relative -mb-7 py-2 pl-3 pr-5 inline-flex items-center rounded-t-md bg-gray-800 text-white justify-center text-sm font-semibold"
                 >
                   <DNAIcon
                     fill={selectedCategory?.value === 'gene' ? '#b5b5b5' : '#a3a3a3'}
@@ -274,21 +273,7 @@ export function Hero({ onGetStarted }) {
                     className="size-5 mr-3"
                   />
                   Try it now!
-                </Button>
-                {/* <Button
-                  variant={selectedCategory?.value === 'tutorial' ? 'solid' : 'outline'}
-                  color="primary"
-                  value="tutorial"
-                  onClick={handleCategoryClick}
-                  className="relative -ml-px inline-flex items-center rounded-none rounded-r-md"
-                >
-                  <MenuBookIcon
-                    fill={selectedCategory?.value === 'tutorial' ? '#fff' : '#a3a3a3'}
-                    aria-hidden="true"
-                    className="mr-2 size-5"
-                  />
-                  What else can I do?
-                </Button> */}
+                </div>
               </span>
               <SearchBar
                 placeholder={selectedCategory?.value === 'gene' ? 'Enter one or more genes, a pathway or any terms' : 'Enter a tutorial topic'}
