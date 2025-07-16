@@ -12,7 +12,7 @@ import { Results } from '@/components/Results'
 import { useSearchStateStore } from '@/model/store'
 
 
-export default function Home({ searchEngine}) {
+export default function Home({ searchEngine }) {
   const [searchCategory, setSearchCategory] = useState('gene')
   const [openGuide, setOpenGuide] = useState(false)
   const [openResults, setOpenResults] = useState(false)

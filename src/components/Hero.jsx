@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/base/Button'
-import { Label, TextField } from '@/components/base/Fields'
 import { Container } from '@/components/base/Container'
 import { AppDemo } from '@/components/AppDemo'
 import { BrowserFrame } from '@/components/BrowserFrame'
@@ -19,12 +18,12 @@ const searchCategories = [
   { value: 'tutorial', label: 'Tutorials' },
 ]
 const searchExamples = [
-  { term: 'BRCA1', category: 'gene' },
-  { term: 'breast cancer', category: 'gene' },
-  { term: 'glycolysis', category: 'gene' },
-  { term: 'enrichment analysis', category: 'tutorial' },
-  { term: 'RNASeq analysis', category: 'tutorial' },
-  { term: 'data visualization', category: 'tutorial' },
+  { label: 'TP53', terms: 'TP53', category: 'gene' },
+  { label: 'breast cancer genes', terms: 'BRCA1 BRCA2 PALB2 CHEK2', category: 'gene' },
+  { label: 'glycolysis', terms: 'glycolysis', category: 'gene' },
+  { label: 'enrichment analysis', terms: 'enrichment analysis', category: 'tutorial' },
+  { label: 'RNASeq analysis', terms: 'RNASeq analysis', category: 'tutorial' },
+  { label: 'data visualization', terms: 'data visualization', category: 'tutorial' },
 ]
 const searchPresets = [
   { value: 'cytoscapeWeb', label: 'Cytoscape Web', icon: CytoscapeWebLogo, category: 'gene', fn: () => window.open('https://web.cytoscape.org/', '_blank') },
@@ -226,12 +225,12 @@ export function Hero({ onGetStarted }) {
   const handleTextChange = (text) => {
     setSearchText(text.trim())
   }
-  const handleExampleClick = (event, term, searchCategory = 'all') => {
+  const handleExampleClick = (event, terms, searchCategory = 'all') => {
     event.preventDefault()
     // Set the initial search option based on the search option (to update the dropdown)
     // setInitialSearchCategory(searchCategory)
     // Set the input value and focus it
-    setSearchText(term)
+    setSearchText(terms)
     focusSearchField()
   }
   const handlePresetClick = (searchPreset) => {
@@ -289,9 +288,9 @@ export function Hero({ onGetStarted }) {
                     <a
                       href="#"
                       className="text-complement-500 hover:underline"
-                      onClick={(e) => handleExampleClick(e, example.term, example.category)}
+                      onClick={(e) => handleExampleClick(e, example.terms, example.category)}
                     >
-                      {example.term}
+                      {example.label}
                     </a>
                     {index < filteredExamples.length - 1 && <span className="mx-2">|</span>}
                   </span>
