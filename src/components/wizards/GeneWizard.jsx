@@ -122,20 +122,15 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
       const validTaxids = taxidCounts.map(item => item.taxid)
       if (validTaxids?.length > 0) {
         // If we have valid taxids, filter the organisms...
-        let filteredOrganisms = geneManiaOrganisms.filter(org => validTaxids.includes(org.taxon)).sort((a, b) => {
-          // Sort by count descending
-          const aCount = taxidCounts.find(item => item.taxid === a.taxon)?.count || 0
-          const bCount = taxidCounts.find(item => item.taxid === b.taxon)?.count || 0
-          return bCount - aCount
-        })
+        let filteredOrganisms = geneManiaOrganisms.filter(org => validTaxids.includes(org.taxon))
         if (filteredOrganisms.length === 0) {
           console.debug('No valid organisms found, using all GeneMania organisms.')
           filteredOrganisms = geneManiaOrganisms
         }
-        // ...and set the initial organism index to the first valid one;
-        // but only if its count is higher than the human's count; otherwise, set it to human (9606)
-        orgRef.current = filteredOrganisms[0] || null
-        if (orgRef.current && orgRef.current.taxon !== '9606') {
+        // ...and set the initial organism index to the top count
+        orgRef.current = filteredOrganisms.find(org => org.taxon === taxidCounts[0].taxid)
+        // ...but only if its count is higher than the human's count; otherwise, set it to human (9606)
+        if (!orgRef.current || orgRef.current.taxon !== '9606') {
           const humanCount = taxidCounts.find(item => item.taxid === '9606')?.count || 0
           if (humanCount >= (taxidCounts[0]?.count || 0)) {
             orgRef.current = filteredOrganisms.find(org => org.taxon === '9606') // Human
