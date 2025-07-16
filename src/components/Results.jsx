@@ -476,7 +476,7 @@ const TutorialsCard = ({ queryTerms, searchEngine }) => {
     const res = searchEngine.searchTutorials(queryTerms.join(' '))
     setResults(res)
     setLoading(false)
-  }, [queryTerms])
+  }, [queryTerms, searchEngine])
 
   const createSearchUrl = (section, parent) => {
     const path1 = parent != null && !isNaN(section) ? parent : section
@@ -571,8 +571,9 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                   <DialogTitle as="h2" className="mt-0.5 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
                     {title}
                   </DialogTitle>
-                  {type === 'gene' && (
+                  {(type === 'gene' || type === 'pathway') && (
                     <>
+                    {type === 'gene' && (
                       <div className="mt-2 bg-black text-gray-400 text-left py-2">
                         <p className="flex flex-row items-center px-6">
                           <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
@@ -580,13 +581,14 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                           <span className="ml-2">&#40;{queryTerms.length} query gene{queryTerms.length > 1 ? 's' : ''}&#41;</span>
                         </p>
                       </div>
+                    )}
                       <div className="flex flex-col lg:flex-row space-y-2 items-start mt-5 px-6 sm:space-x-4 sm:space-y-0">
-                        {queryTerms.length > 0 && organism && (
-                          <GeneManiaCard genes={queryTerms} organism={organism} />
-                        )}
-                        {queryTerms.length > 0 && (
-                          <NDExCard genes={queryTerms} />
-                        )}
+                      {type === 'gene' && queryTerms.length > 0 && organism && (
+                        <GeneManiaCard genes={queryTerms} organism={organism} />
+                      )}
+                      {queryTerms.length > 0 && (
+                        <NDExCard genes={queryTerms} />
+                      )}
                       </div>
                     </>
                   )}

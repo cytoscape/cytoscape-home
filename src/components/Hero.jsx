@@ -20,10 +20,10 @@ const searchCategories = [
 const searchExamples = [
   { label: 'TP53', terms: 'TP53', category: 'gene' },
   { label: 'breast cancer genes', terms: 'BRCA1 BRCA2 PALB2 CHEK2', category: 'gene' },
-  { label: 'glycolysis', terms: 'glycolysis', category: 'gene' },
-  { label: 'enrichment analysis', terms: 'enrichment analysis', category: 'tutorial' },
-  { label: 'RNASeq analysis', terms: 'RNASeq analysis', category: 'tutorial' },
-  { label: 'data visualization', terms: 'data visualization', category: 'tutorial' },
+  { label: 'glycolysis', terms: 'glycolysis', category: 'pathway' },
+  // { label: 'enrichment analysis', terms: 'enrichment analysis', category: 'tutorial' },
+  // { label: 'RNASeq analysis', terms: 'RNASeq analysis', category: 'tutorial' },
+  // { label: 'data visualization', terms: 'data visualization', category: 'tutorial' },
 ]
 const searchPresets = [
   { value: 'cytoscapeWeb', label: 'Cytoscape Web', icon: CytoscapeWebLogo, category: 'gene', fn: () => window.open('https://web.cytoscape.org/', '_blank') },
@@ -54,42 +54,15 @@ const MenuBookIcon = (props) => (
 
 function SearchBar({
   placeholder,
-  initialCategory = 'gene',
   initialText='',
   onTextChange,
   onSubmit
 }) {
-  const [selectedCategory, setSelectedCategory] = useState(searchCategories.find(option => option.value === initialCategory))
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('gene')
   const [text, setText] = useState(initialText)
 
   const setSearchTerms = useSearchStateStore((state) => state.setTerms)
 
-  // Add event listener for clicks outside the dropdown
-  useEffect(() => {
-    // Close dropdown when clicking outside
-    const handleClickOutside = (event) => {
-      const dropdownMenu = document.getElementById('searchDropdownMenu')
-      if (dropdownMenu && !dropdownMenu.contains(event.target)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener('click', handleClickOutside)
-    return () => {
-      document.removeEventListener('click', handleClickOutside)
-    }
-  }, [])
-  // Set the initial search category when the component mounts
-  useEffect(() => {
-    const initialSelectedCategory = searchCategories.find(option => option.value === initialCategory)
-    if (initialSelectedCategory) {
-      setSelectedCategory(initialSelectedCategory)
-      const dropdownButton = document.getElementById('searchDropdownButton')
-      if (dropdownButton) {
-        dropdownButton.setAttribute('aria-label', `Search in ${initialSelectedCategory.label}`)
-      }
-    }
-  }, [initialCategory])
   // Set the initial text when the component mounts
   useEffect(() => {
     if (initialText) {
@@ -99,28 +72,6 @@ function SearchBar({
     }
   }, [initialText, onTextChange])
 
-  // Handle the category selection
-  const handleCategorySelect = (value) => {
-    setSelectedCategory(searchCategories.find(option => option.value === value))
-    // Close the dropdown and update the input placeholder and aria-label
-    setDropdownOpen(false)
-    const dropdownButton = document.getElementById('searchDropdownButton')
-    if (dropdownButton) {
-      dropdownButton.setAttribute('aria-label', `Search in ${searchCategories.find(option => option.value === value).label}`)
-    }
-  }
-  // Handle dropdown button click
-  const handleCategoryClick = (event) => {
-    const value = event.target.getAttribute('data-value')
-    if (value) {
-      handleCategorySelect(value)
-    }
-  }
-  // Toggle dropdown visibility
-  const handleDropdownClick = (event) => {
-    event.stopPropagation() // Prevent click from propagating to document
-    setDropdownOpen((open) => !open)
-  }
   const handleTextChange = (event) => {
     const newText = event.target.value
     setText(newText)
@@ -141,41 +92,6 @@ function SearchBar({
   return (
     <div className="w-full min-w-[200px]">
       <div className="relative mt-2">
-        {/*<div className="absolute top-1 left-1 flex items-center">
-          <button
-            id="searchDropdownButton"
-            onClick={handleDropdownClick}
-            className="min-w-24 border-r py-1 px-1.5 text-center flex items-center text-sm transition-all text-slate-600"
-          >
-            <span
-              id="searchDropdownLabel"
-              className="text-ellipsis overflow-hidden"
-            >
-              { selectedCategory.label }
-            </span>
-            <span className="flex-grow"/>
-            <ChevronDownIcon className="h-5 w-5 ml-1" />
-          </button>
-        {dropdownOpen && (
-          <div
-            id="searchDropdownMenu"
-            className="min-w-[150px] absolute left-0 w-full mt-10 bg-white border border-slate-200 rounded-md shadow-lg z-10"
-          >
-            <ul id="searchDropdownOptions">
-            {searchCategories.map((option) => (
-              <li
-                key={option.value}
-                data-value={option.value}
-                onClick={handleCategoryClick}
-                className="px-4 py-2 text-slate-600 hover:bg-slate-50 text-sm cursor-pointer"
-              >
-                { option.label }
-              </li>
-            ))}
-            </ul>
-          </div>
-        )}
-        </div> */}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -202,7 +118,7 @@ function SearchBar({
 
 export function Hero({ onGetStarted }) {
   // const [initialSearchCategory, setInitialSearchCategory] = useState('genes')
-  const [selectedCategory, setSelectedCategory] = useState(searchCategories.find(option => option.value === 'gene'))
+  const [selectedCategory, setSelectedCategory] = useState('gene')
   const [searchText, setSearchText] = useState('')
 
   const focusSearchField = (select) => {
@@ -215,36 +131,27 @@ export function Hero({ onGetStarted }) {
     }
   }
 
-  const handleCategoryClick = (event) => {
-    const value = event.target.getAttribute('value')
-    if (value) {
-      setSelectedCategory(searchCategories.find(option => option.value === value))
-      focusSearchField(true)
-    }
-  }
   const handleTextChange = (text) => {
     setSearchText(text.trim())
   }
-  const handleExampleClick = (event, terms, searchCategory = 'all') => {
+  const handleExampleClick = (event, terms, searchCategory = 'gene') => {
     event.preventDefault()
     // Set the initial search option based on the search option (to update the dropdown)
-    // setInitialSearchCategory(searchCategory)
+    setSelectedCategory(searchCategory)
     // Set the input value and focus it
     setSearchText(terms)
     focusSearchField()
   }
-  const handlePresetClick = (searchPreset) => {
-    // setInitialSearchCategory(searchPreset.category)
-    const input = document.querySelector('input[type="text"]')
-    if (input && searchPreset.fn) {
-      const value = input.value.trim()
-      if (value.length > 0) {
-        searchPreset.fn(value)
-      }
-    }
-  }
-
-  const filteredExamples = searchExamples.filter(example => example.category === selectedCategory?.value)
+  // const handlePresetClick = (searchPreset) => {
+  //   // setInitialSearchCategory(searchPreset.category)
+  //   const input = document.querySelector('input[type="text"]')
+  //   if (input && searchPreset.fn) {
+  //     const value = input.value.trim()
+  //     if (value.length > 0) {
+  //       searchPreset.fn(value)
+  //     }
+  //   }
+  // }
 
   return (
     <div className="overflow-hidden py-5 lg:py-20">
@@ -262,12 +169,10 @@ export function Hero({ onGetStarted }) {
               <span className="isolate inline-flex mb-5">
                 <div
                   color="gray"
-                  value="gene"
-                  onClick={handleCategoryClick}
                   className="relative -mb-7 py-2 pl-3 pr-5 inline-flex items-center rounded-t-md bg-gray-800 text-white justify-center text-sm font-semibold"
                 >
                   <DNAIcon
-                    fill={selectedCategory?.value === 'gene' ? '#b5b5b5' : '#a3a3a3'}
+                    fill="#b5b5b5"
                     aria-hidden="true"
                     className="size-5 mr-3"
                   />
@@ -275,15 +180,14 @@ export function Hero({ onGetStarted }) {
                 </div>
               </span>
               <SearchBar
-                placeholder={selectedCategory?.value === 'gene' ? 'Enter one or more genes, a pathway or any terms' : 'Enter a tutorial topic'}
-                initialCategory={selectedCategory.value}
+                placeholder="Enter one or more genes, a pathway or any terms"
                 initialText={searchText}
                 onTextChange={handleTextChange}
-                onSubmit={() => onGetStarted(selectedCategory.value)}
+                onSubmit={() => onGetStarted(selectedCategory)}
               />
               <div className="mt-2 text-sm text-gray-500">
                 <span className="mr-2">Examples:</span>
-                {filteredExamples.map((example, index) => (
+                {searchExamples.map((example, index) => (
                   <span key={index}>
                     <a
                       href="#"
@@ -292,11 +196,11 @@ export function Hero({ onGetStarted }) {
                     >
                       {example.label}
                     </a>
-                    {index < filteredExamples.length - 1 && <span className="mx-2">|</span>}
+                    {index < searchExamples.length - 1 && <span className="mx-2">|</span>}
                   </span>
                 ))}
               </div>
-              {/* <div className={`${selectedCategory?.value === 'gene' ? 'visible' : 'collapse'} none mt-4 inline-flex items-center gap-2 text-sm text-gray-500`}>
+              {/* <div className={`${selectedCategory === 'gene' ? 'visible' : 'collapse'} none mt-4 inline-flex items-center gap-2 text-sm text-gray-500`}>
                 Open:
                 {searchPresets.map((preset) => (
                   <Button
@@ -319,14 +223,13 @@ export function Hero({ onGetStarted }) {
             </div>
             <div className="mt-10 flex flex-col sm:flex-row sm:items-center">
               <Button
-                variant={selectedCategory?.value === 'gene' ? 'solid' : 'outline'}
+                variant="solid"
                 color="primary"
-                value="gene"
                 onClick={() => window.open('/#genes', '_self')}
                 className="relative ml-auto mr-auto pr-5 items-center"
               >
                 <ChevronDoubleDownIcon
-                  fill={selectedCategory?.value === 'gene' ? '#fff' : '#a3a3a3'}
+                  fill="#fff"
                   aria-hidden="true"
                   className="size-5 mr-2"
                 />

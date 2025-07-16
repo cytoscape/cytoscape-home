@@ -18,7 +18,6 @@ export default function Home({ searchEngine }) {
   const [openResults, setOpenResults] = useState(false)
   const [results, setResults] = useState()
   
-
   const handleSubmit = (data) => {
     setOpenGuide(false)
     if (data) {
@@ -36,15 +35,16 @@ export default function Home({ searchEngine }) {
       useSearchStateStore.getState().clearTerms()
     }
     setSearchCategory(category)
-    if (category === 'tutorial') {
-      // If the category is 'tutorial', we open the results directly
+    if (category === 'gene') {
+      // If the category is 'gene', we open the guide so the user can select the organism
+      setOpenGuide(true)
+    } else {
+      // For any other category, we open the results directly
       handleSubmit({
-        type: 'tutorial',
-        title: 'Tutorial Search',
+        type: category,
+        title: `${category.charAt(0).toUpperCase() + category.slice(1)} Search`,
         queryTerms: useSearchStateStore.getState().getTerms(), // TODO: rename to terms
       })
-    } else {
-      setOpenGuide(true)
     }
   }
 
