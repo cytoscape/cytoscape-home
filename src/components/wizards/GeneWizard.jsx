@@ -74,8 +74,18 @@ function OrganismsPanel({ organisms, initialSelectedIndex = -1, onChange }) {
   const handleChange = (item) => {
     const index = organisms.findIndex(org => org.taxon === item.taxon)
     setSelectedIndex(index)
-    onChange(item)
   }
+
+  useEffect(() => {
+    setSelectedIndex(initialSelectedIndex)
+  }, [initialSelectedIndex])
+
+  useEffect(() => {
+    if (selectedIndex >= 0 && selectedIndex < organisms.length) {
+      const item = organisms[selectedIndex]
+      onChange(item)
+    }
+  }, [selectedIndex, organisms, onChange])
 
   return (
     <div>

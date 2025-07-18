@@ -13,7 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^2.0.4",
     "@headlessui/tailwindcss": "^0.2.0",
-    "@heroicons/react": "^2.1.1",
+    "@heroicons/react": "^2.1.5",
     "@js4cytoscape/ndex-client": "^0.3.2",
     "@tailwindcss/forms": "^0.5.7",
     "@tanstack/react-query": "^5.50.1",
@@ -28,8 +28,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-mark.js": "^10.0.10",
-    "use-debounce": "^10.0.0",
-    "zustand": "^5.0.5"
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

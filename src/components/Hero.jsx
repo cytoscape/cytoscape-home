@@ -4,33 +4,14 @@ import { Button } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { AppDemo } from '@/components/AppDemo'
 import { BrowserFrame } from '@/components/BrowserFrame'
-import { searchNDEx, searchGeneMania, searchWikiPathways } from '@/components/tools/Common'
-import { useSearchStateStore } from '@/model/store'
 
 import { ChevronDoubleDownIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid'
-import { CytoscapeWebLogo, GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
 
 
-const searchCategories = [
-  // { value: 'all', label: 'Search All' },
-  { value: 'gene', label: 'Genes' },
-  // { value: 'pathway', label: 'Pathways' },
-  { value: 'tutorial', label: 'Tutorials' },
-]
 const searchExamples = [
   { label: 'TP53', terms: 'TP53', category: 'gene' },
   { label: 'breast cancer genes', terms: 'BRCA1 BRCA2 PALB2 CHEK2', category: 'gene' },
   { label: 'glycolysis', terms: 'glycolysis', category: 'pathway' },
-  // { label: 'enrichment analysis', terms: 'enrichment analysis', category: 'tutorial' },
-  // { label: 'RNASeq analysis', terms: 'RNASeq analysis', category: 'tutorial' },
-  // { label: 'data visualization', terms: 'data visualization', category: 'tutorial' },
-]
-const searchPresets = [
-  { value: 'cytoscapeWeb', label: 'Cytoscape Web', icon: CytoscapeWebLogo, category: 'gene', fn: () => window.open('https://web.cytoscape.org/', '_blank') },
-  { value: 'ndex', label: 'NDEx', icon: NDExLogo, category: 'gene', fn: searchNDEx },
-  { value: 'genemania', label: 'GeneMANIA', icon: GeneManiaLogo, category: 'gene', fn: searchGeneMania },
-  { value: 'wikiPathways', label: 'WikiPathways', icon: WikiPathwaysLogo, category: 'pathway', fn: searchWikiPathways },
-  // { value: 'enrichmentMap', label: 'Enrichment Map', icon: EnrichmentMapLogo, category: 'gene' },
 ]
 
 const DNAIcon = (props) => (
@@ -58,10 +39,7 @@ function SearchBar({
   onTextChange,
   onSubmit
 }) {
-  const [selectedCategory, setSelectedCategory] = useState('gene')
   const [text, setText] = useState(initialText)
-
-  const setSearchTerms = useSearchStateStore((state) => state.setTerms)
 
   // Set the initial text when the component mounts
   useEffect(() => {
@@ -81,8 +59,7 @@ function SearchBar({
     if (text?.trim() !== '') {
       event.preventDefault()
       event.stopPropagation()
-      setSearchTerms(text.trim().split(/\s+/).filter(term => term.length > 0))
-      onSubmit()
+      onSubmit(text.trim().split(/\s+/).filter(term => term.length > 0))
     } else {
       event.preventDefault()
       event.stopPropagation()
@@ -142,16 +119,6 @@ export function Hero({ onGetStarted }) {
     setSearchText(terms)
     focusSearchField()
   }
-  // const handlePresetClick = (searchPreset) => {
-  //   // setInitialSearchCategory(searchPreset.category)
-  //   const input = document.querySelector('input[type="text"]')
-  //   if (input && searchPreset.fn) {
-  //     const value = input.value.trim()
-  //     if (value.length > 0) {
-  //       searchPreset.fn(value)
-  //     }
-  //   }
-  // }
 
   return (
     <div className="overflow-hidden py-5 lg:py-20">
@@ -183,7 +150,7 @@ export function Hero({ onGetStarted }) {
                 placeholder="Enter one or more genes, a pathway or any terms"
                 initialText={searchText}
                 onTextChange={handleTextChange}
-                onSubmit={() => onGetStarted(selectedCategory)}
+                onSubmit={(terms) => onGetStarted(selectedCategory, terms)}
               />
               <div className="mt-2 text-sm text-gray-500">
                 <span className="mr-2">Examples:</span>
@@ -200,26 +167,6 @@ export function Hero({ onGetStarted }) {
                   </span>
                 ))}
               </div>
-              {/* <div className={`${selectedCategory === 'gene' ? 'visible' : 'collapse'} none mt-4 inline-flex items-center gap-2 text-sm text-gray-500`}>
-                Open:
-                {searchPresets.map((preset) => (
-                  <Button
-                    key={preset.value}
-                    disabled={!searchText || searchText === ''}
-                    variant="outline"
-                    color="gray"
-                    onClick={() => handlePresetClick(preset)}
-                    className="flex items-center px-1 py-0.5 text-xs rounded-md"
-                  >
-                    <preset.icon
-                      aria-hidden="true"
-                      fill={!searchText || searchText === '' ? '#c5c5c5' : null}
-                      className="h-5 w-5 mr-1 text-red-50"
-                    />
-                    {preset.label}
-                  </Button>
-                ))}
-              </div> */}
             </div>
             <div className="mt-10 flex flex-col sm:flex-row sm:items-center">
               <Button

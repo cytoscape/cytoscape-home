@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { Radio, RadioGroup } from '@headlessui/react'
-import { useSearchStateStore } from '@/model/store'
 import { WizardDialog } from '@/components/base/WizardDialog'
 import { GeneWizard } from '@/components/wizards/GeneWizard'
 import { EnrichmentWizard } from '@/components/wizards/EnrichmentWizard'
 import { NetworkWizard } from '@/components/wizards/NetworkWizard'
 import { TutorialWizard } from '@/components/wizards/TutorialWizard'
+
 
 const INITIAL_TITLE = 'What would you like to do?'
 const DEF_SUBMIT_LABEL = 'Submit'
@@ -44,6 +44,7 @@ const cards = [
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(' ')
 }
+
 
 const WizardSelector = ({ onChange }) => {
   const [, setSelected] = useState()
@@ -93,7 +94,7 @@ const WizardSelector = ({ onChange }) => {
   )
 }
 
-export function Guide({ open=false, type, onClose, onSubmit }) {
+export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
   const [step, setStep] = useState(-1)
   const [totalSteps, setTotalSteps] = useState(2)
   const [title, setTitle] = useState(INITIAL_TITLE)
@@ -125,17 +126,16 @@ export function Guide({ open=false, type, onClose, onSubmit }) {
     setTitle(INITIAL_TITLE) // Default title
     setSubmitLabel(DEF_SUBMIT_LABEL) // Default submit label
     setCanContinue(false) // Default canContinue state
-    const text = useSearchStateStore.getState().getText()
-    if (text == null) {
+    if (initialText == null || initialText.trim().length === 0) {
       setStep(-1) // Show the card selector
     } else {
-      setStep(type === 'tutorial' || text.trim().length === 0 ? 0 : 1) // Show the second step if searchText is provided
-      setSearchText(text)
+      setStep(type === 'tutorial' || initialText.trim().length === 0 ? 0 : 1) // Show the second step if searchText is provided
+      setSearchText(initialText)
     }
     // setTitle(INITIAL_TITLE)
     // setSubmitLabel(DEF_SUBMIT_LABEL)
     // setCanContinue(hasText)
-  }, [open, type])
+  }, [open, type, initialText])
 
   const handleClose = () => {
     reset()

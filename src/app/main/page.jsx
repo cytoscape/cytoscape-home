@@ -9,11 +9,11 @@ import { GenesCTASection } from '@/components/GenesCTASection'
 import { NetworkCTASection } from '@/components/NetworkCTASection'
 import { Guide } from '@/components/Guide'
 import { Results } from '@/components/Results'
-import { useSearchStateStore } from '@/model/store'
 
 
 export default function Home({ searchEngine }) {
   const [searchCategory, setSearchCategory] = useState('gene')
+  const [searchText, setSearchText] = useState('')
   const [openGuide, setOpenGuide] = useState(false)
   const [openResults, setOpenResults] = useState(false)
   const [results, setResults] = useState()
@@ -29,36 +29,25 @@ export default function Home({ searchEngine }) {
       }
     }
   }
-  const handleGetStarted = (category, clearSearch) => {
-    if (clearSearch) {
-      // Clear the search state store to open the wizard with no previous terms (should show the wizard selector)
-      useSearchStateStore.getState().clearTerms()
-    }
+  const handleGetStarted = (category, terms) => {
+    setOpenResults(false)
+    setResults(null)
     setSearchCategory(category)
-    if (category === 'gene') {
-      // If the category is 'gene', we open the guide so the user can select the organism
-      setOpenGuide(true)
-    } else {
-      // For any other category, we open the results directly
-      handleSubmit({
-        type: category,
-        title: `${category.charAt(0).toUpperCase() + category.slice(1)} Search`,
-        queryTerms: useSearchStateStore.getState().getTerms(), // TODO: rename to terms
-      })
-    }
+    setSearchText(terms ? terms.join(' ') : '')
+    setOpenGuide(true)
   }
 
   return (
     <>
-      <Hero onGetStarted={(category) => handleGetStarted(category, false)} />
+      <Hero onGetStarted={handleGetStarted} />
       <PrimaryFeatures />
       <GenesCTASection />
       <NetworkCTASection />
       <SecondaryFeatures />
-      <CallToAction onGetStarted={() => handleGetStarted('gene', true)} />
+      <CallToAction onGetStarted={handleGetStarted} />
       <Citations />
       <Faqs />
-      <Guide open={openGuide} type={searchCategory} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
+      <Guide open={openGuide} type={searchCategory} initialText={searchText} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
       <Results open={openResults} data={results} searchEngine={searchEngine} onClose={() => setOpenResults(false)} />
     </>
   )
