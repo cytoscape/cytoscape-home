@@ -17,7 +17,7 @@ export default function Home({ searchEngine }) {
   const [openGuide, setOpenGuide] = useState(false)
   const [openResults, setOpenResults] = useState(false)
   const [results, setResults] = useState()
-  
+
   const handleSubmit = (data) => {
     setOpenGuide(false)
     if (data) {

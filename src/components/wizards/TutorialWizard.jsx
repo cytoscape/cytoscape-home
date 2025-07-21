@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { parseGeneList } from '@/components/tools/Common'
+import { parseGeneList } from '@/app/shared/common'
 
 
 const stepsDef = [

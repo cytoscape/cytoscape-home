@@ -1,39 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import _ from 'lodash'
+import { useQuery } from '@tanstack/react-query'
+import { createMyGeneInfoQueryOptions } from '@/app/shared/queryOptions'
+import { geneManiaOrganisms, parseGeneList } from '@/app/shared/common'
 import { SelectMenu } from '@/components/base/SelectMenu'
-import { geneManiaOrganisms, parseGeneList } from '@/components/tools/Common'
 import { LoadingMessage } from '@/components/base/Loading'
 
-
-async function detectSpecies(symbols) {
-  const response = await fetch('https://mygene.info/v3/query', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      q: symbols,
-      species: geneManiaOrganisms.map(org => org.taxon),
-      fields: ['symbol', 'taxid'],
-      scopes: ['symbol'],
-      email: ['gary', 'bader'].join('.') + '@' + ['utoronto', 'ca'].join('.'), // Obfuscated email to avoid simple scraping bots
-      size: 1000
-    })
-  })
-  const data = await response.json()
-
-  // Count occurrences of each taxid
-  const taxidCounts = {}
-  for (const entry of data || []) {
-    const taxid = entry.taxid
-    if (taxid) {
-      taxidCounts[taxid] = (taxidCounts[taxid] || 0) + 1
-    }
-  }
-
-  // Sort taxids by count
-  return Object.entries(taxidCounts)
-    .sort((a, b) => b[1] - a[1])
-    .map(([taxid, count]) => ({ taxid, count }))
-}
 
 function GenesPanel({ initialValue, onChange }) {
   const [value, setValue] = useState(initialValue || '')
@@ -106,8 +78,7 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
   const [searchText, setSearchText] = useState(initialSearchText || '')
   const [organisms, setOrganisms] = useState(geneManiaOrganisms)
   const [initialOrganismIndex, setInitialOrganismIndex] = useState(-1)
-  const [loading, setLoading] = useState(false)
-  
+
   const genes = useMemo(
     () => searchText ? parseGeneList(searchText) : [],
     [searchText]
@@ -116,18 +87,31 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
   const genesRef = useRef([])
   const orgRef = useRef()
 
+  const { data: taxidCounts, isFetching } = useQuery(createMyGeneInfoQueryOptions(
+    genes,
+    step === 1 && genes?.length > 0 //&& !_.isEqual(genes, genesRef.current) // enabled: only on 2nd step and if we have genes that have changed
+  ))
+
   useEffect(() => {
     setSearchText(initialSearchText || '')
   }, [initialSearchText])
 
   useEffect(() => {
-    const filterOrganisms = async () => {
-      setLoading(true)
-      genesRef.current = genes || []
-      orgRef.current = null // Reset the organism reference
-      const taxidCounts = await detectSpecies(genes) /* = [] */ // <== just do this to bypass the API call
-      setLoading(false)
-      console.debug('Detected species:', taxidCounts)
+    if (step >= 0 && step < 2) {
+      setTotalSteps(2)
+      setTitle(step === 0 ? 'Genes' : 'Organisms')
+    }
+  }, [step, setTitle, setTotalSteps])
+
+  useEffect(() => {
+    if (step !== 1) return // Only process genes on the second step
+
+    genesRef.current = genes || []
+    orgRef.current = null // Reset the organism reference
+    
+    console.debug('Detected species:', taxidCounts)
+
+    if (taxidCounts?.length > 0) {
       // Filter organisms based on detected taxids
       const validTaxids = taxidCounts.map(item => item.taxid)
       if (validTaxids?.length > 0) {
@@ -160,15 +144,7 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
         setInitialOrganismIndex(geneManiaOrganisms.findIndex(org => org.taxon === initialOrg.taxon))
       }
     }
-
-    if (step >= 0 && step < 2) {
-      setTotalSteps(2)
-      setTitle(step === 0 ? 'Genes' : 'Organisms')
-    }
-    if (step === 1 && genes?.length > 0 && !_.isEqual(genes, genesRef.current)) {
-      filterOrganisms()
-    }
-  }, [step, setTitle, setTotalSteps, genes])
+  }, [step, genes, taxidCounts])
 
   useEffect(() => {
     switch (step) {
@@ -197,13 +173,13 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
 
   return (
     <div className="min-h-48">
-    {loading && (
+    {isFetching && (
       <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
     )}
-    {!loading && step === 0 && (
+    {!isFetching && step === 0 && (
       <GenesPanel initialValue={searchText} onChange={handleGenesChange} />
     )}
-    {!loading && step === 1 && (
+    {!isFetching && step === 1 && (
       <OrganismsPanel organisms={organisms} initialSelectedIndex={initialOrganismIndex} onChange={handleOrganismsChange} />
     )}
     </div>

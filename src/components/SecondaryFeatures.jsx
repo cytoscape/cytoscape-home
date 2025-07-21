@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { LinkButton } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { SelectMenu } from '@/components/base/SelectMenu'
-import { geneManiaOrganisms, searchNDEx, searchGeneMania, searchWikiPathways } from '@/components/tools/Common'
+import { geneManiaOrganisms, searchNDEx, searchGeneMania, searchWikiPathways } from '@/app/shared/common'
 import { CytoscapeLogo, NDExLogo, GeneManiaLogo, EnrichmentMapLogo, WikiPathwaysLogo, CytoscapeWebLogo } from '@/components/Logos'
 import { ArrowTopRightOnSquareIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 

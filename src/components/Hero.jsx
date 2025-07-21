@@ -9,9 +9,9 @@ import { ChevronDoubleDownIcon, MagnifyingGlassIcon } from '@heroicons/react/16/
 
 
 const searchExamples = [
-  { label: 'TP53', terms: 'TP53', category: 'gene' },
-  { label: 'breast cancer genes', terms: 'BRCA1 BRCA2 PALB2 CHEK2', category: 'gene' },
-  { label: 'glycolysis', terms: 'glycolysis', category: 'pathway' },
+  { label: 'TP53', terms: 'TP53' },
+  { label: 'breast cancer genes', terms: 'BRCA1 BRCA2 PALB2 CHEK2' },
+  { label: 'glycolysis', terms: 'glycolysis' },
 ]
 
 const DNAIcon = (props) => (
@@ -159,7 +159,7 @@ export function Hero({ onGetStarted }) {
                     <a
                       href="#"
                       className="text-complement-500 hover:underline"
-                      onClick={(e) => handleExampleClick(e, example.terms, example.category)}
+                      onClick={(e) => handleExampleClick(e, example.terms, 'gene')}
                     >
                       {example.label}
                     </a>

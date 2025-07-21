@@ -1,4 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { parseGeneList } from '@/app/shared/common'
+import { createMyGeneInfoQueryOptions } from '@/app/shared/queryOptions'
 import { Radio, RadioGroup } from '@headlessui/react'
 import { WizardDialog } from '@/components/base/WizardDialog'
 import { GeneWizard } from '@/components/wizards/GeneWizard'
@@ -104,6 +107,11 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
 
   const wizardRef = useRef()
 
+  const { data: taxidCounts, isFetching } = useQuery(createMyGeneInfoQueryOptions(
+      parseGeneList(searchText || ''),
+      open && type === 'gene' && searchText?.trim().length > 0
+  ))
+
   const reset = () => {
     // Go back to the first screen (the card selector)
     setStep(-1)
@@ -114,6 +122,19 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
     setSearchText(undefined)
     wizardRef.current = null
   }
+
+  useEffect(() => {
+    if (open && searchText?.trim().length > 0 && taxidCounts?.length === 0) {
+      console.debug('No organisms detected, rerouting to Pathway Search...')
+      // If no organisms are detected, redirect to the pathway search
+      reset()
+      onSubmit({
+        type: 'pathway',
+        title: 'Pathway Search',
+        queryTerms: parseGeneList(searchText)
+      })
+    }
+  }, [open, searchText, taxidCounts, onSubmit])
 
   useEffect(() => {
     // Reset the wizard when the component mounts
@@ -181,7 +202,7 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
       onNext={onNext}
       canContinue={canContinue}
     >
-      {step < 0 ? 
+      {step < 0 ?
         <WizardSelector onChange={onWizardChange} />
       :
         <Wizard

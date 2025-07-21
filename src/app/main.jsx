@@ -6,7 +6,7 @@ import fcose from 'cytoscape-fcose'
 import '../styles/tailwind.css'
 import Page from './main/page.jsx'
 import Layout from './main/layout.jsx'
-import { SearchEngine } from '@/model/search.js'
+import { SearchEngine } from '@/app/shared/search.js'
 
 const queryClient = new QueryClient()
 
