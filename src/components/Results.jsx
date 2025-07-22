@@ -6,9 +6,9 @@ import { NDEx } from '@js4cytoscape/ndex-client'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { LinkButton } from '@/components/base/Button'
 import { LoadingMessage } from '@/components/base/Loading'
-import { GeneManiaLogo, NDExLogo } from '@/components/Logos'
+import { GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { ArrowTopRightOnSquareIcon, ArrowTurnDownRightIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 
 const BASE_TUTORIALS_URL = 'https://cytoscape.org/cytoscape-tutorials/protocols/enrichmentmap-pipeline/#'
@@ -97,6 +97,22 @@ const createCytoscape = (id) => {
   
   return cy
 }
+
+
+const CardTitle = ({ logo, title, url }) => (
+  <div className="flex items-center">
+    {logo}
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-start group"
+    >
+      <h3 className="ml-4 font-semibold text-gray-900 group-hover:text-complement-500">{title}</h3>
+      <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 mt-0.5 fill-gray-400 group-hover:fill-complement-500" />
+    </a>
+  </div>
+)
 
 const GeneCard = ({ name, organism }) => {
   const query = useQuery({ queryKey: ['gene-metadata', name], queryFn: () => fetchGeneMetadata(name, organism.taxon) }) // TODO: pass taxon ID
@@ -332,13 +348,11 @@ const GeneManiaCard = ({ genes, organism }) => {
 
   return (
     <div className={`w-full lg:w-2/5 p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
-      <div className="flex items-center">
-        <GeneManiaLogo className="h-8 w-8" />
-        <a href={href} target="_blank" rel="noreferrer" className="flex items-start group">
-          <h3 className="ml-4 font-semibold text-gray-900 group-hover:text-complement-500">GeneMANIA</h3>
-          <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 mt-0.5 fill-gray-400 group-hover:fill-complement-500" />
-        </a>
-      </div>
+      <CardTitle
+        logo={<GeneManiaLogo className="h-8 w-8" />}
+        title="GeneMANIA"
+        url={href}
+      />
       <div className="w-full mt-4">
         <p className="text-right text-xs text-gray-600 overflow-y-auto">
           {!loading && !error ?
@@ -391,13 +405,11 @@ const NDExCard = ({ genes }) => {
 
   return (
     <div className={`relative w-full lg:w-3/5 p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
-      <div className="flex items-center">
-        <NDExLogo className="h-8 w-8" />
-        <a href={href} target="_blank" rel="noreferrer" className="flex items-start group">
-          <h3 className="ml-4 font-semibold text-gray-900 group-hover:text-complement-500">NDEx</h3>
-          <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 mt-0.5 fill-gray-400 group-hover:fill-complement-500" />
-        </a>
-      </div>
+      <CardTitle
+        logo={<NDExLogo className="h-8 w-8" />}
+        title="NDEx"
+        url={href}
+      />
       <p className="mt-4 text-right text-xs text-gray-600 overflow-y-auto">
         {!loading && !error ?
           <>{data.networks.length < data.numFound ? 'Top' : '' } {data.networks.length} results</>
@@ -467,18 +479,95 @@ const NDExCard = ({ genes }) => {
   )
 }
 
+const WikiPathwaysCard = ({ queryTerms, searchEngine }) => {
+  const [results, setResults] = useState()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    console.debug('Searching pathways with terms:', queryTerms)
+    const res = searchEngine.searchPathways(queryTerms.join(' '))
+    setResults(res)
+    setLoading(false)
+  }, [queryTerms, searchEngine])
+
+  console.debug('Pathways search results:', results)
+
+  return (
+    <div className="w-full p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 border border-gray-200 text-left">
+      <CardTitle
+        logo={<WikiPathwaysLogo className="h-8 w-8" />}
+        title="WikiPathways"
+        url={`https://www.wikipathways.org/search.html?query=${queryTerms.join('%20')}`}
+      />
+      <p className="mt-4 text-right text-xs text-gray-600 overflow-y-auto">
+        {!loading ? <>{results.length} results</> : <>&nbsp;</>}
+      </p>
+      <ul className="mt-4 space-y-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+        {loading && (
+          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+        )}
+        {results && results.map(({ id, name, species, annotations, description, url, terms }, idx) => (
+          <li key={idx} className="p-2 flex items-start space-x-4">
+            <div className="max-w-36">
+              <a
+                href={url}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <img src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`} alt={`${name} thumbnail`} />
+              </a>
+            </div>
+            <div className="w-full">
+              <h3 className="font-medium">
+                <a
+                  href={url}
+                  target='_blank'
+                  rel='noreferrer'
+                  className="hover:underline hover:underline-offset-2 text-complement-500"
+                >
+                  {name}
+                </a>
+              </h3>
+              <div className="text-sm font-light text-gray-400">
+                {id} &mdash; <i>{species}</i>
+              </div>
+              <div className="mt-2 flex text-gray-400">
+                <div className="mr-1 text-gray-400">
+                  <ArrowTurnDownRightIcon className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400">
+                    <Marker mark={terms} options={{ className: 'bg-inherit font-bold text-inherit' }}>
+                      {annotations}
+                    </Marker>
+                  </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
+                      {description}
+                    </Marker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 const TutorialsCard = ({ queryTerms, searchEngine }) => {
   const [results, setResults] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.debug('Searching tutorials with terms:', queryTerms.join(' '))
+    console.debug('Searching tutorials with terms:', queryTerms)
     const res = searchEngine.searchTutorials(queryTerms.join(' '))
     setResults(res)
     setLoading(false)
   }, [queryTerms, searchEngine])
 
-  const createSearchUrl = (section, parent) => {
+  const createUrl = (section, parent) => {
     const path1 = parent != null && !isNaN(section) ? parent : section
     const path2 = path1 === parent ? section : null
     if (path1 != null && path2 == null) {
@@ -503,7 +592,7 @@ const TutorialsCard = ({ queryTerms, searchEngine }) => {
           <li key={idx} className="p-2 max-w-screen-md">
             <span className="font-medium">
               <a
-                href={createSearchUrl(section, parent)}
+                href={createUrl(section, parent)}
                 target='_blank'
                 rel='noreferrer'
                 className="hover:underline hover:underline-offset-2 text-complement-500"
@@ -588,6 +677,9 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                       )}
                       {queryTerms.length > 0 && (
                         <NDExCard genes={queryTerms} />
+                      )}
+                      {type === 'pathway' && queryTerms.length > 0 && (
+                        <WikiPathwaysCard queryTerms={queryTerms} searchEngine={searchEngine} />
                       )}
                       </div>
                     </>
