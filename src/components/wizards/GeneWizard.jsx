@@ -89,7 +89,7 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
 
   const { data: taxidCounts, isFetching } = useQuery(createMyGeneInfoQueryOptions(
     genes,
-    step === 1 && genes?.length > 0 //&& !_.isEqual(genes, genesRef.current) // enabled: only on 2nd step and if we have genes that have changed
+    step === 1 && genes?.length > 0 && !_.isEqual(genes.sort(), genesRef.current?.sort()) // enabled: only on 2nd step and if we have genes that have changed
   ))
 
   useEffect(() => {
@@ -104,45 +104,43 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
   }, [step, setTitle, setTotalSteps])
 
   useEffect(() => {
-    if (step !== 1) return // Only process genes on the second step
+    if (step !== 1 || !taxidCounts || taxidCounts.length === 0) return // Only process genes on the second step
 
     genesRef.current = genes || []
     orgRef.current = null // Reset the organism reference
     
     console.debug('Detected species:', taxidCounts)
 
-    if (taxidCounts?.length > 0) {
-      // Filter organisms based on detected taxids
-      const validTaxids = taxidCounts.map(item => item.taxid)
-      if (validTaxids?.length > 0) {
-        // If we have valid taxids, filter the organisms...
-        let filteredOrganisms = geneManiaOrganisms.filter(org => validTaxids.includes(org.taxon))
-        if (filteredOrganisms.length === 0) {
-          console.debug('No valid organisms found, using all GeneMania organisms.')
-          filteredOrganisms = geneManiaOrganisms
-        }
-        // ...and set the initial organism index to the top count
-        orgRef.current = filteredOrganisms.find(org => org.taxon === taxidCounts[0].taxid)
-        // ...but only if its count is higher than the human's count; otherwise, set it to human (9606)
-        if (!orgRef.current || orgRef.current.taxon !== '9606') {
-          const humanCount = taxidCounts.find(item => item.taxid === '9606')?.count || 0
-          if (humanCount >= (taxidCounts[0]?.count || 0)) {
-            orgRef.current = filteredOrganisms.find(org => org.taxon === '9606') // Human
-          }
-        }
-        if (!orgRef.current) {
-          console.debug('No valid organism found, setting the first one as default.')
-          orgRef.current = filteredOrganisms[0]
-        }
-        setOrganisms(filteredOrganisms)
-        setInitialOrganismIndex(filteredOrganisms.findIndex(org => org.taxon === orgRef.current?.taxon))
-      } else {
-        // If no valid taxids, set the initial organism to human
-        const initialOrg = geneManiaOrganisms.find(org => org.taxon === '9606') // Human
-        orgRef.current = initialOrg
-        setOrganisms(geneManiaOrganisms)
-        setInitialOrganismIndex(geneManiaOrganisms.findIndex(org => org.taxon === initialOrg.taxon))
+    // Filter organisms based on detected taxids
+    const validTaxids = taxidCounts.map(item => item.taxid)
+    if (validTaxids?.length > 0) {
+      // If we have valid taxids, filter the organisms...
+      let filteredOrganisms = geneManiaOrganisms.filter(org => validTaxids.includes(org.taxon))
+      if (filteredOrganisms.length === 0) {
+        console.debug('No valid organisms found, using all GeneMania organisms.')
+        filteredOrganisms = geneManiaOrganisms
       }
+      // ...and set the initial organism index to the top count
+      orgRef.current = filteredOrganisms.find(org => org.taxon === taxidCounts[0].taxid)
+      // ...but only if its count is higher than the human's count; otherwise, set it to human (9606)
+      if (!orgRef.current || orgRef.current.taxon !== '9606') {
+        const humanCount = taxidCounts.find(item => item.taxid === '9606')?.count || 0
+        if (humanCount >= (taxidCounts[0]?.count || 0)) {
+          orgRef.current = filteredOrganisms.find(org => org.taxon === '9606') // Human
+        }
+      }
+      if (!orgRef.current) {
+        console.debug('No valid organism found, setting the first one as default.')
+        orgRef.current = filteredOrganisms[0]
+      }
+      setOrganisms(filteredOrganisms)
+      setInitialOrganismIndex(filteredOrganisms.findIndex(org => org.taxon === orgRef.current?.taxon))
+    } else {
+      // If no valid taxids, set the initial organism to human
+      const initialOrg = geneManiaOrganisms.find(org => org.taxon === '9606') // Human
+      orgRef.current = initialOrg
+      setOrganisms(geneManiaOrganisms)
+      setInitialOrganismIndex(geneManiaOrganisms.findIndex(org => org.taxon === initialOrg.taxon))
     }
   }, [step, genes, taxidCounts])
 

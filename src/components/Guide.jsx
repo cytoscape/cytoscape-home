@@ -107,9 +107,9 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
 
   const wizardRef = useRef()
 
-  const { data: taxidCounts, isFetching } = useQuery(createMyGeneInfoQueryOptions(
+  const { data: taxidCounts } = useQuery(createMyGeneInfoQueryOptions(
       parseGeneList(searchText || ''),
-      open && type === 'gene' && searchText?.trim().length > 0
+      open && type === 'gene' && step === -1 && searchText?.trim().length > 0
   ))
 
   const reset = () => {

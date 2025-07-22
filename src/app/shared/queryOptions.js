@@ -2,11 +2,18 @@ import { queryOptions } from '@tanstack/react-query'
 import { geneManiaOrganisms } from '@/app/shared/common'
 
 
-export function createMyGeneInfoQueryOptions(symbols, enabled = true) {
+export function createMyGeneInfoQueryOptions(symbols = [], enabled = true) {
+  // Remove duplicates and sort it
+  const symbolSet = new Set(symbols)
+  symbols = Array.from(symbolSet).sort()
+
   return queryOptions({
     queryKey: ['myGeneInfo', symbols],
     queryFn: () => fetchMyGeneInfo(symbols),
     enabled,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
     retry: 0,
   })
 }
@@ -26,7 +33,6 @@ async function fetchMyGeneInfo(symbols) {
     })
   })
   const data = await response.json()
-  console.debug('Fetched MyGeneInfo data:', data)
 
   // Count occurrences of each taxid
   const taxidCounts = {}
