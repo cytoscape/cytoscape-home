@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { parseGeneList } from '@/app/shared/common'
+import { geneManiaOrganisms, parseGeneList } from '@/app/shared/common'
 import { createMyGeneInfoQueryOptions } from '@/app/shared/queryOptions'
 import { Radio, RadioGroup } from '@headlessui/react'
 import { WizardDialog } from '@/components/base/WizardDialog'
@@ -124,15 +124,26 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
   }
 
   useEffect(() => {
-    if (open && searchText?.trim().length > 0 && taxidCounts?.length === 0) {
-      console.debug('No organisms detected, rerouting to Pathway Search...')
-      // If no organisms are detected, redirect to the pathway search
-      reset()
-      onSubmit({
-        type: 'pathway',
-        title: 'Pathway Search',
-        queryTerms: parseGeneList(searchText)
-      })
+    if (open && searchText?.trim().length > 0 && taxidCounts) {
+      if (taxidCounts.length === 0) {
+        console.debug('No organisms detected, rerouting to Pathway Search...')
+        reset()
+        onSubmit({
+          type: 'pathway',
+          title: 'Pathway Search',
+          queryTerms: parseGeneList(searchText)
+        })
+      } else if (taxidCounts.length === 1) {
+        // If only one taxid is found, the user doesn't need to select an organism
+        const taxid = taxidCounts[0].taxid
+        setSearchText(taxid)
+        onSubmit({
+          type: 'gene',
+          title: 'Gene Analysis',
+          queryTerms: parseGeneList(searchText),
+          organism: geneManiaOrganisms.find(org => org.taxon === taxid)
+        })
+      }
     }
   }, [open, searchText, taxidCounts, onSubmit])
 
