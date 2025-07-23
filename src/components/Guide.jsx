@@ -133,8 +133,9 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
           title: 'Pathway Search',
           queryTerms: parseGeneList(searchText)
         })
-      } else if (taxidCounts.length === 1) {
-        // If only one taxid is found, the user doesn't need to select an organism
+      } else if (taxidCounts.length === 1 || taxidCounts[0].count > taxidCounts[1].count) {
+        // If only one taxid is found or the first one has the highest count (assuming they are sorted by count),
+        // the user doesn't need to select an organism
         const taxid = taxidCounts[0].taxid
         setSearchText(taxid)
         onSubmit({

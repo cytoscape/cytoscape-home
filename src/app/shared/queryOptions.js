@@ -43,7 +43,7 @@ async function fetchMyGeneInfo(symbols) {
     }
   }
 
-  // Sort taxids by count
+  // Sort taxids by count (descending) -- this is important because the client code expects the most common taxid first!
   return Object.entries(taxidCounts)
     .sort((a, b) => b[1] - a[1])
     .map(([taxid, count]) => ({ taxid, count }))
