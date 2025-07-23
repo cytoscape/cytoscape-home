@@ -172,7 +172,7 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
   return (
     <div className="min-h-48">
     {isFetching && (
-      <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+      <LoadingMessage message="Identifying organisms..." className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
     )}
     {!isFetching && step === 0 && (
       <GenesPanel initialValue={searchText} onChange={handleGenesChange} />
