@@ -662,7 +662,7 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                   </button>
                 </div>
                 <div className="flex-initial -mt-2.5 text-center sm:text-left">
-                  <DialogTitle as="h2" className="mt-0.5 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
+                  <DialogTitle as="h2" className="mt-6 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
                     {title}
                   </DialogTitle>
                 {type === 'gene' && (
