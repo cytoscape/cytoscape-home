@@ -220,21 +220,6 @@ const GeneManiaCard = ({ genes, organism }) => {
   const isMounted = useRef(false)
   const cyRef = useRef()
 
-  const edgeColors = [
-    { code: 'coexp', color: '#d0b7d5' },
-    { code: 'coloc', color: '#a0b3dc' },
-    { code: 'gi', color: '#90e190' },
-    { code: 'path', color: '#9bd8de' },
-    { code: 'pi', color: '#eaa2a2' },
-    { code: 'predict', color: '#f6c384' },
-    { code: 'spd', color: '#dad4a2' },
-    { code: 'spd_attr', color: '#D0D0D0' },
-    { code: 'reg', color: '#D0D0D0' },
-    { code: 'reg_attr', color: '#D0D0D0' },
-    { code: 'user', color: '#f0ec86' },
-    { code: 'other', color: '#bbbbbb' }
-  ]
-
   useEffect(() => {
     isMounted.current = true
 
@@ -249,6 +234,21 @@ const GeneManiaCard = ({ genes, organism }) => {
   }, [])
 
   useEffect(() => {
+    const edgeColors = [
+      { code: 'coexp', color: '#d0b7d5' },
+      { code: 'coloc', color: '#a0b3dc' },
+      { code: 'gi', color: '#90e190' },
+      { code: 'path', color: '#9bd8de' },
+      { code: 'pi', color: '#eaa2a2' },
+      { code: 'predict', color: '#f6c384' },
+      { code: 'spd', color: '#dad4a2' },
+      { code: 'spd_attr', color: '#D0D0D0' },
+      { code: 'reg', color: '#D0D0D0' },
+      { code: 'reg_attr', color: '#D0D0D0' },
+      { code: 'user', color: '#f0ec86' },
+      { code: 'other', color: '#bbbbbb' }
+    ]
+
     const fetchData = async () => {
       setLoading(true)
       const json = await fetchGeneManiaNetwork(genes.join('\n'), organism.id)
@@ -376,9 +376,9 @@ const GeneManiaCard = ({ genes, organism }) => {
           )}
         </div>
       </div>
-      <div className="flex w-full justify-center">
+      {/* <div className="flex w-full justify-center">
         <LinkButton href={href} className="mt-4">Go to GeneMANIA</LinkButton>
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -429,7 +429,7 @@ const NDExCard = ({ genes }) => {
             </span>
           </span>
         )}
-        {!loading && !error && (
+        {!loading && !error && data.networks.length > 0 && (
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="sticky bg-gray-50">
               <tr>
@@ -472,9 +472,14 @@ const NDExCard = ({ genes }) => {
           </table>
         )}
       </div>
-      <div className="flex w-full justify-center">
-        <LinkButton href={href} className="mt-4">More Results on NDEx</LinkButton>
-      </div>
+      {/* <div className="flex w-full justify-center">
+        <LinkButton
+          href={href}
+          className="mt-4"
+        >
+          More Results on NDEx
+        </LinkButton>
+      </div> */}
     </div>
   )
 }
@@ -646,7 +651,7 @@ export function Results({ open=false, data, searchEngine, onClose }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogPanel className="relative transform w-full h-full rounded-lg bg-white text-left shadow-xl transition-all overflow-y-auto py-6 sm:my-8 sm:px-0">
+              <DialogPanel className="flex flex-col w-full h-full sm:rounded-xl xl:rounded-xl xs:rounded-none bg-white text-left shadow-xl transition-all sm:px-0">
                 <div className="absolute right-0 top-0 pr-4 pt-4">
                   <button
                     type="button"
@@ -656,37 +661,35 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
-                <div className="-mt-2.5 text-center sm:text-left">
+                <div className="flex-initial -mt-2.5 text-center sm:text-left">
                   <DialogTitle as="h2" className="mt-0.5 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
                     {title}
                   </DialogTitle>
-                  {(type === 'gene' || type === 'pathway') && (
-                    <>
-                    {type === 'gene' && (
-                      <div className="mt-2 bg-black text-gray-400 text-left py-2">
-                        <p className="flex flex-row items-center px-6">
-                          <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
-                          <span className="pl-2 italic">{organism.name}</span>
-                          <span className="ml-2">&#40;{queryTerms.length} query gene{queryTerms.length > 1 ? 's' : ''}&#41;</span>
-                        </p>
-                      </div>
-                    )}
-                      <div className="flex flex-col lg:flex-row space-y-2 items-start mt-5 px-6 sm:space-x-4 sm:space-y-0">
-                      {type === 'gene' && queryTerms.length > 0 && organism && (
-                        <GeneManiaCard genes={queryTerms} organism={organism} />
-                      )}
-                      {queryTerms.length > 0 && (
-                        <NDExCard genes={queryTerms} />
-                      )}
-                      {type === 'pathway' && queryTerms.length > 0 && (
-                        <WikiPathwaysCard queryTerms={queryTerms} searchEngine={searchEngine} />
-                      )}
-                      </div>
-                    </>
+                {type === 'gene' && (
+                  <div className="mt-2 bg-black text-gray-400 text-left py-2">
+                    <p className="flex flex-row items-center px-6">
+                      <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
+                      <span className="pl-2 italic">{organism.name}</span>
+                      <span className="ml-2">&#40;{queryTerms.length} query gene{queryTerms.length > 1 ? 's' : ''}&#41;</span>
+                    </p>
+                  </div>
+                )}
+                </div>
+                <div className="flex-auto overflow-y-auto">
+                {(type === 'gene' || type === 'pathway') && (
+                  <div className="flex flex-col lg:flex-row items-center lg:items-start mt-5 px-6 lg:space-x-2 lg:space-y-0 space-y-2">
+                  {type === 'gene' && organism && (
+                    <GeneManiaCard genes={queryTerms} organism={organism} />
                   )}
-                  {type === 'tutorial' && (
-                    <TutorialsCard queryTerms={queryTerms} searchEngine={searchEngine} />
-                  )}
+                    <NDExCard genes={queryTerms} />
+                  {/* {(type === 'pathway' || queryTerms.length === 1) && ( */}
+                    <WikiPathwaysCard queryTerms={queryTerms} searchEngine={searchEngine} />
+                  {/* )} */}
+                  </div>
+                )}
+                {type === 'tutorial' && (
+                  <TutorialsCard queryTerms={queryTerms} searchEngine={searchEngine} />
+                )}
                 </div>
               </DialogPanel>
             </TransitionChild>
