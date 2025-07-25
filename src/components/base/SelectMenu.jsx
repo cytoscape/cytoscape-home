@@ -19,7 +19,7 @@ export function SelectMenu({ data, label, selectedIndex, onChange, className }) 
         setSelected(newSelected)
       }
     }
-  }, [selectedIndex, data])
+  }, [selectedIndex, data, selected])
 
   const handleChange = (item) => {
     setSelected(item)

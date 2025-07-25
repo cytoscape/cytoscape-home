@@ -3,10 +3,13 @@ import { useQuery } from "@tanstack/react-query"
 import { Marker } from "react-mark.js"
 import Cytoscape from 'cytoscape'
 import { NDEx } from '@js4cytoscape/ndex-client'
+
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { LinkButton } from '@/components/base/Button'
 import { LoadingMessage } from '@/components/base/Loading'
+
 import { GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
+import { SearchBar } from '@/components/SearchBar'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ArrowTurnDownRightIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
@@ -666,12 +669,12 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                     {title}
                   </DialogTitle>
                 {type === 'gene' && (
-                  <div className="mt-2 bg-black text-gray-400 text-left py-2">
-                    <p className="flex flex-row items-center px-6">
-                      <img src={organism.image} alt="" className="h-8 w-8 brightness-0 invert" />
-                      <span className="pl-2 italic">{organism.name}</span>
-                      <span className="ml-2">&#40;{queryTerms.length} query gene{queryTerms.length > 1 ? 's' : ''}&#41;</span>
-                    </p>
+                  <div className="max-w-2xl mt-2 ml-auto mr-auto px-4 py-2 text-gray-400 text-left">
+                    <SearchBar
+                      initialText={queryTerms?.join(' ')}
+                      initialOrganismTaxon={organism.taxon}
+                      showOrganismSelector={true}
+                    />
                   </div>
                 )}
                 </div>
