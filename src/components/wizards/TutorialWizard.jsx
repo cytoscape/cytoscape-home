@@ -65,11 +65,7 @@ export function TutorialWizard({ step, initialSearchText, setTotalSteps, setTitl
         onCanContinue(terms.length > 0)
         break
       case 1:
-        onSubmit({
-          type: 'tutorial',
-          title: 'Tutorial Search',
-          queryTerms: terms,
-        })
+        onSubmit({ type: 'tutorial', terms })
     }
   }, [step, setTotalSteps, setTitle, onCanContinue, onSubmit, terms])
 

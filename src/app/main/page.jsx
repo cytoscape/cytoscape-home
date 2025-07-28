@@ -12,7 +12,7 @@ import { Results } from '@/components/Results'
 
 
 export default function Home({ searchEngine }) {
-  const [searchCategory, setSearchCategory] = useState('gene')
+  const [searchType, setSearchType] = useState('gene')
   const [searchText, setSearchText] = useState('')
   const [openGuide, setOpenGuide] = useState(false)
   const [openResults, setOpenResults] = useState(false)
@@ -29,10 +29,10 @@ export default function Home({ searchEngine }) {
       }
     }
   }
-  const handleGetStarted = (category, terms) => {
+  const handleGetStarted = ({ type, terms }) => {
     setOpenResults(false)
     setResults(null)
-    setSearchCategory(category)
+    setSearchType(type)
     setSearchText(terms ? terms.join(' ') : '')
     setOpenGuide(true)
   }
@@ -47,7 +47,7 @@ export default function Home({ searchEngine }) {
       <CallToAction onGetStarted={handleGetStarted} />
       <Citations />
       <Faqs />
-      <Guide open={openGuide} type={searchCategory} initialText={searchText} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
+      <Guide open={openGuide} type={searchType} initialText={searchText} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
       <Results open={openResults} data={results} searchEngine={searchEngine} onClose={() => setOpenResults(false)} />
     </>
   )

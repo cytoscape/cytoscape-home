@@ -40,7 +40,7 @@ export class SearchEngine {
     return []
   }
 
-  searchPathways(query) {console.log('>>> Searching pathways with query:', query)
+  searchPathways(query) {
     if (!this.isSearchReady()) {
       throw "The pathways haven't been fetched yet!"
     }

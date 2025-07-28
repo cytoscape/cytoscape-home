@@ -26,8 +26,6 @@ const DNAIcon = (props) => (
 
 
 export function Hero({ onGetStarted }) {
-  // const [initialSearchCategory, setInitialSearchCategory] = useState('genes')
-  const [selectedCategory, setSelectedCategory] = useState('gene')
   const [searchText, setSearchText] = useState('')
 
   const focusSearchField = (select) => {
@@ -43,10 +41,8 @@ export function Hero({ onGetStarted }) {
   const handleTextChange = (text) => {
     setSearchText(text.trim())
   }
-  const handleExampleClick = (event, terms, searchCategory = 'gene') => {
+  const handleExampleClick = (event, terms) => {
     event.preventDefault()
-    // Set the initial search option based on the search option (to update the dropdown)
-    setSelectedCategory(searchCategory)
     // Set the input value and focus it
     setSearchText(terms)
     focusSearchField()
@@ -82,7 +78,7 @@ export function Hero({ onGetStarted }) {
                 placeholder="Enter one or more genes, a pathway or any terms"
                 initialText={searchText}
                 onTextChange={handleTextChange}
-                onSubmit={(terms) => onGetStarted(selectedCategory, terms)}
+                onSubmit={onGetStarted}
                 className="rounded-none rounded-b-md rounded-r-md"
               />
               <div className="mt-2 text-sm text-gray-500">

@@ -18,6 +18,11 @@ const BASE_TUTORIALS_URL = 'https://cytoscape.org/cytoscape-tutorials/protocols/
 
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
+const resultTypes = {
+  gene: 'Gene Analysis',
+  pathway: 'Pathway Search',
+  tutorial: 'Tutorial Search',
+}
 
 async function fetchGeneMetadata(symbol, taxon='9606') {
   try {
@@ -487,25 +492,22 @@ const NDExCard = ({ genes }) => {
   )
 }
 
-const WikiPathwaysCard = ({ queryTerms, searchEngine }) => {
+const WikiPathwaysCard = ({ terms, searchEngine }) => {
   const [results, setResults] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.debug('Searching pathways with terms:', queryTerms)
-    const res = searchEngine.searchPathways(queryTerms.join(' '))
+    const res = searchEngine.searchPathways(terms.join(' '))
     setResults(res)
     setLoading(false)
-  }, [queryTerms, searchEngine])
-
-  console.debug('Pathways search results:', results)
+  }, [terms, searchEngine])
 
   return (
     <div className="w-full p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 border border-gray-200 text-left">
       <CardTitle
         logo={<WikiPathwaysLogo className="h-8 w-8" />}
         title="WikiPathways"
-        url={`https://www.wikipathways.org/search.html?query=${queryTerms.join('%20')}`}
+        url={`https://www.wikipathways.org/search.html?query=${terms.join('%20')}`}
       />
       <p className="mt-4 text-right text-xs text-gray-600 overflow-y-auto">
         {!loading ? <>{results.length} results</> : <>&nbsp;</>}
@@ -564,16 +566,15 @@ const WikiPathwaysCard = ({ queryTerms, searchEngine }) => {
   )
 }
 
-const TutorialsCard = ({ queryTerms, searchEngine }) => {
+const TutorialsCard = ({ terms, searchEngine }) => {
   const [results, setResults] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.debug('Searching tutorials with terms:', queryTerms)
-    const res = searchEngine.searchTutorials(queryTerms.join(' '))
+    const res = searchEngine.searchTutorials(terms.join(' '))
     setResults(res)
     setLoading(false)
-  }, [queryTerms, searchEngine])
+  }, [terms, searchEngine])
 
   const createUrl = (section, parent) => {
     const path1 = parent != null && !isNaN(section) ? parent : section
@@ -621,12 +622,23 @@ const TutorialsCard = ({ queryTerms, searchEngine }) => {
 }
 
 
-export function Results({ open=false, data, searchEngine, onClose }) {
-  console.log('Results component data:', data)
-  const type = data?.type
-  const title = data?.title || 'Results'
-  const queryTerms = data?.queryTerms || []
-  const organism = data?.organism
+export function Results({open=false, data, searchEngine, onClose }) {
+  const [localData, setLocalData] = useState(data)
+
+  const type = localData?.type
+  const title = resultTypes[type] || 'Results'
+  const terms = localData?.terms || []
+  const organism = localData?.organism
+
+  useEffect(() => {
+    if (data) {
+      setLocalData(data)
+    }
+  }, [data])
+
+  const handleSubmit = (newData) => {
+    setLocalData({ type, terms: newData.terms, organism: newData.organism })
+  }
 
   return (
     <Transition show={open}>
@@ -668,30 +680,29 @@ export function Results({ open=false, data, searchEngine, onClose }) {
                   <DialogTitle as="h2" className="mt-6 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
                     {title}
                   </DialogTitle>
-                {type === 'gene' && (
                   <div className="max-w-2xl mt-2 ml-auto mr-auto px-4 py-2 text-gray-400 text-left">
                     <SearchBar
-                      initialText={queryTerms?.join(' ')}
-                      initialOrganismTaxon={organism.taxon}
-                      showOrganismSelector={true}
+                      initialText={terms?.join(' ')}
+                      initialOrganismTaxon={organism?.taxon}
+                      showOrganismSelector={type === 'gene'}
+                      onSubmit={handleSubmit}
                     />
                   </div>
-                )}
                 </div>
                 <div className="flex-auto overflow-y-auto">
                 {(type === 'gene' || type === 'pathway') && (
                   <div className="flex flex-col lg:flex-row items-center lg:items-start mt-5 px-6 lg:space-x-2 lg:space-y-0 space-y-2">
                   {type === 'gene' && organism && (
-                    <GeneManiaCard genes={queryTerms} organism={organism} />
+                    <GeneManiaCard genes={terms} organism={organism} />
                   )}
-                    <NDExCard genes={queryTerms} />
-                  {/* {(type === 'pathway' || queryTerms.length === 1) && ( */}
-                    <WikiPathwaysCard queryTerms={queryTerms} searchEngine={searchEngine} />
+                    <NDExCard genes={terms} />
+                  {/* {(type === 'pathway' || terms.length === 1) && ( */}
+                    <WikiPathwaysCard terms={terms} searchEngine={searchEngine} />
                   {/* )} */}
                   </div>
                 )}
                 {type === 'tutorial' && (
-                  <TutorialsCard queryTerms={queryTerms} searchEngine={searchEngine} />
+                  <TutorialsCard terms={terms} searchEngine={searchEngine} />
                 )}
                 </div>
               </DialogPanel>

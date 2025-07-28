@@ -155,8 +155,7 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
       case 2:
         onSubmit({
           type: 'gene',
-          title: 'Gene Analysis',
-          queryTerms: genes,
+          terms: genes,
           organism: orgRef.current
         })
     }

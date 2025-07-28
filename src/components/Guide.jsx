@@ -130,8 +130,7 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
         reset()
         onSubmit({
           type: 'pathway',
-          title: 'Pathway Search',
-          queryTerms: parseGeneList(searchText)
+          terms: parseGeneList(searchText)
         })
       } else if (taxidCounts.length === 1 || taxidCounts[0].count > taxidCounts[1].count) {
         // If only one taxid is found or the first one has the highest count (assuming they are sorted by count),
@@ -140,8 +139,7 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
         setSearchText(taxid)
         onSubmit({
           type: 'gene',
-          title: 'Gene Analysis',
-          queryTerms: parseGeneList(searchText),
+          terms: parseGeneList(searchText),
           organism: geneManiaOrganisms.find(org => org.taxon === taxid)
         })
       }
