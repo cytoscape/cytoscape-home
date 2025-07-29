@@ -170,7 +170,7 @@ export function SearchBar({
           />
           <button
             disabled={!text || text.trim() === ''}
-            onClick={handleSubmit}
+            type="submit"
             className="absolute inset-y-1 right-1 w-9 h-9 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200 fill-complement-500 disabled:pointer-events-none disabled:fill-gray-400"
           >
             <MagnifyingGlassIcon

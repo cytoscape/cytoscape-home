@@ -39,7 +39,7 @@ export default function Home({ searchEngine }) {
 
   return (
     <>
-      <Hero onGetStarted={handleGetStarted} />
+      <Hero onGetStarted={handleGetStarted} onSubmit={handleSubmit} />
       <PrimaryFeatures />
       <GenesCTASection />
       <NetworkCTASection />

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { geneManiaOrganisms } from '@/app/shared/common'
 import { Container } from '@/components/base/Container'
 import { AppDemo } from '@/components/AppDemo'
 import { BrowserFrame } from '@/components/BrowserFrame'
@@ -9,13 +10,13 @@ import { ChevronDoubleDownIcon } from '@heroicons/react/16/solid'
 
 
 const searchExamples = [
-  { label: 'TP53', terms: 'TP53' },
-  { label: 'breast cancer genes', terms: 'BRCA1 BRCA2 PALB2 CHEK2' },
-  { label: 'glycolysis', terms: 'glycolysis' },
+  { label: 'TP53', terms: ['TP53'], taxon: '9606', type: 'gene' },
+  { label: 'breast cancer genes', terms: ['BRCA1', 'BRCA2', 'PALB2', 'CHEK2'], taxon: '9606', type: 'gene' },
+  { label: 'glycolysis', terms: ['glycolysis'], taxon: '9606', type: 'pathway' },
 ]
 
 
-export function Hero({ onGetStarted }) {
+export function Hero({ onGetStarted, onSubmit }) {
   const [searchText, setSearchText] = useState('')
 
   const focusSearchField = (select) => {
@@ -31,11 +32,27 @@ export function Hero({ onGetStarted }) {
   const handleTextChange = (text) => {
     setSearchText(text.trim())
   }
-  const handleExampleClick = (event, terms) => {
+  const handleExampleClick = (event, example) => {
+    const { terms, taxon, type } = example
     event.preventDefault()
-    // Set the input value and focus it
-    setSearchText(terms)
+    // Simulate a search submission
     focusSearchField()
+    setSearchText('')
+    const text = terms.join(' ')
+    let i = 0
+    const animate = () => {
+      setSearchText(text.slice(0, i + 1))
+      i++
+      if (i < text.length) {
+        setTimeout(animate, 20)
+      } else {
+        setTimeout(() => {
+          // Submit the search right away, don't open the wizard!
+          onSubmit({ type, terms, organism: geneManiaOrganisms.find(org => org.taxon === taxon) })
+        }, 200)
+      }
+    }
+    animate()
   }
 
   return (
@@ -71,7 +88,7 @@ export function Hero({ onGetStarted }) {
                     <a
                       href="#"
                       className="text-complement-500 hover:underline"
-                      onClick={(e) => handleExampleClick(e, example.terms, 'gene')}
+                      onClick={(e) => handleExampleClick(e, example)}
                     >
                       {example.label}
                     </a>
