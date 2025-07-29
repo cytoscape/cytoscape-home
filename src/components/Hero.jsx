@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { Button } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { AppDemo } from '@/components/AppDemo'
 import { BrowserFrame } from '@/components/BrowserFrame'
@@ -97,20 +96,23 @@ export function Hero({ onGetStarted }) {
                 ))}
               </div>
             </div>
-            <div className="mt-10 flex flex-col sm:flex-row sm:items-center">
-              <Button
-                variant="solid"
-                color="primary"
-                onClick={() => window.open('/#genes', '_self')}
-                className="relative ml-auto mr-auto pr-5 items-center"
+            <div className="mt-16 text-center">
+              <a
+                href="/#genes"
+                className="inline-flex items-center text-primary-500 font-semibold hover:underline underline-offset-2"
               >
-                <ChevronDoubleDownIcon
-                  fill="#fff"
+                <ChevronDoubleDownIcon  
+                  fill="#f7d3a7"
                   aria-hidden="true"
-                  className="size-5 mr-2"
+                  className="size-7 mr-2 text-primary-500"
                 />
                 What else can I do?
-              </Button>
+                <ChevronDoubleDownIcon  
+                  fill="#f7d3a7"
+                  aria-hidden="true"
+                  className="size-7 ml-2 text-primary-500"
+                />
+              </a>
             </div>
           </div>
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
