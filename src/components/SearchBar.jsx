@@ -42,7 +42,7 @@ export function SearchBar({
 
   // Add event listener for clicks outside the dropdown
   useEffect(() => {
-    if (!showOrganismSelector) return
+    if (!showOrganismSelector || !dropdownOpen) return
     // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       const dropdownMenu = document.getElementById('organismDropdownMenu')
@@ -50,11 +50,16 @@ export function SearchBar({
         setDropdownOpen(false)
       }
     }
+    // Add event listener to document and any modal dialog
     document.addEventListener('click', handleClickOutside)
+    const dialog = document.querySelector('[data-headlessui-state="open"]')
+    if (dialog) {
+      dialog.addEventListener('click', handleClickOutside)
+    }
     return () => {
       document.removeEventListener('click', handleClickOutside)
     }
-  }, [showOrganismSelector])
+  }, [showOrganismSelector, dropdownOpen])
 
   const handleTextChange = (event) => {
     const newText = event.target.value
