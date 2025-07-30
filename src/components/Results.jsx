@@ -2,21 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 import { useQuery } from "@tanstack/react-query"
 import { Marker } from "react-mark.js"
 import Cytoscape from 'cytoscape'
-import { NDEx } from '@js4cytoscape/ndex-client'
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
-import { LinkButton } from '@/components/base/Button'
 import { LoadingMessage } from '@/components/base/Loading'
 
-import { GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
+import { createNDExQueryOptions, createGeneManiaQueryOptions } from '@/app/shared/queryOptions'
 import { SearchBar } from '@/components/SearchBar'
+import { GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ArrowTurnDownRightIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 
 const BASE_TUTORIALS_URL = 'https://cytoscape.org/cytoscape-tutorials/protocols/enrichmentmap-pipeline/#'
-
-const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
 const resultTypes = {
   gene: 'Gene Analysis',
@@ -123,7 +120,7 @@ const CardTitle = ({ logo, title, url }) => (
 )
 
 const GeneCard = ({ name, organism }) => {
-  const query = useQuery({ queryKey: ['gene-metadata', name], queryFn: () => fetchGeneMetadata(name, organism.taxon) }) // TODO: pass taxon ID
+  const query = useQuery({ queryKey: ['gene-metadata', name], queryFn: () => fetchGeneMetadata(name, organism.taxon) })
 
   const data = query.data
   const loading = query.isLoading
@@ -221,12 +218,14 @@ const GeneCard = ({ name, organism }) => {
 }
 
 const GeneManiaCard = ({ genes, organism }) => {
-  const [data, setData] = useState()
-  const [error, setError] = useState()
-  const [loading, setLoading] = useState(true)
-
   const isMounted = useRef(false)
   const cyRef = useRef()
+
+  const { data, error, isFetching } = useQuery(createGeneManiaQueryOptions(
+    genes,
+    organism.id,
+    isMounted && genes?.length > 0 && organism?.id > 0
+  ))
 
   useEffect(() => {
     isMounted.current = true
@@ -256,101 +255,91 @@ const GeneManiaCard = ({ genes, organism }) => {
       { code: 'user', color: '#f0ec86' },
       { code: 'other', color: '#bbbbbb' }
     ]
-
-    const fetchData = async () => {
-      setLoading(true)
-      const json = await fetchGeneManiaNetwork(genes.join('\n'), organism.id)
-      if (json.error) {
-        setError(json.error)
-      } else {
-        setData(json)
-        if (!isMounted.current) {
-          // Do not attempt to create Cytoscape if the component is unmounted!
-          return
-        }
-        // -- Create the Cytoscape instance --
-        const cy = createCytoscape('genemania-cy')
-        cyRef.current = cy
-        // style
-        cy.style().selector('node').style({
-          'width': 'mapData(score, 0, 1, 20, 60)',
-          'height': 'mapData(score, 0, 1, 20, 60)',
-          'content': 'data(symbol)',
-          'font-size': 12,
-          'text-valign': 'center',
-          'text-halign': 'center',
-          'background-color': '#666',
-          'text-outline-color': '#666',
-          'text-outline-width': 1.75,
-          'color': '#fff',
-          'overlay-padding': 6,
-        })
-        cy.style().selector('node[?query]').style({
-          'background-color': '#333',
-          'text-outline-color': '#333',
-        })
-        cy.style().selector('edge').style({
-          'curve-style': 'haystack',
-          'haystack-radius': 0.5,
-          'opacity': 0.4,
-          'line-color': '#bbb',
-          'width': 'mapData(weight, 0, 1, 1.5, 16)',
-          'overlay-padding': 3,
-        })
-        edgeColors.forEach(ec => {
-          cy.style().selector('edge[group="'+ ec.code +'"]').style({
-            'line-color': ec.color,
-          })
-        })
-        // nodes
-        json.resultGenes.forEach(el => {
-          const node = { data: { 
-            id: el.gene.id,
-            symbol: el.gene.symbol,
-            score: el.score,
-            query: el.queryGene
-          }}
-          cy.add(node)
-        })
-        // edges
-        let id = 0
-        json.resultNetworkGroups.forEach(ng => {
-          const netGroup = ng.networkGroup
-          ng.resultNetworks?.forEach(rn => {
-            rn.resultInteractions?.forEach(ri => {
-              const source = ri.fromGene?.gene
-              const target = ri.toGene?.gene
-              const weight = ri.interaction?.weight
-              if (source && target) {
-                const edge = {
-                  group: 'edges',
-                  data: {
-                    id: `e${++id}`,
-                    source: source.id,
-                    target: target.id,
-                    weight: weight,
-                    group: netGroup.code,
-                  },
-                }
-                cy.add(edge)
-              }
-            })
-          })
-        })
-        // layout
-        cy.layout({
-          name: 'fcose',
-          animate: false,
-          idealEdgeLength: 40,
-          nodeOverlap: 30,
-          nodeRepulsion: 100000,
-          padding: 10,
-        }).run()
+    if (data) {
+      if (!isMounted.current) {
+        // Do not attempt to create Cytoscape if the component is unmounted!
+        return
       }
-      setLoading(false)
+      // -- Create the Cytoscape instance --
+      const cy = createCytoscape('genemania-cy')
+      cyRef.current = cy
+      // style
+      cy.style().selector('node').style({
+        'width': 'mapData(score, 0, 1, 20, 60)',
+        'height': 'mapData(score, 0, 1, 20, 60)',
+        'content': 'data(symbol)',
+        'font-size': 12,
+        'text-valign': 'center',
+        'text-halign': 'center',
+        'background-color': '#666',
+        'text-outline-color': '#666',
+        'text-outline-width': 1.75,
+        'color': '#fff',
+        'overlay-padding': 6,
+      })
+      cy.style().selector('node[?query]').style({
+        'background-color': '#333',
+        'text-outline-color': '#333',
+      })
+      cy.style().selector('edge').style({
+        'curve-style': 'haystack',
+        'haystack-radius': 0.5,
+        'opacity': 0.4,
+        'line-color': '#bbb',
+        'width': 'mapData(weight, 0, 1, 1.5, 16)',
+        'overlay-padding': 3,
+      })
+      edgeColors.forEach(ec => {
+        cy.style().selector('edge[group="'+ ec.code +'"]').style({
+          'line-color': ec.color,
+        })
+      })
+      // nodes
+      data.resultGenes.forEach(el => {
+        const node = { data: { 
+          id: el.gene.id,
+          symbol: el.gene.symbol,
+          score: el.score,
+          query: el.queryGene
+        }}
+        cy.add(node)
+      })
+      // edges
+      let id = 0
+      data.resultNetworkGroups.forEach(ng => {
+        const netGroup = ng.networkGroup
+        ng.resultNetworks?.forEach(rn => {
+          rn.resultInteractions?.forEach(ri => {
+            const source = ri.fromGene?.gene
+            const target = ri.toGene?.gene
+            const weight = ri.interaction?.weight
+            if (source && target) {
+              const edge = {
+                group: 'edges',
+                data: {
+                  id: `e${++id}`,
+                  source: source.id,
+                  target: target.id,
+                  weight: weight,
+                  group: netGroup.code,
+                },
+              }
+              cy.add(edge)
+            }
+          })
+        })
+      })
+      // layout
+      cy.layout({
+        name: 'fcose',
+        animate: false,
+        idealEdgeLength: 40,
+        nodeOverlap: 30,
+        nodeRepulsion: 100000,
+        padding: 10,
+      }).run()
     }
-    fetchData()
-  }, [genes, organism])
+  }, [genes, organism, data])
 
   const href = `https://genemania.org/search/${organism.name.toLowerCase().replace(' ', '-')}/${genes.join('/')}`
 
@@ -363,15 +352,15 @@ const GeneManiaCard = ({ genes, organism }) => {
       />
       <div className="w-full mt-4">
         <p className="text-right text-xs text-gray-600 overflow-y-auto">
-          {!loading && !error ?
+          {!isFetching && !error ?
             <>{data.resultGenes.length} result genes</>
           :
             <>&nbsp;</>
           }
         </p>
         <div className="relative w-full h-96 mt-2 ring-4 ring-black ring-opacity-5 rounded-lg">
-          <div id="genemania-cy" className="w-full h-96" />
-          {loading && (
+          <div id="genemania-cy" className={`w-full h-96 ${isFetching ? 'invisible' : ''}`} />
+          {isFetching && (
             <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
           )}
           {error && (
@@ -384,30 +373,15 @@ const GeneManiaCard = ({ genes, organism }) => {
           )}
         </div>
       </div>
-      {/* <div className="flex w-full justify-center">
-        <LinkButton href={href} className="mt-4">Go to GeneMANIA</LinkButton>
-      </div> */}
     </div>
   )
 }
 
 const NDExCard = ({ genes }) => {
-  const [data, setData] = useState()
-  const [error, setError] = useState()
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const json = await ndexClient.searchNetworks(genes.join(' '))
-      if (json.error) {
-        setError(json.error)
-      } else {
-        setData(json)
-      }
-      setLoading(false)
-    }
-    fetchData()
-  }, [genes])
+  const { data, error, isFetching } = useQuery(createNDExQueryOptions(
+    genes,
+    genes?.length > 0
+  ))
 
   const href = `https://www.ndexbio.org/index.html#/search?searchType=All&searchString=${genes.join('%20')}&searchTermExpansion=false`
 
@@ -419,14 +393,14 @@ const NDExCard = ({ genes }) => {
         url={href}
       />
       <p className="mt-4 text-right text-xs text-gray-600 overflow-y-auto">
-        {!loading && !error ?
+        {!isFetching && !error ?
           <>{data.networks.length < data.numFound ? 'Top' : '' } {data.networks.length} results</>
         :
           <>&nbsp;</>
         }
       </p>
       <div className="mt-2 h-96 overflow-y-auto ring-4 ring-black ring-opacity-5 rounded-lg flow-root">
-        {loading && (
+        {isFetching && (
           <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
         )}
         {error && (
@@ -437,7 +411,7 @@ const NDExCard = ({ genes }) => {
             </span>
           </span>
         )}
-        {!loading && !error && data.networks.length > 0 && (
+        {!isFetching && !error && data.networks.length > 0 && (
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="sticky bg-gray-50">
               <tr>
@@ -480,14 +454,6 @@ const NDExCard = ({ genes }) => {
           </table>
         )}
       </div>
-      {/* <div className="flex w-full justify-center">
-        <LinkButton
-          href={href}
-          className="mt-4"
-        >
-          More Results on NDEx
-        </LinkButton>
-      </div> */}
     </div>
   )
 }

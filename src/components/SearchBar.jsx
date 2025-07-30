@@ -109,7 +109,7 @@ export function SearchBar({
           <button
             id="searchDropdownButton"
             onClick={handleDropdownClick}
-            className="min-w-16 border-r py-1 px-1.5 text-center flex items-center text-sm transition-all text-slate-600"
+            className="z-10 min-w-16 border-r py-1 px-1.5 text-center flex items-center text-sm transition-all text-slate-600"
           >
             <span
               id="searchDropdownLabel"
@@ -127,7 +127,7 @@ export function SearchBar({
         {dropdownOpen && (
           <div
             id="organismDropdownMenu"
-            className="min-w-[280px] absolute top-10 -left-1 w-full bg-white border border-slate-200 rounded-md shadow-lg z-10"
+            className="z-10 min-w-[280px] absolute top-10 -left-1 w-full bg-white border border-slate-200 rounded-md shadow-lg"
           >
             <ul id="searchDropdownOptions">
             {geneManiaOrganisms.map((org) => (
