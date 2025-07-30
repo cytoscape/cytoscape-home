@@ -237,7 +237,7 @@ const NDExCard = ({ genes }) => {
       </p>
       <div className="mt-2 h-96 overflow-y-auto ring-4 ring-black ring-opacity-5 rounded-lg flow-root">
         {isFetching && (
-          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+          <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
         )}
         {error && (
           <span className="w-full flex items-start justify-center text-red-800 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -316,7 +316,7 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
       </p>
       <ul className="mt-4 space-y-2 max-h-[calc(100vh-220px)] overflow-y-auto">
         {loading && (
-          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+          <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
         )}
         {results && results.map(({ id, name, species, annotations, description, url, terms }, idx) => (
           <li key={idx} className="p-2 flex items-start space-x-4">
@@ -391,34 +391,33 @@ const TutorialsCard = ({ terms, searchEngine }) => {
   }
 
   return (
-    <div className="w-full p-4 lg:pl-48 md:pl-16 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 border border-gray-200 text-left">
-      {/* <div className="flex items-center">
-        <h3 className="text-gray-900 font-semibold">Tutorials</h3>
-      </div> */}
-      <ul className="mt-4 space-y-2">
-        {loading && (
-          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-        )}
-        {results && results.map(({ section, parent, title, text, terms }, idx) => (
-          <li key={idx} className="p-2 max-w-screen-md">
-            <span className="font-medium">
-              <a
-                href={createUrl(section, parent)}
-                target='_blank'
-                rel='noreferrer'
-                className="hover:underline hover:underline-offset-2 text-complement-500"
-              >
-                {title}
-              </a>
-            </span>
-            <div className="text-sm text-gray-600">
-              <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
-                {text}
-              </Marker>
-            </div>
-          </li>
-        ))}
+    <div className="w-full h-full relative p-4 lg:pl-48 md:pl-16 min-h-28 sm:min-h-40 text-left">
+    {loading && (
+      <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+    )}
+    {!loading && results && results.length > 0 && (
+      <ul className="space-y-2">
+      {results.map(({ section, parent, title, text, terms }, idx) => (
+        <li key={idx} className="p-2 max-w-screen-md">
+          <span className="font-medium">
+            <a
+              href={createUrl(section, parent)}
+              target='_blank'
+              rel='noreferrer'
+              className="hover:underline hover:underline-offset-2 text-complement-500"
+            >
+              {title}
+            </a>
+          </span>
+          <div className="text-sm text-gray-600">
+            <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
+              {text}
+            </Marker>
+          </div>
+        </li>
+      ))}
       </ul>
+    )}
     </div>
   )
 }
@@ -488,6 +487,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
                       initialOrganismTaxon={organism?.taxon}
                       showOrganismSelector={type === 'gene'}
                       onSubmit={handleSubmit}
+                      className="bg-white drop-shadow-md"
                     />
                   </div>
                 </div>
@@ -504,7 +504,9 @@ export function Results({open=false, data, searchEngine, onClose }) {
                   </div>
                 )}
                 {type === 'tutorial' && (
-                  <TutorialsCard terms={terms} searchEngine={searchEngine} />
+                  <div className="mt-5 border-t border-gray-200 pt-5 px-6">
+                    <TutorialsCard terms={terms} searchEngine={searchEngine} />
+                  </div>
                 )}
                 </div>
               </DialogPanel>
