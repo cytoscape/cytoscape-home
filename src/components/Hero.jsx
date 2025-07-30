@@ -36,7 +36,6 @@ export function Hero({ onGetStarted, onSubmit }) {
     const { terms, taxon, type } = example
     event.preventDefault()
     // Simulate a search submission
-    focusSearchField()
     setSearchText('')
     const text = terms.join(' ')
     let i = 0

@@ -10,6 +10,7 @@ import { createNDExQueryOptions, createGeneManiaQueryOptions } from '@/app/share
 import { SearchBar } from '@/components/SearchBar'
 import { GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { ChevronDoubleRightIcon } from '@heroicons/react/20/solid'
 import { ArrowTopRightOnSquareIcon, ArrowTurnDownRightIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 
@@ -440,6 +441,10 @@ export function Results({open=false, data, searchEngine, onClose }) {
   const handleSubmit = (newData) => {
     setLocalData({ type, terms: newData.terms, organism: newData.organism })
   }
+  const handleWhatElseClick = () => {
+    onClose()
+    window.location.href = '/#genes'
+  }
 
   return (
     <Transition show={open}>
@@ -477,6 +482,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
+                {/* HEADER */}
                 <div className="flex-initial -mt-2.5 text-center sm:text-left">
                   <DialogTitle as="h2" className="mt-6 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
                     {title}
@@ -491,7 +497,8 @@ export function Results({open=false, data, searchEngine, onClose }) {
                     />
                   </div>
                 </div>
-                <div className="flex-auto overflow-y-auto">
+                {/* CONTENT (cards) */}
+                <div className="flex-auto py-2 overflow-y-auto">
                 {(type === 'gene' || type === 'pathway') && (
                   <div className="flex flex-col lg:flex-row items-center lg:items-start mt-5 px-6 lg:space-x-2 lg:space-y-0 space-y-2">
                   {type === 'gene' && organism && (
@@ -508,6 +515,16 @@ export function Results({open=false, data, searchEngine, onClose }) {
                     <TutorialsCard terms={terms} searchEngine={searchEngine} />
                   </div>
                 )}
+                </div>
+                {/* FOOTER */}
+                <div className="flex-initial p-5 bg-gray-900 rounded-b-xl text-sm text-gray-400 text-center">
+                  <p>
+                    <ChevronDoubleRightIcon className="inline-block -mt-1 mr-1 h-7" />
+                    This is just a small taste of what the Cytoscape ecosystem provides.&nbsp;&nbsp;
+                    <a onClick={handleWhatElseClick} className="text-complement-400 hover:underline cursor-pointer">
+                      Find out what else you can do
+                    </a>.
+                  </p>
                 </div>
               </DialogPanel>
             </TransitionChild>
