@@ -5,8 +5,9 @@ import { Container } from '@/components/base/Container'
 import { AppDemo } from '@/components/AppDemo'
 import { BrowserFrame } from '@/components/BrowserFrame'
 import { SearchBar } from '@/components/SearchBar'
+import { colors } from '@/styles/tailwind'
 
-import { ChevronDoubleDownIcon } from '@heroicons/react/16/solid'
+import { ArrowDownCircleIcon } from '@heroicons/react/16/solid'
 
 
 const searchExamples = [
@@ -67,18 +68,15 @@ export function Hero({ onGetStarted, onSubmit }) {
               Whether you are exploring genes, proteins or pathways, our intuitive interface allows you to analyze your data and create beautiful figures that are ready to be published.
             </p>
             <div className="mt-10 flex flex-col gap-y-0 sm:items-start xs:items-start">
-              <div
-                color="gray"
-                className="relative py-2 pl-5 pr-6 inline-flex items-center text-gray-200 bg-gray-900 rounded-t-md justify-center text-sm font-semibold drop-shadow-md"
-              >
+              <label className="mb-1 text-base/7 font-semibold text-gray-900">
                 Try it now:
-              </div>
+              </label>
               <SearchBar
                 placeholder="Enter one or more genes, a pathway or any terms"
                 initialText={searchText}
                 onTextChange={handleTextChange}
                 onSubmit={onGetStarted}
-                className="rounded-none rounded-b-md rounded-r-md bg-white drop-shadow-md"
+                className="bg-white drop-shadow-md"
               />
               <div className="mt-2 text-sm text-gray-500">
                 <span className="mr-2">Examples:</span>
@@ -97,22 +95,17 @@ export function Hero({ onGetStarted, onSubmit }) {
               </div>
             </div>
             <div className="mt-16 text-center">
-              <a
-                href="/#genes"
-                className="inline-flex items-center text-primary-500 font-semibold hover:underline underline-offset-2"
+              <button
+                onClick={() => window.scrollTo({ top: document.getElementById('genes').offsetTop, behavior: 'smooth' })}
+                className="mx-auto flex flex-col items-center relative rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors delay-150 hover:text-gray-900 hover:delay-0"
               >
-                <ChevronDoubleDownIcon  
-                  fill="#f7d3a7"
-                  aria-hidden="true"
-                  className="size-7 mr-2 text-primary-500"
-                />
                 What else can I do?
-                <ChevronDoubleDownIcon  
-                  fill="#f7d3a7"
+                <ArrowDownCircleIcon  
+                  fill={colors.gray[900]}
                   aria-hidden="true"
-                  className="size-7 ml-2 text-primary-500"
+                  className="size-7 text-primary-500"
                 />
-              </a>
+              </button>
             </div>
           </div>
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
