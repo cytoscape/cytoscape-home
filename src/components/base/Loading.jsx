@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { colors } from '@/styles/tailwind'
 import { CytoscapeLogo } from '@/components/Logos'
 
 export function LoadingMessage({ message, className }) {
@@ -11,7 +12,7 @@ export function LoadingMessage({ message, className }) {
     // Add a spinning icon or similar visual indicator if desired
     <div className={className}>
       <div className="animate-spin">
-        <CytoscapeLogo className="h-10" fill="#a3a3a3" />
+        <CytoscapeLogo className="h-10" fill={colors.gray[400]} />
       </div>
       <div>
         {message || 'Loading...'}

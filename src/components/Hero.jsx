@@ -20,16 +20,6 @@ const searchExamples = [
 export function Hero({ onGetStarted, onSubmit }) {
   const [searchText, setSearchText] = useState('')
 
-  const focusSearchField = (select) => {
-    const input = document.querySelector('input[type="text"]')
-    if (input) {
-      input.focus()
-      if (select) {
-        input.select()
-      }
-    }
-  }
-
   const handleTextChange = (text) => {
     setSearchText(text.trim())
   }
