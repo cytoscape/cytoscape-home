@@ -62,7 +62,7 @@ export function Footer() {
             </div>
             <div className="ml-8 lg:w-64">
               <p className="text-base font-semibold text-gray-900">
-                <a onClick={() => setOpenUseCy(true)} className="cursor-pointer">
+                <a href="#apps" className="cursor-pointer">
                   <span className="absolute inset-0 sm:rounded-2xl" />
                   Use Cytoscape
                 </a>

@@ -9,6 +9,7 @@ import { GenesCTASection } from '@/components/GenesCTASection'
 import { NetworkCTASection } from '@/components/NetworkCTASection'
 import { Guide } from '@/components/Guide'
 import { Results } from '@/components/Results'
+import { CompareSection } from '@/components/CompareSection'
 
 
 export default function Home({ searchEngine }) {
@@ -43,8 +44,9 @@ export default function Home({ searchEngine }) {
       <PrimaryFeatures />
       <GenesCTASection />
       <NetworkCTASection />
+      <CompareSection />
       <SecondaryFeatures />
-      <CallToAction onGetStarted={handleGetStarted} />
+      {/* <CallToAction onGetStarted={handleGetStarted} /> */}
       <Citations />
       <Faqs />
       <Guide open={openGuide} type={searchType} initialText={searchText} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
