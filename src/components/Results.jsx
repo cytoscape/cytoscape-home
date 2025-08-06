@@ -3,14 +3,14 @@ import { useQuery } from "@tanstack/react-query"
 import { Marker } from "react-mark.js"
 import Cytoscape from 'cytoscape'
 
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
+import { Button } from '@/components/base/Button'
 import { LoadingMessage } from '@/components/base/Loading'
-
 import { createNDExQueryOptions, createGeneManiaQueryOptions } from '@/app/shared/queryOptions'
 import { SearchBar } from '@/components/SearchBar'
-import { GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDoubleRightIcon } from '@heroicons/react/20/solid'
+
+import { AppLogo, AppLogomark, GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { ArrowTopRightOnSquareIcon, ArrowTurnDownRightIcon, ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 
@@ -53,6 +53,21 @@ const CardTitle = ({ logo, title, url }) => (
   </div>
 )
 
+const Card = ({ logo, title, url, caption, isLoading, error, children, className }) => (
+  <div className={`min-w-12 w-full flex-grow p-4 rounded-xl shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'} ${className}`}>
+    <CardTitle logo={logo} title={title} url={url} />
+    <p className="mt-2 text-right text-xs text-gray-600">
+    {!isLoading && !error ?
+      <>{caption || <>&nbsp;</>}</>
+    :
+      <>&nbsp;</>
+    }
+    </p>
+    <div className="mt-2 ring-4 ring-black ring-opacity-5 rounded-lg">
+      {children}
+    </div>
+  </div>
+)
 
 const GeneManiaCard = ({ genes, organism }) => {
   const isMounted = useRef(false)
@@ -181,36 +196,29 @@ const GeneManiaCard = ({ genes, organism }) => {
   const href = `https://genemania.org/search/${organism.name.toLowerCase().replace(' ', '-')}/${genes.join('/')}`
 
   return (
-    <div className={`w-full lg:w-2/5 p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
-      <CardTitle
-        logo={<GeneManiaLogo className="h-8 w-8" />}
-        title="GeneMANIA"
-        url={href}
-      />
-      <div className="w-full mt-4">
-        <p className="text-right text-xs text-gray-600 overflow-y-auto">
-          {!isFetching && !error ?
-            <>{data.resultGenes.length} result genes</>
-          :
-            <>&nbsp;</>
-          }
-        </p>
-        <div className="relative w-full h-96 mt-2 ring-4 ring-black ring-opacity-5 rounded-lg">
-          <div id="genemania-cy" className={`w-full h-96 ${isFetching ? 'invisible' : ''}`} />
-          {isFetching && (
-            <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-          )}
-          {error && (
-            <span className="w-full flex items-start justify-center text-red-800 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
-              <span className="ml-2 font-light">
-                {error.message ? error.message : 'Unable to fetch network'}
-              </span>
+    <Card
+      logo={<GeneManiaLogo className="h-8 w-8" />}
+      title="GeneMANIA"
+      url={href}
+      caption={data?.resultGenes?.length === 0 ? 'No results' : `${data?.resultGenes?.length} result genes`}
+      isLoading={isFetching}
+      error={error}
+    >
+      <div className="relative w-full mt-2 ring-4 ring-black ring-opacity-5 rounded-lg">
+        <div id="genemania-cy" className={`w-full h-96 ${isFetching ? 'invisible' : ''}`} />
+        {isFetching && (
+          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+        )}
+        {error && (
+          <span className="w-full flex items-start justify-center text-red-800 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
+            <span className="ml-2 font-light">
+              {error.message ? error.message : 'Unable to fetch network'}
             </span>
-          )}
-        </div>
+          </span>
+        )}
       </div>
-    </div>
+    </Card>
   )
 }
 
@@ -223,20 +231,16 @@ const NDExCard = ({ genes }) => {
   const href = `https://www.ndexbio.org/index.html#/search?searchType=All&searchString=${genes.join('%20')}&searchTermExpansion=false`
 
   return (
-    <div className={`relative w-full lg:w-3/5 p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'}`}>
-      <CardTitle
-        logo={<NDExLogo className="h-8 w-8" />}
-        title="NDEx"
-        url={href}
-      />
-      <p className="mt-4 text-right text-xs text-gray-600 overflow-y-auto">
-        {!isFetching && !error ?
-          <>{data.networks.length < data.numFound ? 'Top' : '' } {data.networks.length} results</>
-        :
-          <>&nbsp;</>
-        }
-      </p>
-      <div className="mt-2 h-96 overflow-y-auto ring-4 ring-black ring-opacity-5 rounded-lg flow-root">
+    <Card
+      logo={<NDExLogo className="h-8 w-8" />}
+      title="NDEx"
+      url={href}
+      caption={data && data.networks?.length > 0 ? `${data.networks.length < data.numFound ? 'Top ' : '' }${data.networks.length} results` : 'No results'}
+      isLoading={isFetching}
+      error={error}
+      className="lg:max-w-3xl"
+    >
+      <div className="min-h-64 overflow-x-auto">
         {isFetching && (
           <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
         )}
@@ -249,8 +253,8 @@ const NDExCard = ({ genes }) => {
           </span>
         )}
         {!isFetching && !error && data.networks.length > 0 && (
-          <table className="min-w-full divide-y divide-gray-300">
-            <thead className="sticky bg-gray-50">
+          <table className="w-full min-w-max divide-y divide-gray-300">
+            <thead className="bg-gray-50">
               <tr>
                 <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                   Network
@@ -267,31 +271,28 @@ const NDExCard = ({ genes }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {data.networks.map((net) => (
-                <tr key={net.externalId}>
-                  <td className="whitespace-nowrap px-3 py-2 text-left text-sm text-gray-500">
-                    <a
-                      href={`https://www.ndexbio.org/viewer/networks/${net.externalId}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className=" group text-wrap"
-                    >
-                      <span className="underline underline-offset-2 group-hover:underline-complement-500 group-hover:text-complement-500">
-                        {net.name}
-                      </span>
-                      <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 -mt-2 inline fill-gray-400 group-hover:fill-complement-500" />
-                    </a>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">{net.owner}</td>
-                  <td className="whitespace-nowrap px-3 py-2 text-right text-sm text-gray-500">{net.nodeCount}</td>
-                  <td className="whitespace-nowrap px-3 py-2 text-right text-sm text-gray-500">{net.edgeCount}</td>
-                </tr>
-              ))}
+            {data.networks.map((net) => (
+              <tr key={net.externalId}>
+                <td className="max-w-96 text-wrap px-3 py-2 text-left text-sm text-gray-500">
+                  <a
+                    href={`https://www.ndexbio.org/viewer/networks/${net.externalId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline hover:underline-offset-2 text-complement-500"
+                  >
+                    {net.name}
+                  </a>
+                </td>
+                <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">{net.owner}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right text-sm text-gray-500">{net.nodeCount}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right text-sm text-gray-500">{net.edgeCount}</td>
+              </tr>
+            ))}
             </tbody>
           </table>
         )}
       </div>
-    </div>
+    </Card>
   )
 }
 
@@ -306,66 +307,65 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
   }, [terms, searchEngine])
 
   return (
-    <div className="w-full p-4 rounded-xl min-h-28 sm:min-h-40 shadow-lg shadow-gray-200 border border-gray-200 text-left">
-      <CardTitle
-        logo={<WikiPathwaysLogo className="h-8 w-8" />}
-        title="WikiPathways"
-        url={`https://www.wikipathways.org/search.html?query=${terms.join('%20')}`}
-      />
-      <p className="mt-4 text-right text-xs text-gray-600 overflow-y-auto">
-        {!loading ? <>{results.length} results</> : <>&nbsp;</>}
-      </p>
-      <ul className="mt-4 space-y-2 max-h-[calc(100vh-220px)] overflow-y-auto">
-        {loading && (
-          <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-        )}
-        {results && results.map(({ id, name, species, annotations, description, url, terms }, idx) => (
-          <li key={idx} className="p-2 flex items-start space-x-4">
-            <div className="max-w-36">
+    <Card
+      logo={<WikiPathwaysLogo className="h-8 w-8" />}
+      title="WikiPathways"
+      url={`https://www.wikipathways.org/search.html?query=${terms.join('%20')}`}
+      caption={results && results.length > 0 ? `${results.length} results` : 'No results'}
+      isLoading={loading}
+      className="text-left min-w-[580px] lg:max-w-[580px] max-w-full"
+    >
+      <ul className="space-y-2 min-h-64">
+      {loading && (
+        <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+      )}
+      {results && results.map(({ id, name, species, annotations, description, url, terms }, idx) => (
+        <li key={idx} className="p-2 flex items-start space-x-4">
+          <div>
+            <a
+              href={url}
+              target='_blank'
+              rel='noreferrer'
+            >
+              <img src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`} alt={`${name} thumbnail`} />
+            </a>
+          </div>
+          <div>
+            <h3 className="font-medium">
               <a
                 href={url}
                 target='_blank'
                 rel='noreferrer'
+                className="hover:underline hover:underline-offset-2 text-complement-500"
               >
-                <img src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`} alt={`${name} thumbnail`} />
+                {name}
               </a>
+            </h3>
+            <div className="text-sm font-light text-gray-400">
+              {id} &mdash; <i>{species}</i>
             </div>
-            <div className="w-full">
-              <h3 className="font-medium">
-                <a
-                  href={url}
-                  target='_blank'
-                  rel='noreferrer'
-                  className="hover:underline hover:underline-offset-2 text-complement-500"
-                >
-                  {name}
-                </a>
-              </h3>
-              <div className="text-sm font-light text-gray-400">
-                {id} &mdash; <i>{species}</i>
+            <div className="mt-2 flex text-gray-400">
+              <div className="mr-1 text-gray-400">
+                <ArrowTurnDownRightIcon className="w-4 h-4" />
               </div>
-              <div className="mt-2 flex text-gray-400">
-                <div className="mr-1 text-gray-400">
-                  <ArrowTurnDownRightIcon className="w-4 h-4" />
+              <div>
+                <div className="text-xs text-gray-400">
+                  <Marker mark={terms} options={{ className: 'bg-inherit font-bold text-inherit' }}>
+                    {annotations}
+                  </Marker>
                 </div>
-                <div>
-                  <div className="text-xs text-gray-400">
-                    <Marker mark={terms} options={{ className: 'bg-inherit font-bold text-inherit' }}>
-                      {annotations}
-                    </Marker>
-                  </div>
-                  <div className="mt-2 text-sm text-gray-600">
-                    <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
-                      {description}
-                    </Marker>
-                  </div>
+                <div className="mt-2 text-sm text-gray-600">
+                  <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
+                    {description}
+                  </Marker>
                 </div>
               </div>
             </div>
-          </li>
-        ))}
+          </div>
+        </li>
+      ))}
       </ul>
-    </div>
+    </Card>
   )
 }
 
@@ -452,18 +452,8 @@ export function Results({open=false, data, searchEngine, onClose }) {
         className="relative z-10 w-full"
         onClose={() => void 0/**(make it modal)*/}
       >
-        <TransitionChild
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </TransitionChild>
         <div className="fixed inset-0 z-10 w-screen h-screen">
-          <div className="flex w-full h-full items-end justify-center p-0 text-center sm:items-center sm:p-2">
+          <div className="flex w-full h-full items-end justify-center text-center sm:items-center">
             <TransitionChild
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -472,59 +462,57 @@ export function Results({open=false, data, searchEngine, onClose }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogPanel className="flex flex-col w-full h-full sm:rounded-xl xl:rounded-xl xs:rounded-none bg-white text-left shadow-xl transition-all sm:px-0">
-                <div className="absolute right-0 top-0 pr-4 pt-4">
-                  <button
-                    type="button"
-                    className="rounded-xl bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-complement-500 focus:ring-offset-2"
-                    onClick={onClose}
-                  >
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-                {/* HEADER */}
-                <div className="flex-initial -mt-2.5 text-center sm:text-left">
-                  <DialogTitle as="h2" className="mt-6 mb-6 text-xl text-center font-semibold leading-6 text-gray-900">
-                    {title}
-                  </DialogTitle>
-                  <div className="max-w-2xl mt-2 ml-auto mr-auto px-4 py-2 text-gray-400 text-left">
-                    <SearchBar
-                      initialText={terms?.join(' ')}
-                      initialOrganismTaxon={organism?.taxon}
-                      showOrganismSelector={type === 'gene'}
-                      onSubmit={handleSubmit}
-                      className="bg-white drop-shadow-md"
-                    />
+              <DialogPanel className="flex flex-col w-full h-full text-left transition-all px-0">
+                <div className="flex-initial md:px-4 px-2 sm:pb-0 pb-2 bg-white border-b border-gray-200 drop-shadow-md">
+                  <div className="flex flex-row sm:items-start items-center lg:space-x-10 md:space-x-6 space-x-4 max-w-7xl mx-auto md:pt-8 sm:pt-4 pt-2 text-gray-400">
+                    <a
+                      aria-label="Home"
+                      onClick={onClose}
+                      className="cursor-pointer"
+                    >
+                      <AppLogo className="h-10 w-auto md:block hidden" />
+                      <AppLogomark className="h-10 w-auto md:hidden sm:block hidden" />
+                      <Button variant="text" className="mt-2 text-gray-900 hover:text-complement-500 sm:hidden">
+                        <ArrowLeftIcon className="w-5" />
+                      </Button>
+                    </a>
+                    <div className="w-full text-left">
+                      <div className="max-w-[667px]">
+                        <SearchBar
+                          initialText={terms?.join(' ')}
+                          initialOrganismTaxon={organism?.taxon}
+                          showOrganismSelector={type === 'gene'}
+                          onSubmit={handleSubmit}
+                          className="bg-white drop-shadow-md"
+                        />
+                      </div>
+                      <div className="mt-2 text-sm text-gray-600 hidden sm:block">
+                        This is just a small taste of the Cytoscape ecosystem.&nbsp;&nbsp;
+                        <a onClick={handleWhatElseClick} className="text-complement-400 hover:underline cursor-pointer">
+                          Find out what else you can do
+                        </a>.
+                      </div>
+                    </div>
                   </div>
                 </div>
                 {/* CONTENT (cards) */}
-                <div className="flex-auto py-2 overflow-y-auto">
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-start lg:justify-center flex-grow py-4 md:px-4 px-2 xl:px-0 bg-white lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
                 {(type === 'gene' || type === 'pathway') && (
-                  <div className="flex flex-col lg:flex-row items-center lg:items-start mt-5 px-6 lg:space-x-2 lg:space-y-0 space-y-2">
+                <>
+                  <div className="max-w-7xl flex flex-col items-center justify-center lg:items-start space-y-2">
                   {type === 'gene' && organism && (
                     <GeneManiaCard genes={terms} organism={organism} />
                   )}
                     <NDExCard genes={terms} />
+                  </div>
                   {/* {(type === 'pathway' || terms.length === 1) && ( */}
                     <WikiPathwaysCard terms={terms} searchEngine={searchEngine} />
                   {/* )} */}
-                  </div>
+                </>
                 )}
                 {type === 'tutorial' && (
-                  <div className="mt-5 border-t border-gray-200 pt-5 px-6">
-                    <TutorialsCard terms={terms} searchEngine={searchEngine} />
-                  </div>
+                  <TutorialsCard terms={terms} searchEngine={searchEngine} />
                 )}
-                </div>
-                {/* FOOTER */}
-                <div className="flex-initial p-5 bg-gray-900 rounded-b-xl text-sm text-gray-400 text-center">
-                  <p>
-                    <ChevronDoubleRightIcon className="inline-block -mt-1 mr-1 h-7" />
-                    This is just a small taste of what the Cytoscape ecosystem provides.&nbsp;&nbsp;
-                    <a onClick={handleWhatElseClick} className="text-complement-400 hover:underline cursor-pointer">
-                      Find out what else you can do
-                    </a>.
-                  </p>
                 </div>
               </DialogPanel>
             </TransitionChild>
