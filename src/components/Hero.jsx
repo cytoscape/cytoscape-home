@@ -46,7 +46,7 @@ export function Hero({ onGetStarted, onSubmit }) {
   }
 
   return (
-    <div className="overflow-hidden py-5 lg:pt-20">
+    <div className="overflow-hidden py-5 lg:pt-20 border-b border-gray-200">
       <Container>
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
           <div className="relative mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">

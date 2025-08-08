@@ -70,7 +70,7 @@ export default function Home({ searchEngine }) {
   return (
     <>
       <Hero onGetStarted={handleGetStarted} onSubmit={handleSubmit} />
-      <PrimaryFeatures />
+      {/* <PrimaryFeatures /> */}
       <GenesCTASection />
       <NetworkCTASection />
       <CompareSection />
