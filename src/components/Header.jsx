@@ -107,7 +107,7 @@ export function Header() {
                             <MobileNavLink href="/#citations">Citations</MobileNavLink>
                             <MobileNavLink href="/#faq">FAQ</MobileNavLink>
                           </div>
-                          <div className="mt-8 flex flex-col gap-4">
+                          {/* <div className="mt-8 flex flex-col gap-4">
                           <Button
                             onClick={() => setOpenUseCy(true)}
                             variant="outline"
@@ -115,7 +115,7 @@ export function Header() {
                           >
                             Use Cytoscape
                           </Button>
-                          </div>
+                          </div> */}
                         </Popover.Panel>
                       </>
                     )}
@@ -123,7 +123,7 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <Button
+            {/* <Button
               onClick={() => setOpenUseCy(true)}
               target="_blank"
               rel="noreferrer"
@@ -132,7 +132,7 @@ export function Header() {
               className="hidden lg:inline-flex"
             >
               Use Cytoscape
-            </Button>
+            </Button> */}
           </div>
         </Container>
       </nav>

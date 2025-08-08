@@ -122,9 +122,9 @@ const features = [
 export function SecondaryFeatures() {
   return (
     <section
-      id="apps"
+      id="ecosystem"
       aria-label="Tools available from the Cytoscape ecosystem"
-      className="py-20 sm:py-32"
+      className="py-20 sm:py-32 border-b border-gray-200"
     >
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
