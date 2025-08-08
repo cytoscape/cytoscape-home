@@ -463,40 +463,38 @@ export function Results({open=false, data, searchEngine, onClose }) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel className="flex flex-col w-full h-full text-left transition-all px-0">
-                <div className="flex-initial md:px-4 px-2 sm:pb-0 pb-2 bg-white border-b border-gray-200 drop-shadow-md">
-                  <div className="flex flex-row sm:items-start items-center lg:space-x-10 md:space-x-6 space-x-4 max-w-7xl mx-auto md:pt-8 sm:pt-4 pt-2 text-gray-400">
+                <div className="flex-initial md:px-4 px-2 md:pb-0 pb-2 bg-white border-b border-gray-200 drop-shadow-md">
+                  <div className="flex flex-row sm:items-start items-center lg:space-x-10 md:space-x-6 space-x-4 max-w-7xl mx-auto md:pt-5 pt-2 text-gray-400">
                     <a
                       aria-label="Home"
                       onClick={onClose}
                       className="cursor-pointer"
                     >
-                      <AppLogo className="h-10 w-auto md:block hidden" />
+                      <AppLogo className="h-10 w-auto xl:ml-2 ml-0 md:block hidden" />
                       <AppLogomark className="h-10 w-auto md:hidden sm:block hidden" />
                       <Button variant="text" className="mt-2 text-gray-900 hover:text-complement-500 sm:hidden">
                         <ArrowLeftIcon className="w-5" />
                       </Button>
                     </a>
-                    <div className="w-full text-left">
-                      <div className="max-w-[667px]">
-                        <SearchBar
-                          initialText={terms?.join(' ')}
-                          initialOrganismTaxon={organism?.taxon}
-                          showOrganismSelector={type === 'gene'}
-                          onSubmit={handleSubmit}
-                          className="bg-white drop-shadow-md"
-                        />
-                      </div>
-                      <div className="mt-2 text-sm text-gray-600 hidden sm:block">
-                        This is just a small taste of the Cytoscape ecosystem.&nbsp;&nbsp;
+                    <div className="w-full max-w-[667px] text-left">
+                      <SearchBar
+                        initialText={terms?.join(' ')}
+                        initialOrganismTaxon={organism?.taxon}
+                        showOrganismSelector={type === 'gene'}
+                        onSubmit={handleSubmit}
+                        className="bg-white drop-shadow-md"
+                      />
+                      <caption className="mt-2 text-sm text-gray-400 lg:text-left text-right hidden md:block">
+                        <span className="lg:inline hidden">This is a small demonstration of the Cytoscape ecosystem.&nbsp;&nbsp;</span>
                         <a onClick={handleWhatElseClick} className="text-complement-400 hover:underline cursor-pointer">
-                          Find out what else you can do
-                        </a>.
-                      </div>
+                          Find out what else you can do...
+                        </a>
+                      </caption>
                     </div>
                   </div>
                 </div>
                 {/* CONTENT (cards) */}
-                <div className="flex flex-col lg:flex-row items-stretch lg:items-start lg:justify-center flex-grow py-4 md:px-4 px-2 xl:px-0 bg-white lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-start lg:justify-center flex-grow py-4 xl:px-0 md:px-4 px-2 bg-white lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
                 {(type === 'gene' || type === 'pathway') && (
                 <>
                   <div className="max-w-7xl flex flex-col items-center justify-center lg:items-start space-y-2">

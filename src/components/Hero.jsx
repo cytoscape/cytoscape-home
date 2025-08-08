@@ -87,7 +87,7 @@ export function Hero({ onGetStarted, onSubmit }) {
             <div className="mt-16 text-center">
               <button
                 onClick={() => window.scrollTo({ top: document.getElementById('genes').offsetTop, behavior: 'smooth' })}
-                className="mx-auto flex flex-col items-center relative rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors delay-150 hover:text-gray-900 hover:delay-0"
+                className="mx-auto flex flex-col items-center relative rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors delay-150 hover:text-gray-900 hover:delay-0"
               >
                 What else can I do?
                 <ArrowDownCircleIcon  
