@@ -45,7 +45,7 @@ export class SearchEngine {
       throw "The pathways haven't been fetched yet!"
     }
     if (query && query.length > 0) {
-      return this.pathwaysSearch.search(query, { fields: ['name', 'description', 'datanodes', 'annotations'], prefix: true })
+      return this.pathwaysSearch.search(query, { fields: ['title', 'description', 'keywords', 'annotations'], prefix: true })
     }
     return []
   }
@@ -96,23 +96,31 @@ export class SearchEngine {
     /*
       Example pathway data from the WikiPathways API:
       {
-        "id": "WP1",
-        "url": "https://www.wikipathways.org/instance/WP1",
-        "name": "Statin pathway",
-        "species": "Mus musculus",
-        "revision": "2025-05-22",
-        "authors": "Nsalomonis, MaintBot, Khanspers, BruceConklin, TestUser, AlexanderPico, Thomas, Mkutmon, Andra, Egonw, Ddigles, Eweitz",
-        "description": "Statins inhibit endogenous cholesterol production by competitive inhibition of HMG-CoA reductase (HMGCR), the enzyme that catalyzes conversion of HMG-CoA to mevalonate, an early rate-limiting step ...",
-        "datanodes"     : "Abca1, Acetyl-CoA, Apoa1, Apoa4, Apoc1, Apoc2, Apoc3, Apoe, Cetp, Cholesterol, Cholesterol ester, Cholic acid, Cyp7a1, Dgat1, Fatty acid, Hmgcr, Lcat, Ldlr, Lipc, Lpl, Lrp1, Mttp, Phospholipid, Pltp, Scarb1, Soat1, Statin, Triglycerides",
-        "annotations"     : "hepatocyte, cardiovascular system disease, statin drug pathway, hypercholesterolemia pathway",
-        "citedIn": ""
+        "title"      : "FAS pathway and stress induction of HSP regulation",
+        "wpid"       : "WP511",
+        "description": "This pathway describes the Fas induced apoptosis and interplay with Hsp27 in response to stress.  More info: [BioCarta](http://www.biocarta.com/pathfiles/h_hsp27Pathway.asp).",
+        "organisms"  : "Danio rerio",
+        "common"     : "Zebrafish",
+        "keywords"   : "Ceramide, Glutathione, LOC100334486, Phosphate, apaf1, arhgdig, casp6, casp7, casp8, casp8l2, casp9, cflar, cycsb, daxx, dffa, dffb, fadd, faf1, fas, faslg, hspb1, jun, lmna, lmnb1, lmnb2, map2k4a, map3k7, mapk8a, mapkapk2a, mapkapk3, pak1, pak2a, parp1, rb1, ripk2, spna2, wu:fa96e12",
+        "annotations": "stress response pathway, FasL mediated signaling pathway",
+        "url"        : "/pathways/WP511.html",
+        "last-edited": "2025-08-10"
         }
     */
-    const pathways = await fetch('https://www.wikipathways.org/json/findPathwaysByText.json')
+    const pathways = await fetch('https://www.wikipathways.org/search.json')
       .then(response => response.json())
       .then(data => {
-        console.log('Loaded pathways:', data['pathwayInfo'])
-        return data['pathwayInfo']
+        console.log('Loaded pathways:', data)
+        // Convert the data to the format expected by MiniSearch
+        return data.map((item) => ({
+          id: item.wpid,
+          title: item.title || '',
+          description: item.description || '',
+          organisms: item.organisms ? item.organisms.split(',').map(o => o.trim()) : [],
+          keywords: item.keywords ? item.keywords.split(',').map(k => k.trim()) : [],
+          annotations: item.annotations ? item.annotations.split(',').map(a => a.trim()) : [],
+          url: item.url || '',
+        }))
       })
       .catch(error => {
         console.error('Error loading pathways:', error)
@@ -124,10 +132,10 @@ export class SearchEngine {
     }
 
     this.pathwaysSearch = new MiniSearch({
-      fields: ['id', 'name', 'species', 'description', 'datanodes', 'annotations'],
-      storeFields: ['id', 'url', 'name', 'species', 'description', 'datanodes', 'annotations'],
+      fields: ['title', 'description', 'keywords', 'annotations'],
+      storeFields: ['id', 'url', 'title', 'organisms', 'description', 'keywords', 'annotations'],
       searchOptions: {
-        boost: { name: 2, annotations: 2 },
+        boost: { title: 2, keywords: 2, annotations: 2 },
         fuzzy: 0.0,
         prefix: true,
         processTerm: (term) => stopWords.has(term.toLowerCase()) ? null : term.toLowerCase()

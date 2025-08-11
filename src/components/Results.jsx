@@ -310,7 +310,7 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
     <Card
       logo={<WikiPathwaysLogo className="h-8 w-8" />}
       title="WikiPathways"
-      url={`https://www.wikipathways.org/search.html?query=${terms.join('%20')}`}
+      url="https://www.wikipathways.org"
       caption={results && results.length > 0 ? `${results.length} results` : 'No results'}
       isLoading={loading}
       className="text-left min-w-[580px] lg:max-w-[580px] max-w-full"
@@ -319,30 +319,33 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
       {loading && (
         <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
       )}
-      {results && results.map(({ id, name, species, annotations, description, url, terms }, idx) => (
+      {results && results.map(({ id, title, organisms, annotations, description, url, terms }, idx) => (
         <li key={idx} className="p-2 flex items-start space-x-4">
-          <div>
+          <div className="flex-shrink-0">
             <a
-              href={url}
+              href={`https://www.wikipathways.org${url}`}
               target='_blank'
               rel='noreferrer'
             >
-              <img src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`} alt={`${name} thumbnail`} />
+              <img
+                src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`}
+                alt={`${title} thumbnail`}
+                className="w-32 h-auto" />
             </a>
           </div>
           <div>
             <h3 className="font-medium">
               <a
-                href={url}
+                href={`https://www.wikipathways.org${url}`}
                 target='_blank'
                 rel='noreferrer'
                 className="hover:underline hover:underline-offset-2 text-complement-500"
               >
-                {name}
+                {title}
               </a>
             </h3>
             <div className="text-sm font-light text-gray-400">
-              {id} &mdash; <i>{species}</i>
+              {id} &mdash; <i>{organisms.join(', ')}</i>
             </div>
             <div className="mt-2 flex text-gray-400">
               <div className="mr-1 text-gray-400">
@@ -356,7 +359,7 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
                 </div>
                 <div className="mt-2 text-sm text-gray-600">
                   <Marker mark={terms} options={{ className: 'bg-inherit font-bold' }}>
-                    {description}
+                    {description.length > 200 ? `${description.slice(0, 200)}...` : description}
                   </Marker>
                 </div>
               </div>
@@ -484,12 +487,12 @@ export function Results({open=false, data, searchEngine, onClose }) {
                         onSubmit={handleSubmit}
                         className="bg-white drop-shadow-md"
                       />
-                      <caption className="mt-2 text-sm text-gray-400 lg:text-left text-right hidden md:block">
+                      <div className="mt-2 text-sm text-gray-400 lg:text-left text-right hidden md:block">
                         <span className="lg:inline hidden">This is a small demonstration of the Cytoscape ecosystem.&nbsp;&nbsp;</span>
                         <a onClick={handleWhatElseClick} className="text-complement-400 hover:underline cursor-pointer">
                           Find out what else you can do...
                         </a>
-                      </caption>
+                      </div>
                     </div>
                   </div>
                 </div>
