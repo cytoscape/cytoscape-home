@@ -1,13 +1,14 @@
 'use client'
 
+import clsx from 'clsx'
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Button } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
-import { AppLogo } from '@/components/Logos'
+import { AppLogo, CytoscapeLogo } from '@/components/Logos'
 import { NavLinks } from '@/components/NavLinks'
 import { UseCytoscapeDialog } from '@/components/UseCytoscapeDialog'
 import { useState } from 'react'
+
 
 function MenuIcon(props) {
   return (
@@ -44,6 +45,27 @@ function MobileNavLink(props) {
     />
   )
 }
+
+function CytoscapeLink(props) {
+  const { className, ...rest } = props
+
+  return (
+    <a
+      href="https://cytoscape.org"
+      target="_blank"
+      rel="noreferrer"
+      className={clsx(
+        'inline-flex items-center py-2 text-gray-500 hover:text-complement-500 text-sm leading-7 tracking-tight',
+        className
+      )}
+      {...rest}
+    >
+      <CytoscapeLogo fill="currentColor" className="h-6 w-6 mr-1" />
+      Where is the old site?
+    </a>
+  )
+}
+
 
 export function Header() {
   const [openUseCy, setOpenUseCy] = useState(false);
@@ -107,15 +129,9 @@ export function Header() {
                             <MobileNavLink href="/#citations">Citations</MobileNavLink>
                             <MobileNavLink href="/#faq">FAQ</MobileNavLink>
                           </div>
-                          {/* <div className="mt-8 flex flex-col gap-4">
-                          <Button
-                            onClick={() => setOpenUseCy(true)}
-                            variant="outline"
-                            color="primary"
-                          >
-                            Use Cytoscape
-                          </Button>
-                          </div> */}
+                          <div className="mt-6 text-right">
+                            <CytoscapeLink />
+                          </div>
                         </Popover.Panel>
                       </>
                     )}
@@ -123,16 +139,7 @@ export function Header() {
                 </>
               )}
             </Popover>
-            {/* <Button
-              onClick={() => setOpenUseCy(true)}
-              target="_blank"
-              rel="noreferrer"
-              variant="outline"
-              color="primary"
-              className="hidden lg:inline-flex"
-            >
-              Use Cytoscape
-            </Button> */}
+            <CytoscapeLink className="hidden lg:inline-flex" />
           </div>
         </Container>
       </nav>
