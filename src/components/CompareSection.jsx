@@ -46,7 +46,7 @@ export function CompareSection() {
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-pretty text-gray-600 sm:text-center sm:text-xl/8">
-          Choose the Cytoscape app that fits your needs, whether you're a beginner or an advanced bioinformatician.
+          Choose the Cytoscape app that fits your needs, whether you're new to Cytoscape or an advanced bioinformatician.
         </p>
         <div className="mt-20 flow-root">
           <div className="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0 xl:-mx-4">
