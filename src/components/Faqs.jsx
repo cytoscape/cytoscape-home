@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { Container } from '@/components/base/Container'
 
 
@@ -7,13 +8,17 @@ const LinkOut = ({ href, ariaLabel='external link', children }) => (
   </a>
 )
 
-const Citation = ({ href, children }) => (
-  <a href={href} target="_blank" rel="noreferrer" className="no-underline hover:text-complement-500">
-    <code className="block whitespace-pre-wrap bg-gray-100 p-4 text-sm rounded-md">
-      {children}
+const Citation = ({ href, className, children }) => {
+  className = clsx('block whitespace-pre-wrap text-xs', className)
+
+  return (
+    <code className={className}>
+      <a href={href} target="_blank" rel="noreferrer" className="no-underline hover:text-complement-500">
+        {children}
+      </a>
     </code>
-  </a>
-)
+  )
+}
 
 const faqs = [
   [
@@ -119,17 +124,12 @@ const faqs = [
       question: 'How do I cite Cytoscape?',
       answer: <>
         For <i>Cytoscape Desktop</i>, please cite:
-        <Citation href="https://doi.org/10.1101/gr.1239303">
-          Shannon P, Markiel A, Ozier O, Baliga NS, Wang JT, Ramage D, Amin N, Schwikowski B, Ideker T.&nbsp;
-          <i>Cytoscape: a software environment for integrated models of biomolecular interaction networks.</i>&nbsp;
-          Genome Research. 2003 Nov; 13(11):2498-504.
+        <Citation href="https://doi.org/10.1101/gr.1239303" className="my-2 pl-4">
+          Shannon P, Markiel A, Ozier O, Baliga NS, Wang JT, Ramage D, Amin N, Schwikowski B, Ideker T. <i>Cytoscape: a software environment for integrated models of biomolecular interaction networks.</i> Genome Research. 2003 Nov; 13(11):2498-504.
         </Citation>
-        <br />
         For <i>Cytoscape Web</i>, please cite:
-        <Citation href="https://doi.org/10.1093/nar/gkaf365">
-          Ono K, Fong D, Gao C, Churas C, Pillich R, Lenkiewicz J, Pratt D, Pico AR, Hanspers K, Xin Y, Morris J, Kucera M, Franz M, Lopes C, Bader G, Ideker T, Chen J.&nbsp;
-          <i>Cytoscape Web: bringing network biology to the browser.</i>&nbsp;
-          Nucleic Acids Res. 2025 Jul 7; 53(W1):W203-W212.
+        <Citation href="https://doi.org/10.1093/nar/gkaf365" className="mt-2 pl-4">
+          Ono K, Fong D, Gao C, Churas C, Pillich R, Lenkiewicz J, Pratt D, Pico AR, Hanspers K, Xin Y, Morris J, Kucera M, Franz M, Lopes C, Bader G, Ideker T, Chen J. <i>Cytoscape Web: bringing network biology to the browser.</i> Nucleic Acids Res. 2025 Jul 7; 53(W1):W203-W212.
         </Citation>
       </>,
     },
