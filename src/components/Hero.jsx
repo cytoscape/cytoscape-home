@@ -26,9 +26,11 @@ export function Hero({ onGetStarted, onSubmit }) {
   const handleExampleClick = (event, example) => {
     const { terms, taxon, type } = example
     event.preventDefault()
+    const userInput = searchText.trim()
     // Simulate a search submission
     setSearchText('')
     const text = terms.join(' ')
+    const data = { userInput: text, type, terms, organism: geneManiaOrganisms.find(org => org.taxon === taxon) }
     let i = 0
     const animate = () => {
       setSearchText(text.slice(0, i + 1))
@@ -38,7 +40,7 @@ export function Hero({ onGetStarted, onSubmit }) {
       } else {
         setTimeout(() => {
           // Submit the search right away, don't open the wizard!
-          onSubmit({ type, terms, organism: geneManiaOrganisms.find(org => org.taxon === taxon) })
+          onSubmit(data)
         }, 200)
       }
     }

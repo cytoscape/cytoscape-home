@@ -129,6 +129,7 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
         console.debug('No organisms detected, rerouting to Pathway Search...')
         reset()
         onSubmit({
+          userInput: searchText,
           type: 'pathway',
           terms: parseGeneList(searchText)
         })
@@ -138,6 +139,7 @@ export function Guide({ open=false, type, initialText, onClose, onSubmit }) {
         const taxid = taxidCounts[0].taxid
         setSearchText(taxid)
         onSubmit({
+          userInput: searchText,
           type: 'gene',
           terms: parseGeneList(searchText),
           organism: geneManiaOrganisms.find(org => org.taxon === taxid)

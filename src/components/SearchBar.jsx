@@ -92,7 +92,7 @@ export function SearchBar({
     if (text?.trim() !== '') {
       event.preventDefault()
       event.stopPropagation()
-      onSubmit?.({ terms: text.trim().split(/\s+/).filter(term => term.length > 0), organism: selectedOrganism })
+      onSubmit?.({ userInput: text.trim(), terms: text.trim().split(/\s+/).filter(term => term.length > 0), organism: selectedOrganism })
     } else {
       event.preventDefault()
       event.stopPropagation()
@@ -176,7 +176,7 @@ export function SearchBar({
           <button
             disabled={!text || text.trim() === ''}
             type="submit"
-            className="absolute inset-y-1 right-1 w-9 h-9 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200 fill-complement-500 disabled:pointer-events-none disabled:fill-gray-400"
+            className="absolute inset-y-1 right-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 fill-complement-500 disabled:pointer-events-none disabled:fill-gray-400"
           >
             <MagnifyingGlassIcon
               aria-hidden="true"
