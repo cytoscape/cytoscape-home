@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useQuery } from "@tanstack/react-query"
+import PropTypes from 'prop-types'
 import { Marker } from "react-mark.js"
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import Cytoscape from 'cytoscape'
 
 import { Dialog, DialogTitle, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
@@ -10,11 +9,13 @@ import { Button } from '@/components/base/Button'
 import { LoadingMessage } from '@/components/base/Loading'
 import { SearchBar } from '@/components/SearchBar'
 import { Chatbot } from '@/components/Chatbot'
+import ReactMarkdown from '@/components/base/ReactMarkdown'
 import {
   createAIOverviewQueryOptions,
   createNDExQueryOptions,
   createGeneManiaQueryOptions
 } from '@/app/shared/queryOptions'
+import { LLM_SYSTEM_INSTRUCTIONS } from '@/app/shared/config'
 
 import { AppLogo, AppLogomark, GeneManiaLogo, NDExLogo, WikiPathwaysLogo } from '@/components/Logos'
 import { ArrowLeftIcon, ChatBubbleLeftRightIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -72,12 +73,11 @@ const Card = ({ logo, title, url, caption, isLoading, error, children, className
   </div>
 )
 
-const AIOverviewCard = ({ userInput, onOpenAIChat }) => {
+const AIOverviewCard = React.memo(({ userInput, onOpenAIChat }) => {console.log('>>> AIOverviewCard...', userInput, onOpenAIChat);
   const { data, error, isFetching } = useQuery(createAIOverviewQueryOptions(
     userInput,
     userInput?.trim().length > 0
   ))
-  console.log(data, error, isFetching)
   
   return (
     <Card
@@ -102,21 +102,14 @@ const AIOverviewCard = ({ userInput, onOpenAIChat }) => {
         {!isFetching && !error && data?.message?.content && (
           <div className="w-full flex flex-col items-end justify-center space-y-2">
             <div className="w-full min-h-32 max-h-64 p-2 text-sm text-gray-500 list-style-disc overflow-y-auto">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  ul: ({node, ...props}) => <ul style={{ marginBottom: '1rem' }} {...props} />,
-                  li: ({node, ...props}) => <li style={{ marginLeft: '1.5rem', listStyleType: 'disc' }} {...props} />,
-                  p: ({node, ...props}) => <p style={{ marginBottom: '1rem' }} {...props} />
-                }}
-              >
+              <ReactMarkdown>
                 {data.message.content}
               </ReactMarkdown>
             </div>
             <Button
               variant="solid"
               color="complement"
-              onClick={() => onOpenAIChat(data)}
+              onClick={() => {console.log('[ onOpenAIChat ]', data); onOpenAIChat(data)}}
               className="inline-flex items-center m-1 pr-5"
             >
               <ChatBubbleLeftRightIcon
@@ -130,9 +123,14 @@ const AIOverviewCard = ({ userInput, onOpenAIChat }) => {
       </div>
     </Card>
   )
+})
+AIOverviewCard.displayName = 'AIOverviewCard'
+AIOverviewCard.propTypes = {
+  userInput: PropTypes.string.isRequired,
+  onOpenAIChat: PropTypes.func.isRequired,
 }
 
-const GeneManiaCard = ({ genes, organism }) => {
+const GeneManiaCard = React.memo(({ genes, organism }) => {console.log('>>> GeneManiaCard...', genes, organism);
   const isMounted = useRef(false)
   const cyRef = useRef()
 
@@ -283,9 +281,18 @@ const GeneManiaCard = ({ genes, organism }) => {
       </div>
     </Card>
   )
+})
+GeneManiaCard.displayName = 'GeneManiaCard'
+GeneManiaCard.propTypes = {
+  genes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  organism: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    taxon: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
-const NDExCard = ({ genes }) => {
+const NDExCard = React.memo(({ genes }) => {console.log('>>> NDExCard...', genes);
   const { data, error, isFetching } = useQuery(createNDExQueryOptions(
     genes,
     genes?.length > 0
@@ -315,7 +322,7 @@ const NDExCard = ({ genes }) => {
             </span>
           </span>
         )}
-        {!isFetching && !error && data.networks.length > 0 && (
+        {!isFetching && !error && data?.networks?.length > 0 && (
           <table className="w-full min-w-max divide-y divide-gray-300">
             <thead className="bg-gray-50">
               <tr>
@@ -357,9 +364,13 @@ const NDExCard = ({ genes }) => {
       </div>
     </Card>
   )
+})
+NDExCard.displayName = 'NDExCard'
+NDExCard.propTypes = {
+  genes: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
-const WikiPathwaysCard = ({ terms, searchEngine }) => {
+const WikiPathwaysCard = React.memo(({ terms, searchEngine }) => {console.log('>>> WikiPathwaysCard...', terms, searchEngine);
   const [results, setResults] = useState()
   const [loading, setLoading] = useState(true)
 
@@ -382,8 +393,8 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
       {loading && (
         <LoadingMessage className="w-full relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
       )}
-      {results && results.map(({ id, title, organisms, annotations, description, url, terms }, idx) => (
-        <li key={idx} className="p-2 flex items-start space-x-4">
+      {results && results.map(({ id, title, organisms, annotations, description, url, terms }) => (
+        <li key={id} className="p-2 flex items-start space-x-4">
           <div className="flex-shrink-0">
             <a
               href={`https://www.wikipathways.org${url}`}
@@ -433,9 +444,16 @@ const WikiPathwaysCard = ({ terms, searchEngine }) => {
       </ul>
     </Card>
   )
+})
+WikiPathwaysCard.displayName = 'WikiPathwaysCard'
+WikiPathwaysCard.propTypes = {
+  terms: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchEngine: PropTypes.shape({
+    searchPathways: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
-const TutorialsCard = ({ terms, searchEngine }) => {
+const TutorialsCard = React.memo(({ terms, searchEngine }) => {
   const [results, setResults] = useState()
   const [loading, setLoading] = useState(true)
 
@@ -487,64 +505,81 @@ const TutorialsCard = ({ terms, searchEngine }) => {
     )}
     </div>
   )
+})
+TutorialsCard.displayName = 'TutorialsCard'
+TutorialsCard.propTypes = {
+  terms: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchEngine: PropTypes.shape({
+    searchTutorials: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
-const Drawer = ({ open, onClose, title, children }) => {
+
+const Drawer = React.memo(({ open, onClose, title, children }) => {
+console.log('\n\n1) Drawer render', open)
+
   return (
-    <Transition show={open}>
-      <Dialog
-        onClose={onClose}
-        className="relative z-10 w-full"
-      >
-        <div className="fixed inset-0" />
-        <div className="fixed inset-0 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
-            <TransitionChild
-              enter="transform transition ease-in-out duration-500 sm:duration-700"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transform transition ease-in-out duration-500 sm:duration-700"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10 sm:pr-16">
-                <DialogPanel
-                  className="border-r pointer-events-auto w-screen max-w-5xl transform transition duration-500 ease-in-out sm:duration-700"
-                >
-                  <div className="relative flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
-                    <div className="px-4 sm:px-6">
-                      <div className="flex items-start justify-between">
-                        <DialogTitle className="text-base font-semibold text-gray-900">
-                          {title}
-                        </DialogTitle>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            onClick={onClose}
-                            className="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 fill-complement-500"
-                          >
-                            <XMarkIcon aria-hidden="true" className="size-6" />
-                          </button>
-                        </div>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      className="relative z-10 w-full"
+    >
+      <div className="fixed inset-0" />
+      <div className="fixed inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <TransitionChild
+            enter="transform transition ease-in-out duration-500 sm:duration-700"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transform transition ease-in-out duration-500 sm:duration-700"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
+          >
+            <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10 sm:pr-16">
+              <DialogPanel
+                className="border-r pointer-events-auto w-screen max-w-5xl transform transition duration-500 ease-in-out sm:duration-700"
+              >
+                <div className="relative flex flex-col h-full bg-white py-6 shadow-xl">
+                  <div className="px-4 sm:px-6">
+                    <div className="flex items-start justify-between">
+                      <DialogTitle className="text-base font-semibold text-gray-900">
+                        {title}
+                      </DialogTitle>
+                      <div className="ml-3 flex h-7 items-center">
+                        <button
+                          type="button"
+                          onClick={onClose}
+                          className="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 fill-complement-500"
+                        >
+                          <XMarkIcon aria-hidden="true" className="size-6" />
+                        </button>
                       </div>
                     </div>
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6 bg-white">
-                      {children}
-                    </div>
                   </div>
-                </DialogPanel>
-              </div>
-            </TransitionChild>
-          </div>
+                  <div className="relative mt-6 flex-1 px-4 sm:px-6 bg-white overflow-y-auto">
+                    {children}
+                  </div>
+                </div>
+              </DialogPanel>
+            </div>
+          </TransitionChild>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </Dialog>
   )
+})
+Drawer.displayName = 'Drawer'
+Drawer.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 
 export function Results({open=false, data, searchEngine, onClose }) {
   const [localData, setLocalData] = useState(data)
+  const [assistantMessage, setAssistantMessage] = useState('')
   const [openAIChat, setOpenAIChat] = useState(false)
 
   const userInput = localData?.userInput
@@ -565,8 +600,8 @@ export function Results({open=false, data, searchEngine, onClose }) {
     onClose()
     window.location.href = '/#genes'
   }
-  const handleOpenAIChat = (data) => {
-    // TODO show data inside chat drawer
+  const handleOpenAIChat = (data) => {console.log('--> handleOpenAIChat...');
+    setAssistantMessage(data.message?.content)
     setOpenAIChat(true)
   }
 
@@ -643,14 +678,38 @@ export function Results({open=false, data, searchEngine, onClose }) {
             </TransitionChild>
           </div>
         </div>
-        <Drawer
-          open={openAIChat}
-          onClose={() => setOpenAIChat(false)}
-          title="Chat with AI"
-        >
-          <Chatbot initialData={localData} />
-        </Drawer>
       </Dialog>
+      <Drawer
+        open={openAIChat}
+        onClose={() => setOpenAIChat(false)}
+        title="Chat with AI"
+      >
+      {openAIChat && (
+        <Chatbot initialMessages={[
+          { role: 'system', content: LLM_SYSTEM_INSTRUCTIONS },
+          { role: 'user', content: userInput || '' },
+          { role: 'assistant', content: assistantMessage || '' },
+          ]} />
+      )}
+      </Drawer>
     </Transition>
   )
+}
+Results.propTypes = {
+  open: PropTypes.bool,
+  data: PropTypes.shape({
+    userInput: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['gene', 'pathway', 'tutorial']).isRequired,
+    terms: PropTypes.arrayOf(PropTypes.string).isRequired,
+    organism: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      taxon: PropTypes.number.isRequired,
+    }),
+  }).isRequired,
+  searchEngine: PropTypes.shape({
+    searchPathways: PropTypes.func.isRequired,
+    searchTutorials: PropTypes.func.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
 }

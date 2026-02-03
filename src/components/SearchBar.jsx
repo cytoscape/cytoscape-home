@@ -176,12 +176,9 @@ export function SearchBar({
           <button
             disabled={!text || text.trim() === ''}
             type="submit"
-            className="absolute inset-y-1 right-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 fill-complement-500 disabled:pointer-events-none disabled:fill-gray-400"
+            className="absolute inset-y-1 right-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 fill-complement-500 active:fill-complement-600 disabled:pointer-events-none disabled:fill-gray-400"
           >
-            <MagnifyingGlassIcon
-              aria-hidden="true"
-              className="h-6 w-6 fill-inherit"
-            />
+            <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6 fill-inherit"/>
           </button>
         </form>
       </div>

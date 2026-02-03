@@ -1,32 +1,17 @@
 import { queryOptions } from '@tanstack/react-query'
 import { NDEx } from '@js4cytoscape/ndex-client'
 import { geneManiaOrganisms } from '@/app/shared/common'
-
-
-export const DEFAULT_AI_MODEL_ID = 'llama3.1:8b'
+import { normalizeNewlineCharacters } from '@/app/shared/common'
+import { LLM_CHAT_API_URL, LLM_MODEL, LLM_SYSTEM_INSTRUCTIONS } from '@/app/shared/config'
 
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
-
 export function createAIOverviewQueryOptions(userInput, enabled = true) {
-console.log(userInput)
-
-  const instructions = `You are a helpful assistant that provides concise and informative descriptions about gene symbols and biological terms.
-When given a list of gene symbols or pathway names, you will return a brief summary of their functions, roles in biological processes,
-and any relevant interactions or pathways they are involved in. Your responses should be clear, accurate, and suitable for someone
-with a basic understanding of biology.
-If the input does not contain valid gene symbols or biological terms, assume it is a general inquiry about biology and respond accordingly,
-but prioritize answers that suggest the use of a Cytoscape related tool, including (but not limited to):
-Cytoscape desktop and its apps/plugins (ClueGO, stringApp, MCODE, CluePedia, BiNGO, clusterMaker2, GeneMANIA, EnrichmentMap, cyREST API, etc.),
-Cytoscape Web and other related web apps (e.g. NDEx iquery, GeneMANIA, EnrichmentMap, WikiPathways, iRegulon).
-If the question is not related to gene symbols, biological terms, or the Cytoscape ecosystem, please respond with 
-"Please provide valid gene symbols or biological terms, or questions about the Cytoscape ecosystem."`
-
-  const prompt = `INSTRUCTIONS:\n
-${instructions}\n
-\n
+  const prompt = `
+INSTRUCTIONS:\n
+${LLM_SYSTEM_INSTRUCTIONS}\n
 USER INPUT:\n
-\n${userInput}`
+${userInput}`
 
   return queryOptions({
     queryKey: ['aiOverview', encodeTextToBase64(userInput)],
@@ -93,10 +78,10 @@ function encodeTextToBase64(text) {
   return btoa(text?.trim().toLowerCase())
 }
 
-async function fetchAIOverview(prompt, model = DEFAULT_AI_MODEL_ID) {
+async function fetchAIOverview(prompt, model = LLM_MODEL) {
   prompt = prompt.trim()
 
-  const response = await fetch('http://localhost:11434/api/chat', {
+  const response = await fetch(LLM_CHAT_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -108,11 +93,11 @@ async function fetchAIOverview(prompt, model = DEFAULT_AI_MODEL_ID) {
     })
   })
   const data = await response.json()
-  console.log('AI Overview response data:', data)
+
   if (data?.message?.content) {
     // If the string contains literal \n characters (as in the text \n rather than a real newline),
     // react-markdown might see it as plain text, so we need to replace them with actual newlines.
-    data.message.content = data.message.content?.replace(/\\n/g, '\n')
+    data.message.content = normalizeNewlineCharacters(data.message.content)
   }
 
   return data

@@ -21,8 +21,8 @@ const SearchField = ({ placeholder }) => <div className="relative w-full mt-2 ro
   />
   <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
     <MagnifyingGlassIcon
-      className="h-5 w-5 fill-complement-500"
       aria-hidden="true"
+      className="h-5 w-5 fill-complement-500"
     />
   </button>
 </div>

@@ -97,3 +97,10 @@ export const searchWikiPathways = (searchText) =>  {
   }
 }
 
+/**
+ * If the string contains literal \n characters (as in the text \n rather than a real newline),
+ * react-markdown might see it as plain text, so we need to replace them with actual newlines.
+ */
+export const normalizeNewlineCharacters = (text) => {
+  return text?.replace(/\\n/g, '\n')
+}
