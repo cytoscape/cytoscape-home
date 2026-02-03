@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react"
 import { LLM_CHAT_API_URL, LLM_MODEL , LLM_SYSTEM_INSTRUCTIONS} from '@/app/shared/config'
-import { normalizeNewlineCharacters } from '@/app/shared/common'
 import ReactMarkdown from '@/components/base/ReactMarkdown'
 
 import { ArrowUpCircleIcon } from '@heroicons/react/24/solid'
@@ -49,12 +48,6 @@ export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYST
         }),
       })
       const data = await response.json()
-
-      if (data?.message?.content) {
-        // If the string contains literal \n characters (as in the text \n rather than a real newline),
-        // react-markdown might see it as plain text, so we need to replace them with actual newlines.
-        data.message.content = normalizeNewlineCharacters(data.message.content)
-      }
 
       const assistantMessage = {
         role: "assistant",

@@ -1,7 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 import { NDEx } from '@js4cytoscape/ndex-client'
 import { geneManiaOrganisms } from '@/app/shared/common'
-import { normalizeNewlineCharacters } from '@/app/shared/common'
 import { LLM_CHAT_API_URL, LLM_MODEL, LLM_SYSTEM_INSTRUCTIONS } from '@/app/shared/config'
 
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
@@ -93,12 +92,6 @@ async function fetchAIOverview(prompt, model = LLM_MODEL) {
     })
   })
   const data = await response.json()
-
-  if (data?.message?.content) {
-    // If the string contains literal \n characters (as in the text \n rather than a real newline),
-    // react-markdown might see it as plain text, so we need to replace them with actual newlines.
-    data.message.content = normalizeNewlineCharacters(data.message.content)
-  }
 
   return data
 }
