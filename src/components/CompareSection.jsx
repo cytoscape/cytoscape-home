@@ -62,6 +62,7 @@ export function CompareSection() {
                 <a
                   href={tier.href}
                   target="_blank"
+                  rel="noreferrer noopener"
                   aria-describedby={tier.id}
                   className="mt-10 block rounded-md bg-primary-500 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >

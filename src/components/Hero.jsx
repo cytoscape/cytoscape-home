@@ -73,7 +73,7 @@ export function Hero({ onGetStarted, onSubmit }) {
               <div className="mt-2 text-sm text-gray-500">
                 <span className="mr-2">Examples:</span>
                 {searchExamples.map((example, index) => (
-                  <span key={index}>
+                  <span key={example.label}>
                     <a
                       href="#"
                       className="text-complement-500 hover:underline"

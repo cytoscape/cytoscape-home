@@ -183,11 +183,11 @@ function CitationColumn({ citations, className, citationClassName, msPerPixel = 
       className={clsx('animate-marquee space-y-8 py-4', className)}
       style={{ '--marquee-duration': duration }}
     >
-      {citations.concat(citations).map((citation, citationIndex) => (
+      {citations.concat(citations).map((citation, index) => (
         <Citation
-          key={citationIndex}
-          aria-hidden={citationIndex >= citations.length}
-          className={citationClassName?.(citationIndex % citations.length)}
+          key={citation.doi + '-' + index}
+          aria-hidden={index >= citations.length}
+          className={citationClassName?.(index % citations.length)}
           {...citation}
         />
       ))}

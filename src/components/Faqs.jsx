@@ -196,8 +196,8 @@ export function Faqs() {
           {faqs.map((column, columnIndex) => (
             <li key={columnIndex}>
               <ul role="list" className="space-y-10">
-                {column.map((faq, faqIndex) => (
-                  <li key={faqIndex}>
+                {column.map((faq) => (
+                  <li key={faq.question}>
                     <h3 className="text-lg font-semibold leading-6 text-gray-900">
                       {faq.question}
                     </h3>

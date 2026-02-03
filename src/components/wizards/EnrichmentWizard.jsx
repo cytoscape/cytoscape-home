@@ -51,8 +51,8 @@ export function EnrichmentWizard({ step, setTotalSteps, setTitle, setSubmitLabel
 
   return (
     <div className="min-h-48">
-      {stepsDef.map(({ component: Comp }, idx) => (
-        <div key={idx} style={step !== idx ? {display: 'none'} : {}}>
+      {stepsDef.map(({ title, component: Comp }, idx) => (
+        <div key={title} style={step !== idx ? {display: 'none'} : {}}>
           <Comp onChange={handleChange} />
         </div>
       ))}

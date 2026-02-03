@@ -243,8 +243,8 @@ function ImportScreen(props) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {data.map((row, idx) => (
-              <tr key={idx}>
+            {data.map((row) => (
+              <tr key={row.source + '-' + row.target}>
                 <td className="whitespace-nowrap py-1 pl-4 pr-2 text-center text-sm text-gray-500 xs:text-xs">{row.source}</td>
                 <td className="whitespace-nowrap py-1 px-2 text-center text-sm text-gray-500 xs:text-xs">{row.target}</td>
                 <td className="whitespace-nowrap py-1 pl-4 pr-3 text-center text-sm text-gray-500 xs:text-xs">{row.weight}</td>
