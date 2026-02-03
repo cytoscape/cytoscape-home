@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from "@tanstack/react-query"
 import PropTypes from 'prop-types'
 import { Marker } from "react-mark.js"
@@ -288,7 +288,7 @@ GeneManiaCard.propTypes = {
   organism: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    taxon: PropTypes.number.isRequired,
+    taxon: PropTypes.string.isRequired,
   }).isRequired,
 }
 
@@ -582,7 +582,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
   const [assistantMessage, setAssistantMessage] = useState('')
   const [openAIChat, setOpenAIChat] = useState(false)
 
-  const userInput = localData?.userInput
+  const userInput = localData?.userInput ?? ''
   const type = localData?.type
   const terms = localData?.terms || []
   const organism = localData?.organism
@@ -600,10 +600,11 @@ export function Results({open=false, data, searchEngine, onClose }) {
     onClose()
     window.location.href = '/#genes'
   }
-  const handleOpenAIChat = (data) => {console.log('--> handleOpenAIChat...');
+  const handleOpenAIChat = useCallback((data) => {
+    console.log('--> handleOpenAIChat...')
     setAssistantMessage(data.message?.content)
     setOpenAIChat(true)
-  }
+  }, [])
 
   return (
     <Transition show={open}>
@@ -704,9 +705,9 @@ Results.propTypes = {
     organism: PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
-      taxon: PropTypes.number.isRequired,
+      taxon: PropTypes.string.isRequired,
     }),
-  }).isRequired,
+  }),
   searchEngine: PropTypes.shape({
     searchPathways: PropTypes.func.isRequired,
     searchTutorials: PropTypes.func.isRequired,

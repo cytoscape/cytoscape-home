@@ -19,7 +19,7 @@ const reactMarkdownComponents = {
       return !inline && match ? (
         <SyntaxHighlighter
           style={{ ...syntaxHighlightStyle }}
-          customStyle={{ borderRadius: '1em' }} 
+          customStyle={{ borderRadius: '1em', fontSize: '0.875em' }} 
           language={match[1]}
           PreTag="div"
           wrapLongLines={true}
