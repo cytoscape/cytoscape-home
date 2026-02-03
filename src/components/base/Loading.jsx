@@ -9,8 +9,7 @@ export function LoadingMessage({ message, className }) {
   )
 
   return (
-    // Add a spinning icon or similar visual indicator if desired
-    <div className={className}>
+    <div className={`w-full h-full flex ${className}`}>
       <div className="animate-spin">
         <CytoscapeLogo className="h-10" fill={colors.gray[400]} />
       </div>
