@@ -6,8 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Container } from '@/components/base/Container'
 import { AppLogo, CytoscapeLogo } from '@/components/Logos'
 import { NavLinks } from '@/components/NavLinks'
-import { UseCytoscapeDialog } from '@/components/UseCytoscapeDialog'
-import { useState } from 'react'
 
 
 function MenuIcon(props) {
@@ -68,8 +66,6 @@ function CytoscapeLink(props) {
 
 
 export function Header() {
-  const [openUseCy, setOpenUseCy] = useState(false);
-
   return (
     <>
     <header>
@@ -143,7 +139,6 @@ export function Header() {
         </Container>
       </nav>
     </header>
-    <UseCytoscapeDialog open={openUseCy} onClose={() => setOpenUseCy(false)} />
     </>
   )
 }

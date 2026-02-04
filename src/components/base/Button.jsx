@@ -27,7 +27,7 @@ const variantStyles = {
   }
 }
 
-export function Button({ className, ...props }) {console.log('Button:', props.variant)
+export function Button({ className, ...props }) {
   props.variant ??= 'solid'
   props.color ??= 'gray'
 

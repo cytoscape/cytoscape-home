@@ -37,7 +37,6 @@ const reactMarkdownComponents = {
 }
 
 export default function CustomReactMarkdown({ children }) {
-  console.log('>>> CustomReactMarkdown render: ', syntaxHighlightStyle)
   return (
     <div>
     <ReactMarkdown

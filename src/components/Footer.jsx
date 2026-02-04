@@ -4,7 +4,6 @@ import { TextField } from '@/components/base/Fields'
 import { Container } from '@/components/base/Container'
 import { NavLinks } from '@/components/NavLinks'
 import { CytoscapeLogo } from '@/components/Logos'
-import { UseCytoscapeDialog } from './UseCytoscapeDialog'
 
 import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
 import logoUCSD from '@/images/logos/ucsd.svg'
@@ -25,8 +24,6 @@ function DownloadBorder(props) {
 }
 
 export function Footer() {
-  const [openUseCy, setOpenUseCy] = useState(false)
-
   return ( <>
     <footer className="border-t border-gray-200">
       <Container>
@@ -94,6 +91,5 @@ export function Footer() {
         </div>
       </Container>
     </footer>
-    <UseCytoscapeDialog open={openUseCy} onClose={() => setOpenUseCy(false)} />
   </>)
 }
