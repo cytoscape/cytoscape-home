@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 import { geneManiaOrganisms } from '@/app/shared/common'
 import { Container } from '@/components/base/Container'
@@ -111,4 +112,8 @@ export function Hero({ onGetStarted, onSubmit }) {
       </Container>
     </div>
   )
+}
+Hero.propTypes = {
+  onGetStarted: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }

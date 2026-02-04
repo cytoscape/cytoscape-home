@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useId } from 'react'
 
@@ -14,6 +15,10 @@ export function Label({ id, children }) {
     </label>
   )
 }
+Label.propTypes = {
+  id: PropTypes.string,
+  children: PropTypes.node,
+}
 
 export function TextField({ label, type = 'text', className, ...props }) {
   let id = useId()
@@ -25,6 +30,11 @@ export function TextField({ label, type = 'text', className, ...props }) {
     </div>
   )
 }
+TextField.propTypes = {
+  label: PropTypes.string,
+  type: PropTypes.string,
+  className: PropTypes.string,
+}
 
 export function SelectField({ label, className, ...props }) {
   let id = useId()
@@ -35,4 +45,8 @@ export function SelectField({ label, className, ...props }) {
       <select id={id} {...props} className={clsx(formClasses, 'pr-8')} />
     </div>
   )
+}
+SelectField.propTypes = {
+  label: PropTypes.string,
+  className: PropTypes.string,
 }

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Fragment, useState } from 'react'
 import { Listbox, ListboxButton, Label, ListboxOption, ListboxOptions, Transition } from '@headlessui/react'
@@ -98,4 +99,15 @@ export function SelectMenu({ data, label, selectedIndex, onChange, className }) 
       )}
     </Listbox>
   )
+}
+SelectMenu.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  })).isRequired,
+  label: PropTypes.string,
+  selectedIndex: PropTypes.number,
+  onChange: PropTypes.func,
+  className: PropTypes.string,
 }

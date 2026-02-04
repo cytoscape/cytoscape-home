@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Popover } from '@headlessui/react'
+import { Popover, PopoverButton, PopoverBackdrop, PopoverPanel } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Container } from '@/components/base/Container'
 import { AppLogo, CytoscapeLogo } from '@/components/Logos'
@@ -38,7 +38,7 @@ function ChevronUpIcon(props) {
 
 function MobileNavLink(props) {
   return (
-    <Popover.Button
+    <PopoverButton
       as="a"
       className="block text-base leading-7 tracking-tight text-gray-700"
       {...props}
@@ -87,7 +87,7 @@ export function Header() {
             <Popover className="lg:hidden">
               {({ open }) => (
                 <>
-                  <Popover.Button
+                  <PopoverButton
                     className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-900 p-2 hover:bg-gray-200/50 hover:stroke-gray-600 active:stroke-gray-900 ui-not-focus-visible:outline-none"
                     aria-label="Toggle site navigation"
                   >
@@ -98,11 +98,11 @@ export function Header() {
                         <MenuIcon className="h-6 w-6" />
                       )
                     }
-                  </Popover.Button>
+                  </PopoverButton>
                   <AnimatePresence initial={false}>
                     {open && (
                       <>
-                        <Popover.Overlay
+                        <PopoverBackdrop
                           static
                           as={motion.div}
                           initial={{ opacity: 0 }}
@@ -110,7 +110,7 @@ export function Header() {
                           exit={{ opacity: 0 }}
                           className="fixed inset-0 z-0 bg-gray-300/60 backdrop-blur"
                         />
-                        <Popover.Panel
+                        <PopoverPanel
                           static
                           as={motion.div}
                           initial={{ opacity: 0, y: -32 }}
@@ -131,7 +131,7 @@ export function Header() {
                           <div className="mt-6 text-right">
                             <CytoscapeLink />
                           </div>
-                        </Popover.Panel>
+                        </PopoverPanel>
                       </>
                     )}
                   </AnimatePresence>

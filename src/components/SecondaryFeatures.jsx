@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 import { LinkButton } from '@/components/base/Button'
 import { Container } from '@/components/base/Container'
 import { SelectMenu } from '@/components/base/SelectMenu'
@@ -8,24 +9,36 @@ import { ArrowTopRightOnSquareIcon, MagnifyingGlassIcon } from '@heroicons/react
 
 const defGeneManiaOrgIdx = 5
 
-const Link = ({ href, ariaLabel, children }) => <a href={href} aria-label={ariaLabel} target="_blank" rel="noreferrer" className="text-gray-900 underline">
-  {children}
-</a>
+const Link = ({ href, ariaLabel, children }) => (
+  <a href={href} aria-label={ariaLabel} target="_blank" rel="noreferrer" className="text-gray-900 underline">
+    {children}
+  </a>
+)
+Link.propTypes = {
+  href: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
 
-const SearchField = ({ placeholder }) => <div className="relative w-full mt-2 rounded-md shadow-sm">
-  <input
-    type="search"
-    id="search"
-    placeholder={placeholder || 'Enter gene list'}
-    className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-6"
-  />
-  <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
-    <MagnifyingGlassIcon
-      aria-hidden="true"
-      className="h-5 w-5 fill-complement-500"
+const SearchField = ({ placeholder }) => (
+  <div className="relative w-full mt-2 rounded-md shadow-sm">
+    <input
+      type="search"
+      id="search"
+      placeholder={placeholder || 'Enter gene list'}
+      className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-complement-500 sm:text-sm sm:leading-6"
     />
-  </button>
-</div>
+    <button className="absolute inset-y-0.5 right-0.5 w-8 h-8 flex items-center justify-center rounded-2xl hover:bg-gray-100 active:bg-gray-200">
+      <MagnifyingGlassIcon
+        aria-hidden="true"
+        className="h-5 w-5 fill-complement-500"
+      />
+    </button>
+  </div>
+)
+SearchField.propTypes = {
+  placeholder: PropTypes.string,
+}
 
 const GeneManiaForm = () => {
   const [selGeneManiaOrg, setSelGeneManiaOrg ] = useState(geneManiaOrganisms[defGeneManiaOrgIdx])

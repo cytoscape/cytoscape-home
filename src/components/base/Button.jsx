@@ -1,9 +1,11 @@
 import clsx from 'clsx'
+import PropTypes from 'prop-types'
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 
 const baseStyles = {
   solid: 'inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold outline-2 outline-offset-2 transition-colors',
   outline: 'inline-flex justify-center rounded-lg border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm outline-2 outline-offset-2 transition-colors',
+  text: 'inline-flex justify-center px-1 text-sm font-semibold transition-colors',
 }
 
 const variantStyles = {
@@ -18,9 +20,14 @@ const variantStyles = {
     complement: 'border-complement-300 text-complement-500 hover:border-complement-500 active:bg-complement-50 active:text-complement-500/80 disabled:pointer-events-none',
     gray: 'border-gray-300 text-gray-700 hover:border-gray-400 active:bg-gray-100 active:text-gray-700/80 disabled:pointer-events-none disabled:border-gray-200 disabled:text-gray-400',
   },
+  text: {
+    primary: 'border-none text-primary-500 hover:text-complement-500 active:text-complement-700 disabled:pointer-events-none',
+    complement: 'border-none text-complement-500 hover:text-complement-600 active:text-complement-700 disabled:pointer-events-none',
+    gray: 'border-none text-gray-700 hover:text-gray-800 active:text-gray-900 disabled:pointer-events-none',
+  }
 }
 
-export function Button({ className, ...props }) {
+export function Button({ className, ...props }) {console.log('Button:', props.variant)
   props.variant ??= 'solid'
   props.color ??= 'gray'
 
@@ -30,7 +37,9 @@ export function Button({ className, ...props }) {
       ? variantStyles.outline[props.color]
       : props.variant === 'solid'
         ? variantStyles.solid[props.color]
-        : undefined,
+        : props.variant === 'text'
+          ? variantStyles.text[props.color]
+          : undefined,
     className,
   )
 
@@ -39,6 +48,13 @@ export function Button({ className, ...props }) {
   ) : (
     <a className={className} {...props} />
   )
+}
+Button.propTypes = {
+  variant: PropTypes.oneOf(['solid', 'outline', 'text']),
+  color: PropTypes.oneOf(['primary', 'complement', 'white', 'gray']),
+  className: PropTypes.string,
+  href: PropTypes.string,
+  children: PropTypes.node,
 }
 
 export function LinkButton({ href, children, className, variant='outline', ...props }) {
@@ -56,4 +72,10 @@ export function LinkButton({ href, children, className, variant='outline', ...pr
       <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-1.5 mt-0.5 fill-gray-400" aria-hidden="true" />
     </Button>
   )
+}
+LinkButton.propTypes = {
+  href: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  variant: PropTypes.oneOf(['solid', 'outline', 'text']),
 }

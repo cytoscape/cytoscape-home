@@ -69,6 +69,11 @@ const CardTitle = ({ logo, title, url }) => (
     </a>
   </div>
 )
+CardTitle.propTypes = {
+  logo: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+}
 
 const Card = ({ logo, title, url, caption, isLoading, error, children, className }) => (
   <div className={`min-w-12 w-full flex-grow p-4 rounded-xl shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'} ${className}`}>
@@ -85,8 +90,18 @@ const Card = ({ logo, title, url, caption, isLoading, error, children, className
     </div>
   </div>
 )
+Card.propTypes = {
+  logo: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  caption: PropTypes.string,
+  isLoading: PropTypes.bool,
+  error: PropTypes.object,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+}
 
-const AIOverviewCard = React.memo(({ userInput, onOpenAIChat }) => {console.log('>>> AIOverviewCard...', userInput, onOpenAIChat);
+const AIOverviewCard = React.memo(({ userInput, onOpenAIChat }) => {
   const { data, error, isFetching } = useQuery(createAIOverviewQueryOptions(
     userInput,
     userInput?.trim().length > 0
@@ -143,7 +158,7 @@ AIOverviewCard.propTypes = {
   onOpenAIChat: PropTypes.func.isRequired,
 }
 
-const GeneManiaCard = React.memo(({ genes, organism }) => {console.log('>>> GeneManiaCard...', genes, organism);
+const GeneManiaCard = React.memo(({ genes, organism }) => {
   const isMounted = useRef(false)
   const cyRef = useRef()
 
@@ -305,7 +320,7 @@ GeneManiaCard.propTypes = {
   }).isRequired,
 }
 
-const NDExCard = React.memo(({ genes }) => {console.log('>>> NDExCard...', genes);
+const NDExCard = React.memo(({ genes }) => {
   const MAX_RESULTS = 20
   const href = `https://www.ndexbio.org/index.html#/search?searchType=All&searchString=${genes.join('%20')}&searchTermExpansion=false`
 
@@ -386,7 +401,7 @@ NDExCard.propTypes = {
   genes: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
-const WikiPathwaysCard = React.memo(({ terms, searchEngine }) => {console.log('>>> WikiPathwaysCard...', terms, searchEngine);
+const WikiPathwaysCard = React.memo(({ terms, searchEngine }) => {
   const MAX_RESULTS = 10
 
   const [results, setResults] = useState([])
@@ -538,8 +553,6 @@ TutorialsCard.propTypes = {
 
 
 const Drawer = React.memo(({ open, onClose, title, children }) => {
-console.log('\n\n1) Drawer render', open)
-
   return (
     <Dialog
       open={open}
@@ -623,7 +636,6 @@ export function Results({open=false, data, searchEngine, onClose }) {
     window.location.href = '/#genes'
   }
   const handleOpenAIChat = useCallback((data) => {
-    console.log('--> handleOpenAIChat...')
     setAssistantMessage(data.message?.content)
     setOpenAIChat(true)
   }, [])
@@ -654,8 +666,8 @@ export function Results({open=false, data, searchEngine, onClose }) {
                     >
                       <AppLogo className="h-10 w-auto xl:ml-2 ml-0 md:block hidden" />
                       <AppLogomark className="h-10 w-auto md:hidden sm:block hidden" />
-                      <Button variant="text" className="mt-2 text-gray-900 hover:text-complement-500 sm:hidden">
-                        <ArrowLeftIcon className="w-5" />
+                      <Button variant="text" className="mt-2 sm:hidden group">
+                        <ArrowLeftIcon className="w-5 group-hover:text-complement-500 group-active:text-complement-700" />
                       </Button>
                     </a>
                     <div className="w-full max-w-[667px] text-left">

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { Button } from '@/components/base/Button'
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -86,4 +87,16 @@ export function WizardDialog({
       </Dialog>
     </Transition>
   )
+}
+WizardDialog.propTypes = {
+  open: PropTypes.bool,
+  totalSteps: PropTypes.number,
+  step: PropTypes.number,
+  title: PropTypes.string.isRequired,
+  submitLabel: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onPrevious: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  canContinue: PropTypes.bool,
 }

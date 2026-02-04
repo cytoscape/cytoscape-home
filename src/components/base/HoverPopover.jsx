@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { Popover, PopoverGroup, PopoverPanel, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
@@ -36,4 +37,8 @@ export function HoverPopover({ children, content }) {
       </Transition>
     </Popover>
   )
+}
+HoverPopover.propTypes = {
+  children: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
 }

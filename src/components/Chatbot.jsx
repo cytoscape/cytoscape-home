@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import PropTypes from 'prop-types'
 import { LLM_CHAT_API_URL, LLM_MODEL , LLM_SYSTEM_INSTRUCTIONS} from '@/app/shared/config'
 import ReactMarkdown from '@/components/base/ReactMarkdown'
 
@@ -145,4 +146,12 @@ export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYST
       </div>
     </div>
   )
+}
+Chatbot.propTypes = {
+  initialMessages: PropTypes.arrayOf(
+    PropTypes.shape({
+      role: PropTypes.oneOf(['system', 'user', 'assistant']).isRequired,
+      content: PropTypes.string.isRequired,
+    })
+  ),
 }

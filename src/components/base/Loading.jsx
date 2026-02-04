@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { colors } from '@/styles/tailwind'
 import { CytoscapeLogo } from '@/components/Logos'
@@ -18,4 +19,8 @@ export function LoadingMessage({ message, className }) {
       </div>
     </div>
   )
+}
+LoadingMessage.propTypes = {
+  message: PropTypes.string,
+  className: PropTypes.string,
 }

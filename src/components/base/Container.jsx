@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 export function Container({ className, ...props }) {
@@ -7,4 +8,7 @@ export function Container({ className, ...props }) {
       {...props}
     />
   )
+}
+Container.propTypes = {
+  className: PropTypes.string,
 }
