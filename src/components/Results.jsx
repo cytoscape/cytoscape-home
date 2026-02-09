@@ -687,7 +687,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
                 </div>
                 {/* CONTENT (cards) */}
                 <div className="flex flex-col items-stretch lg:items-center lg:justify-center flex-growm lg:py-2 md:py-1 py-0 xl:px-0 px-1 bg-white lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
-                  <div className="flex flex-col lg:flex-row items-stretch lg:flex-1 lg:items-start lg:justify-center py-4 xl:px-0 md:px-4 px-2 lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
+                  <div className="flex flex-col lg:flex-row items-stretch lg:flex-1 lg:items-start lg:justify-center xl:max-w-7xl py-4 xl:px-0 md:px-4 px-2 lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
                   {(type !== 'tutorial') && (
                   <>
                     <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2">
