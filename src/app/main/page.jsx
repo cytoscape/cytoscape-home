@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react'
-import { CallToAction } from '@/components/CallToAction'
+import { useCallback, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { Faqs } from '@/components/Faqs'
 import { Hero } from '@/components/Hero'
-import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { Citations } from '@/components/Citations'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { StartWith } from '@/components/StartWith'
+import { CompareSection } from '@/components/CompareSection'
 import { Guide } from '@/components/Guide'
 import { Results } from '@/components/Results'
-import { CompareSection } from '@/components/CompareSection'
 
 
 export default function Home({ searchEngine }) {
   const [searchType, setSearchType] = useState('gene')
   const [searchText, setSearchText] = useState('')
-  const [openGuide, setOpenGuide] = useState(false)
+  const [guideOpen, setGuideOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
   const [results, setResults] = useState()
 
@@ -24,13 +23,13 @@ export default function Home({ searchEngine }) {
     }
     setResultsOpen(true)
   }
-  const closeResults = () => {
+  const handleCloseResults = useCallback(() => {
     setResultsOpen(false)
     // // Prevent the browser from navigating back to the results state when the user clicks the forward button
     // if (window.location.hash === '#results') {
     //   window.history.replaceState({}, document.title, window.location.pathname + window.location.search)
     // }
-  }
+  }, [])
 
   useEffect(() => {
     // Listen for popstate events to handle back/forward navigation
@@ -48,7 +47,7 @@ export default function Home({ searchEngine }) {
   }, [])
 
   const handleSubmit = (data) => {
-    setOpenGuide(false)
+    setGuideOpen(false)
     if (data) {
       if (data.url) {
         window.open(data.url, '_blank').focus()
@@ -63,7 +62,7 @@ export default function Home({ searchEngine }) {
     setResults(null)
     setSearchType(type)
     setSearchText(terms ? terms.join(' ') : '')
-    setOpenGuide(true)
+    setGuideOpen(true)
   }
 
   return (
@@ -76,8 +75,25 @@ export default function Home({ searchEngine }) {
       {/* <CallToAction onGetStarted={handleGetStarted} /> */}
       <Citations />
       <Faqs />
-      <Guide open={openGuide} type={searchType} initialText={searchText} onClose={() => setOpenGuide(false)} onSubmit={handleSubmit} />
-      <Results open={resultsOpen} data={results} searchEngine={searchEngine} onClose={closeResults} />
+      <Guide
+        open={guideOpen}
+        type={searchType}
+        initialText={searchText}
+        onClose={() => setGuideOpen(false)}
+        onSubmit={handleSubmit}
+      />
+      <Results
+        open={resultsOpen}
+        initialData={results}
+        searchEngine={searchEngine}
+        onClose={handleCloseResults}
+      />
     </>
   )
+}
+Home.propTypes = {
+  searchEngine: PropTypes.shape({
+      searchPathways: PropTypes.func.isRequired,
+      searchTutorials: PropTypes.func.isRequired,
+    }).isRequired,
 }

@@ -101,7 +101,7 @@ Card.propTypes = {
   className: PropTypes.string,
 }
 
-const AIOverviewCard = React.memo(({ userInput, onOpenAIChat }) => {
+const AIOverviewCard = React.memo(({ userInput, onOpenChatbot }) => {
   const { data, error, isFetching } = useQuery(createAIOverviewQueryOptions(
     userInput,
     userInput?.trim().length > 0
@@ -136,7 +136,7 @@ const AIOverviewCard = React.memo(({ userInput, onOpenAIChat }) => {
             <Button
               variant="solid"
               color="complement"
-              onClick={() => onOpenAIChat(data)}
+              onClick={() => onOpenChatbot(data)}
               className="inline-flex items-center m-1 pr-5"
             >
               <ChatBubbleLeftRightIcon
@@ -154,7 +154,7 @@ const AIOverviewCard = React.memo(({ userInput, onOpenAIChat }) => {
 AIOverviewCard.displayName = 'AIOverviewCard'
 AIOverviewCard.propTypes = {
   userInput: PropTypes.string.isRequired,
-  onOpenAIChat: PropTypes.func.isRequired,
+  onOpenChatbot: PropTypes.func.isRequired,
 }
 
 const GeneManiaCard = React.memo(({ genes, organism }) => {
@@ -610,33 +610,56 @@ Drawer.propTypes = {
 }
 
 
-export function Results({open=false, data, searchEngine, onClose }) {
-  const [localData, setLocalData] = useState(data)
-  const [assistantMessage, setAssistantMessage] = useState('')
-  const [openAIChat, setOpenAIChat] = useState(false)
+export const Results = React.memo(({ open = false, initialData, searchEngine, onClose }) => {
+  const [data, setData] = useState(initialData)
+  const [chatbotOpen, setChatbotOpen] = useState(false)
 
-  const userInput = localData?.userInput ?? ''
-  const type = localData?.type
-  const terms = localData?.terms ?? []
-  const organism = localData?.organism
+  const userInput = data?.userInput ?? ''
+  const type = data?.type
+  const terms = data?.terms ?? []
+  const organism = data?.organism
+
+  // Initially, the AI message comprises the system instructions, the original user input,
+  // and the message returned by the AI assistant, if any.
+  // Later, if the user interacts with the chatbot and generates new messages, we will update this chatbotMessagesRef
+  // to reflect the latest conversation state when reopening the chatbot.
+  const chatbotMessagesRef = useRef([])
 
   useEffect(() => {
-    if (data) {
-      setLocalData(data)
+    if (initialData) {
+      setData(initialData)
     }
-  }, [data])
+  }, [initialData])
 
   const handleSubmit = (newData) => {
-    setLocalData({ userInput: newData.userInput, type, terms: newData.terms, organism: newData.organism })
+    chatbotMessagesRef.current = [] // reset chatbot messages on new search
+    setData({ userInput: newData.userInput, type, terms: newData.terms, organism: newData.organism })
   }
   const handleWhatElseClick = () => {
     onClose()
     window.location.href = '/#genes'
   }
-  const handleOpenAIChat = useCallback((data) => {
-    setAssistantMessage(data.message?.content)
-    setOpenAIChat(true)
+  
+  const handleOpenChatbot = useCallback((data) => {
+    const assistantMsg = data?.message?.content ?? ''
+    if (chatbotMessagesRef.current?.length === 0) {
+      // Reinitialize the chatbot messages with the when opening the chatbot for the first time or after a new search.
+      chatbotMessagesRef.current = [
+        { role: 'system', content: LLM_SYSTEM_INSTRUCTIONS },
+        { role: 'user', content: userInput ?? '' },
+        { role: 'assistant', content: assistantMsg ?? '' },
+      ]
+    }
+    setChatbotOpen(true)
+  }, [userInput])
+  const handleCloseChatbot = useCallback(() => {
+    setChatbotOpen(false)
   }, [])
+  const handleChatbotMessagesChange = (updatedMessages) => {
+    // If there are updated messages from the chatbot, we can update the chatbotMessages
+    // to reflect the latest state of the conversation when reopening the chatbot.
+    chatbotMessagesRef.current = [...updatedMessages]
+  }
 
   return (
     <Transition show={open}>
@@ -672,7 +695,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
                       <SearchBar
                         initialText={userInput}
                         initialOrganismTaxon={organism?.taxon}
-                        showOrganismSelector={type === 'gene'}
+                        showOrganismSelector={false} // type === 'gene'
                         onSubmit={handleSubmit}
                         className="bg-white drop-shadow-md"
                       />
@@ -691,7 +714,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
                   {(type !== 'tutorial') && (
                   <>
                     <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2">
-                      <AIOverviewCard userInput={userInput} onOpenAIChat={handleOpenAIChat} />
+                      <AIOverviewCard userInput={userInput} onOpenChatbot={handleOpenChatbot} />
                     {type === 'gene' && organism && (
                       <GeneManiaCard genes={terms} organism={organism} />
                     )}
@@ -715,24 +738,24 @@ export function Results({open=false, data, searchEngine, onClose }) {
         </div>
       </Dialog>
       <Drawer
-        open={openAIChat}
-        onClose={() => setOpenAIChat(false)}
+        open={chatbotOpen}
+        onClose={handleCloseChatbot}
         title="Chat with AI"
       >
-      {openAIChat && (
-        <Chatbot initialMessages={[
-          { role: 'system', content: LLM_SYSTEM_INSTRUCTIONS },
-          { role: 'user', content: userInput ?? '' },
-          { role: 'assistant', content: assistantMessage ?? '' },
-          ]} />
+      {chatbotOpen && (
+        <Chatbot
+          initialMessages={chatbotMessagesRef.current}
+          onMessagesChange={handleChatbotMessagesChange}
+        />
       )}
       </Drawer>
     </Transition>
   )
-}
+})
+Results.displayName = 'Results'
 Results.propTypes = {
   open: PropTypes.bool,
-  data: PropTypes.shape({
+  initialData: PropTypes.shape({
     userInput: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['gene', 'pathway', 'tutorial']).isRequired,
     terms: PropTypes.arrayOf(PropTypes.string).isRequired,

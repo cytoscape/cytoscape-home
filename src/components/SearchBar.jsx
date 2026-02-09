@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import PropTypes from 'prop-types'
 import { geneManiaOrganisms } from '@/app/shared/common'
 
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/16/solid'
@@ -184,6 +185,16 @@ export function SearchBar({
       </div>
     </div>
   )
+}
+SearchBar.propTypes = {
+  placeholder: PropTypes.string,
+  initialText: PropTypes.string,
+  initialOrganismTaxon: PropTypes.string,
+  showOrganismSelector: PropTypes.bool,
+  onTextChange: PropTypes.func,
+  onOrganismChange: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 export default SearchBar

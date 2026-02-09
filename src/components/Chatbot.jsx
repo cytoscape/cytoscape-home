@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import PropTypes from 'prop-types'
 import { LLM_CHAT_API_URL, LLM_MODEL , LLM_SYSTEM_INSTRUCTIONS} from '@/app/shared/config'
 import ReactMarkdown from '@/components/base/ReactMarkdown'
@@ -6,7 +6,10 @@ import ReactMarkdown from '@/components/base/ReactMarkdown'
 import { ArrowUpCircleIcon } from '@heroicons/react/24/solid'
 
 
-export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYSTEM_INSTRUCTIONS }] }) {
+export const Chatbot = React.memo(({ 
+  initialMessages = [{ role: 'system', content: LLM_SYSTEM_INSTRUCTIONS }],
+  onMessagesChange
+}) => {
   const [messages, setMessages] = useState(initialMessages) // { role: 'user' | 'assistant', content: string }
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
@@ -38,6 +41,10 @@ export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYST
     setInput("")
     setLoading(true)
 
+    if (onMessagesChange) {
+      onMessagesChange(newMessages)
+    }
+
     try {
       const response = await fetch(LLM_CHAT_API_URL, {
         method: "POST",
@@ -55,6 +62,10 @@ export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYST
         content: data?.message?.content || "-- No response --",
       }
       setMessages((prev) => [...prev, assistantMessage])
+      
+      if (onMessagesChange) {
+        onMessagesChange([...newMessages, assistantMessage])
+      }
     } catch (err) {
       setMessages((prev) => [
         ...prev,
@@ -146,7 +157,8 @@ export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYST
       </div>
     </div>
   )
-}
+})
+Chatbot.displayName = 'Chatbot'
 Chatbot.propTypes = {
   initialMessages: PropTypes.arrayOf(
     PropTypes.shape({
@@ -154,4 +166,5 @@ Chatbot.propTypes = {
       content: PropTypes.string.isRequired,
     })
   ),
+  onMessagesChange: PropTypes.func, // Optional callback to notify parent of message changes
 }
