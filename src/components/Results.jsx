@@ -670,7 +670,7 @@ export function Results({open=false, data, searchEngine, onClose }) {
                     </a>
                     <div className="w-full max-w-[667px] text-left">
                       <SearchBar
-                        initialText={terms?.join(' ')}
+                        initialText={userInput}
                         initialOrganismTaxon={organism?.taxon}
                         showOrganismSelector={type === 'gene'}
                         onSubmit={handleSubmit}

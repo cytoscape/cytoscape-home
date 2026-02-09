@@ -27,7 +27,6 @@ export function Hero({ onGetStarted, onSubmit }) {
   const handleExampleClick = (event, example) => {
     const { terms, taxon, type } = example
     event.preventDefault()
-    const userInput = searchText.trim()
     // Simulate a search submission
     setSearchText('')
     const text = terms.join(' ')
