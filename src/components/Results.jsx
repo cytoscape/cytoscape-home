@@ -568,7 +568,7 @@ const Drawer = React.memo(({ open, onClose, title, children }) => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10 sm:pr-16">
+            <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full md:pr-20">
               <DialogPanel
                 className="border-r pointer-events-auto w-screen max-w-5xl transform transition duration-500 ease-in-out sm:duration-700"
               >

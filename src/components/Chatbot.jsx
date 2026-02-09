@@ -98,7 +98,7 @@ export function Chatbot({ initialMessages = [{ role: 'system', content: LLM_SYST
               className={
                 msg.role === "user"
                   ? "max-w-screen-md rounded-l-2xl rounded-b-2xl bg-gray-200 md:ml-32 sm:ml-4 ml-0 px-4 py-2 text-right text-sm"
-                  : "max-w-screen-md whitespace-pre-wrap px-1 py-1 text-sm"
+                  : "max-w-screen-md mt-4 mb-8 px-1 py-1 text-sm"
               }
             >
             {msg.role === "assistant" ? (
