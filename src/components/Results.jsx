@@ -101,10 +101,10 @@ Card.propTypes = {
   className: PropTypes.string,
 }
 
-const AIOverviewCard = React.memo(({ userInput, onOpenChatbot }) => {
+const AIOverviewCard = React.memo(({ searchText, onOpenChatbot }) => {
   const { data, error, isFetching } = useQuery(createAIOverviewQueryOptions(
-    userInput,
-    userInput?.trim().length > 0
+    searchText,
+    searchText?.trim().length > 0
   ))
   
   return (
@@ -153,7 +153,7 @@ const AIOverviewCard = React.memo(({ userInput, onOpenChatbot }) => {
 })
 AIOverviewCard.displayName = 'AIOverviewCard'
 AIOverviewCard.propTypes = {
-  userInput: PropTypes.string.isRequired,
+  searchText: PropTypes.string.isRequired,
   onOpenChatbot: PropTypes.func.isRequired,
 }
 
@@ -610,18 +610,18 @@ Drawer.propTypes = {
 }
 
 
-export const Results = React.memo(({ open = false, initialData, searchEngine, onClose }) => {
-  const [data, setData] = useState(initialData)
+export const Results = React.memo(({ open = false, initialQuery, searchEngine, onSubmit, onClose }) => {
+  const [query, setQuery] = useState(initialQuery)
   const [chatbotOpen, setChatbotOpen] = useState(false)
 
-  const userInput = data?.userInput ?? ''
-  const type = data?.type
-  const terms = data?.terms ?? []
-  const organism = data?.organism
+  const searchText = query?.searchText ?? ''
+  const type = query?.type
+  const terms = query?.terms ?? []
+  const organism = query?.organism
 
   // Save the user input text in a ref so we can compare it with new user inputs later,
   // in order to decide whether to reset the chatbot messages or not
-  const userInputRef = useRef(userInput?.trim() ?? '')
+  const searchTextRef = useRef(searchText?.trim() ?? '')
   // Initially, the AI message comprises the system instructions, the original user input,
   // and the message returned by the AI assistant, if any.
   // Later, if the user interacts with the chatbot and generates new messages, we will update this chatbotMessagesRef
@@ -630,21 +630,18 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
 
   useEffect(() => {
     // Just resets the initial data with the object passed by the parent component
-    if (initialData) {
-      setData(initialData)
+    if (initialQuery) {
+      setQuery(initialQuery)
     }
-  }, [initialData])
+  }, [initialQuery])
 
   useEffect(() => {
-    // Clears the chatbot messages if the user input has changed since the last search
-    if (userInputRef.current !== userInput?.trim()) {
+    // Clears the chatbot messages if the input text has changed since the last search
+    if (searchTextRef.current !== searchText?.trim()) {
       chatbotMessagesRef.current = []
     }
-  }, [userInput])
+  }, [searchText])
 
-  const handleSubmit = (newData) => {
-    setData({ userInput: newData.userInput, type: newData.type, terms: newData.terms, organism: newData.organism })
-  }
   const handleWhatElseClick = () => {
     onClose()
     window.location.href = '/#genes'
@@ -656,12 +653,12 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
       // Reinitialize the chatbot messages with the when opening the chatbot for the first time or after a new search.
       chatbotMessagesRef.current = [
         { role: 'system', content: LLM_SYSTEM_INSTRUCTIONS },
-        { role: 'user', content: userInput ?? '' },
+        { role: 'user', content: searchText ?? '' },
         { role: 'assistant', content: assistantMsg ?? '' },
       ]
     }
     setChatbotOpen(true)
-  }, [userInput])
+  }, [searchText])
   const handleCloseChatbot = useCallback(() => {
     setChatbotOpen(false)
   }, [])
@@ -703,10 +700,10 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
                     </a>
                     <div className="w-full max-w-[667px] text-left">
                       <SearchBar
-                        initialText={userInput}
+                        initialText={searchText}
                         initialOrganismTaxon={organism?.taxon}
                         showOrganismSelector={false} // type === 'gene'
-                        onSubmit={handleSubmit}
+                        onSubmit={onSubmit}
                         className="bg-white drop-shadow-md"
                       />
                       <div className="mt-2 text-sm text-gray-400 lg:text-left text-right hidden md:block">
@@ -724,7 +721,7 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
                   {(type !== 'tutorial') && (
                   <>
                     <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2">
-                      <AIOverviewCard userInput={userInput} onOpenChatbot={handleOpenChatbot} />
+                      <AIOverviewCard searchText={searchText} onOpenChatbot={handleOpenChatbot} />
                     {type === 'gene' && organism && (
                       <GeneManiaCard genes={terms} organism={organism} />
                     )}
@@ -765,8 +762,8 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
 Results.displayName = 'Results'
 Results.propTypes = {
   open: PropTypes.bool,
-  initialData: PropTypes.shape({
-    userInput: PropTypes.string.isRequired,
+  initialQuery: PropTypes.shape({
+    searchText: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['gene', 'pathway', 'tutorial', 'other']),
     terms: PropTypes.arrayOf(PropTypes.string).isRequired,
     organism: PropTypes.shape({
@@ -779,5 +776,6 @@ Results.propTypes = {
     searchPathways: PropTypes.func.isRequired,
     searchTutorials: PropTypes.func.isRequired,
   }).isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 }

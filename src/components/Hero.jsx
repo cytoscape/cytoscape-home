@@ -34,7 +34,7 @@ export function Hero({ initialSearchText, onSubmit }) {
     // Simulate a search submission
     setSearchText('')
     const text = terms.join(' ')
-    const data = { userInput: text, type, terms, organism: geneManiaOrganisms.find(org => org.taxon === taxon) }
+    const data = { searchText: text, type, terms, organism: geneManiaOrganisms.find(org => org.taxon === taxon) }
     let i = 0
     const animate = () => {
       setSearchText(text.slice(0, i + 1))

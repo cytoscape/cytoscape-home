@@ -5,15 +5,15 @@ import { LLM_CHAT_API_URL, LLM_MODEL, LLM_SYSTEM_INSTRUCTIONS } from '@/app/shar
 
 const ndexClient = new NDEx('https://www.ndexbio.org/v2')
 
-export function createAIOverviewQueryOptions(userInput, enabled = true) {
+export function createAIOverviewQueryOptions(searchText, enabled = true) {
   const prompt = `
 INSTRUCTIONS:\n
 ${LLM_SYSTEM_INSTRUCTIONS}\n
 USER INPUT:\n
-${userInput}`
+${searchText}`
 
   return queryOptions({
-    queryKey: ['aiOverview', encodeTextToBase64(userInput)],
+    queryKey: ['aiOverview', encodeTextToBase64(searchText)],
     queryFn: () => fetchAIOverview(prompt),
     enabled,
     refetchOnWindowFocus: false,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQuery } from "@tanstack/react-query"
 import PropTypes from 'prop-types'
 import { Faqs } from '@/components/Faqs'
@@ -10,6 +10,7 @@ import { CompareSection } from '@/components/CompareSection'
 import { Results } from '@/components/Results'
 import { createMyGeneInfoQueryOptions } from '@/app/shared/queryOptions'
 import { geneManiaOrganisms, parseGeneList } from '@/app/shared/common'
+import { LoadingMessage } from '@/components/base/Loading'
 
 
 const detectOrganism = (taxidCounts) => {
@@ -48,19 +49,29 @@ export default function Home({ searchEngine }) {
   const [submitting, setSubmitting] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [resultsOpen, setResultsOpen] = useState(false)
-  const [results, setResults] = useState()
+  const [query, setQuery] = useState()
+
+  // Save the current query object in a ref so we can compare its search text with new input texts later,
+  // in order to decide whether to detect the organism again or not
+  const queryRef = useRef(null)
 
   const { data: taxidCounts, isFetching } = useQuery(createMyGeneInfoQueryOptions(
     parseGeneList(searchText ?? ''),
-    resultsOpen && searchText?.trim().length > 0
+    searchText?.trim().length > 0 && searchText.trim() !== queryRef.current?.searchText // Only detect organism if the search text hasn't changed since the last submission
   ))
 
   const reset = () => {
-    setResults(null)
+    setQuery(null)
     setSearchText('')
     setResultsOpen(false)
   }
-
+  const handleSubmit = (data) => {
+    if (data) {
+      setSearchText(data.searchText)
+      setQuery(data)
+      setSubmitting(true) // Don't submit right away, wait for taxidCounts to update!
+    }
+  }
   const openResults = () => {
     if (!window.history.state?.resultsOpen) {
       window.history.pushState({ resultsOpen: true }, '#results', window.location.href) // Push a new state to the history stack
@@ -76,15 +87,16 @@ export default function Home({ searchEngine }) {
   }, [])
 
   useEffect(() => {
-    if (!isFetching && submitting && taxidCounts && results) {
+    if (submitting && !isFetching && taxidCounts && query) {
+      // Now we can submit...
       const organism = detectOrganism(taxidCounts)
-      results.organism = organism
-      results.type = organism ? 'gene' : 'other' // TODO: do we need to detect 'pathway' type as well?
-      setResults({ ...results })
-      setSubmitting(false)
+      query.organism = organism
+      query.type = organism ? 'gene' : 'other' // TODO: do we need to detect 'pathway' type as well? Or just remove the `type` field?
+      queryRef.current = { ...query }
+      setSubmitting(false) 
       openResults()
     }
-  }, [submitting, taxidCounts, isFetching, results])
+  }, [isFetching, submitting, taxidCounts, query])
 
   useEffect(() => {
     // Listen for popstate events to handle back/forward navigation
@@ -101,48 +113,37 @@ export default function Home({ searchEngine }) {
     }
   }, [])
 
-  const handleSubmit = (data) => {
-    if (data) {
-      if (data.url) {
-        window.open(data.url, '_blank').focus()
-      } else {
-        setSearchText(data.userInput)
-        setResults(data)
-        setSubmitting(true)
-        openResults()
-      }
-    }
-  }
-  // const handleGetStarted = ({ type, terms }) => {
-  //   setResultsOpen(false)
-  //   setResults(null)
-  //   setSearchType(type)
-  //   setSearchText(terms ? terms.join(' ') : '')
-  // }
-
   return (
     <>
-      <Hero initialSearchText={searchText} onSubmit={handleSubmit} />
-      {/* <Hero onGetStarted={handleGetStarted} onSubmit={handleSubmit} /> */}
-      {/* <PrimaryFeatures /> */}
+      <Hero
+        initialSearchText={searchText}
+        onSubmit={handleSubmit}
+      />
       <StartWith />
       <CompareSection />
       <SecondaryFeatures />
-      {/* <CallToAction onGetStarted={handleGetStarted} /> */}
       <Citations />
       <Faqs />
       <Results
         open={resultsOpen}
-        initialData={results}
+        initialQuery={query}
         searchEngine={searchEngine}
+        onSubmit={handleSubmit}
         onClose={handleCloseResults}
       />
+      {submitting && ( 
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
+          <div className="flex space-x-2">
+            <LoadingMessage />
+          </div>
+        </div>
+      )}
     </>
   )
 }
 Home.propTypes = {
   searchEngine: PropTypes.shape({
-      searchPathways: PropTypes.func.isRequired,
-      searchTutorials: PropTypes.func.isRequired,
-    }).isRequired,
+    searchPathways: PropTypes.func.isRequired,
+    searchTutorials: PropTypes.func.isRequired,
+  }).isRequired,
 }

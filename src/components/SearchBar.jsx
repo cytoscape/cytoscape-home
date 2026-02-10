@@ -91,7 +91,7 @@ export function SearchBar({
     if (text?.trim() !== '') {
       event.preventDefault()
       event.stopPropagation()
-      onSubmit?.({ userInput: text.trim(), terms: text.trim().split(/\s+/).filter(term => term.length > 0), organism: selectedOrganism })
+      onSubmit?.({ searchText: text.trim(), terms: text.trim().split(/\s+/).filter(term => term.length > 0), organism: selectedOrganism })
     } else {
       event.preventDefault()
       event.stopPropagation()
