@@ -619,6 +619,9 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
   const terms = data?.terms ?? []
   const organism = data?.organism
 
+  // Save the user input text in a ref so we can compare it with new user inputs later,
+  // in order to decide whether to reset the chatbot messages or not
+  const userInputRef = useRef(userInput?.trim() ?? '')
   // Initially, the AI message comprises the system instructions, the original user input,
   // and the message returned by the AI assistant, if any.
   // Later, if the user interacts with the chatbot and generates new messages, we will update this chatbotMessagesRef
@@ -626,13 +629,20 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
   const chatbotMessagesRef = useRef([])
 
   useEffect(() => {
+    // Just resets the initial data with the object passed by the parent component
     if (initialData) {
       setData(initialData)
     }
   }, [initialData])
 
+  useEffect(() => {
+    // Clears the chatbot messages if the user input has changed since the last search
+    if (userInputRef.current !== userInput?.trim()) {
+      chatbotMessagesRef.current = []
+    }
+  }, [userInput])
+
   const handleSubmit = (newData) => {
-    chatbotMessagesRef.current = [] // reset chatbot messages on new search
     setData({ userInput: newData.userInput, type: newData.type, terms: newData.terms, organism: newData.organism })
   }
   const handleWhatElseClick = () => {
