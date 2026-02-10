@@ -633,7 +633,7 @@ export const Results = React.memo(({ open = false, initialData, searchEngine, on
 
   const handleSubmit = (newData) => {
     chatbotMessagesRef.current = [] // reset chatbot messages on new search
-    setData({ userInput: newData.userInput, type, terms: newData.terms, organism: newData.organism })
+    setData({ userInput: newData.userInput, type: newData.type, terms: newData.terms, organism: newData.organism })
   }
   const handleWhatElseClick = () => {
     onClose()
@@ -757,7 +757,7 @@ Results.propTypes = {
   open: PropTypes.bool,
   initialData: PropTypes.shape({
     userInput: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['gene', 'pathway', 'tutorial']).isRequired,
+    type: PropTypes.oneOf(['gene', 'pathway', 'tutorial', 'other']),
     terms: PropTypes.arrayOf(PropTypes.string).isRequired,
     organism: PropTypes.shape({
       id: PropTypes.number.isRequired,

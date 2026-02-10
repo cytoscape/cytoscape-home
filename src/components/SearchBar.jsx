@@ -20,17 +20,15 @@ export function SearchBar({
   onSubmit,
   className
 }) {
-  const [text, setText] = useState(initialText)
+  const [text, setText] = useState(initialText ?? '')
   const [selectedOrganism, setSelectedOrganism] = useState(geneManiaOrganisms.find(org => org.taxon === initialOrganismTaxon))
   const [dropdownOpen, setDropdownOpen] = useState(false)
   
   // Set the initial text when the component mounts
   useEffect(() => {
-    if (initialText) {
-      // Set the text input value and notify parent component
-      setText(initialText)
-      onTextChange?.(initialText)
-    }
+    // Set the text input value and notify parent component
+    setText(initialText)
+    onTextChange?.(initialText)
   }, [initialText, onTextChange])
 
   // Set the initial organism when the component mounts

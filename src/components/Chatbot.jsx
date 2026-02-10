@@ -59,7 +59,7 @@ export const Chatbot = React.memo(({
 
       const assistantMessage = {
         role: "assistant",
-        content: data?.message?.content || "-- No response --",
+        content: data?.message?.content ?? "-- No response --",
       }
       setMessages((prev) => [...prev, assistantMessage])
       

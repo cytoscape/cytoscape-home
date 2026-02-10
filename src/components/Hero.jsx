@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { geneManiaOrganisms } from '@/app/shared/common'
@@ -18,8 +18,12 @@ const searchExamples = [
 ]
 
 
-export function Hero({ onGetStarted, onSubmit }) {
-  const [searchText, setSearchText] = useState('')
+export function Hero({ initialSearchText, onSubmit }) {
+  const [searchText, setSearchText] = useState(initialSearchText ?? '')
+
+  useEffect(() => {
+    setSearchText(initialSearchText)
+  }, [initialSearchText])
 
   const handleTextChange = (text) => {
     setSearchText(text.trim())
@@ -67,7 +71,7 @@ export function Hero({ onGetStarted, onSubmit }) {
                 placeholder="Enter one or more genes, a pathway or any terms"
                 initialText={searchText}
                 onTextChange={handleTextChange}
-                onSubmit={onGetStarted}
+                onSubmit={onSubmit}
                 className="bg-white drop-shadow-md"
               />
               <div className="mt-2 text-sm text-gray-500">
@@ -113,6 +117,6 @@ export function Hero({ onGetStarted, onSubmit }) {
   )
 }
 Hero.propTypes = {
-  onGetStarted: PropTypes.func.isRequired,
+  initialSearchText: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
 }
