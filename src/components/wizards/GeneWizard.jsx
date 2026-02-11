@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { createMyGeneInfoQueryOptions } from '@/app/shared/queryOptions'
 import { geneManiaOrganisms, parseGeneList } from '@/app/shared/common'
 import { SelectMenu } from '@/components/base/SelectMenu'
-import { LoadingMessage } from '@/components/base/Loading'
+import { SpinningIcon } from '@/components/base/Loading'
 
 
 function GenesPanel({ initialValue, onChange }) {
@@ -171,7 +171,7 @@ export function GeneWizard({ step, initialSearchText, setTotalSteps, setTitle, o
   return (
     <div className="min-h-48">
     {isFetching && (
-      <LoadingMessage message="Identifying organisms..." className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+      <SpinningIcon message="Identifying organisms..." className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
     )}
     {!isFetching && step === 0 && (
       <GenesPanel initialValue={searchText} onChange={handleGenesChange} />

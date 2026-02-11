@@ -6,7 +6,7 @@ import Cytoscape from 'cytoscape'
 
 import { Dialog, DialogTitle, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { Button } from '@/components/base/Button'
-import { LoadingMessage } from '@/components/base/Loading'
+import { SpinningIcon, TextSkeleton, ImageAndTextSkeleton } from '@/components/base/Loading'
 import { SearchBar } from '@/components/SearchBar'
 import { Chatbot } from '@/components/Chatbot'
 import ReactMarkdown from '@/components/base/ReactMarkdown'
@@ -116,7 +116,7 @@ const AIOverviewCard = React.memo(({ searchText, onOpenChatbot }) => {
     >
       <div className="w-full min-h-64 max-h-128 p-2 text-sm text-gray-500 flex flex-col items-center justify-center">
         {isFetching && (
-          <LoadingMessage />
+          <TextSkeleton showTitle={true} lines={[3, 7]} />
         )}
         {error && (
           <div className="w-full flex items-center justify-center text-red-800">
@@ -295,7 +295,7 @@ const GeneManiaCard = React.memo(({ genes, organism }) => {
       <div className="relative w-full mt-2">
         <div id="genemania-cy" className={`w-full h-96 ${isFetching ? 'invisible' : ''}`} />
         {isFetching && (
-          <LoadingMessage className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+          <SpinningIcon message="Loading..." className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
         )}
         {error && (
           <span className="w-full flex items-start justify-center text-red-800 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -340,9 +340,6 @@ const NDExCard = React.memo(({ genes }) => {
       error={error}
     >
       <div className="min-h-64 flex flex-col justify-center">
-        {isFetching && (
-          <LoadingMessage />
-        )}
         {error && (
           <span className="w-full flex items-start justify-center text-red-800 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <ExclamationTriangleIcon className="w-5 h-5 mt-0.5" />
@@ -351,26 +348,40 @@ const NDExCard = React.memo(({ genes }) => {
             </span>
           </span>
         )}
-        {!isFetching && !error && filteredNetworks.length > 0 && (
+        {!error && (
           <table className="w-full min-w-max divide-y divide-gray-300">
-            <thead className="bg-gray-50">
+            <thead className={`bg-gray-50 ${isFetching ? 'animate-pulse antialiased leading-relaxed text-gray-300' : 'text-gray-900'}`}>
               <tr>
-                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">
                   Network
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                   Owner
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                   Nodes
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                   Edges
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-            {filteredNetworks.map((net) => (
+            {isFetching && [...Array(Math.ceil(MAX_RESULTS/2))].map((_, rowIdx) => (
+              <tr key={`skeleton-row-${rowIdx}`}>
+              {[...Array(4)].map((__, cellIdx) => (
+                <td
+                  key={`skeleton-cell-${cellIdx}`}
+                  className="px-2 py-2.5"
+                >
+                  <span className="h-5 text-sm animate-pulse antialiased leading-relaxed bg-gray-300 rounded-md text-inherit block w-full">
+                    &nbsp;
+                  </span>
+                </td>
+              ))}
+              </tr>
+            ))}
+            {!isFetching && filteredNetworks.map((net) => (
               <tr key={net.externalId}>
                 <td className="max-w-96 text-wrap px-3 py-2 text-left text-sm text-gray-500">
                   <a
@@ -423,9 +434,11 @@ const WikiPathwaysCard = React.memo(({ terms, searchEngine }) => {
       className="text-left"
     >
       <ul className="space-y-2 min-h-64 flex flex-col justify-center">
-      {loading && (
-        <LoadingMessage />
-      )}
+      {loading && [...Array(Math.ceil(MAX_RESULTS/2))].map((_, rowIdx) => (
+        <div key={`skeleton-row-${rowIdx}`} className="w-full mb-4 p-2 flex items-start space-x-4">
+          <ImageAndTextSkeleton key={`skeleton-${rowIdx}`} showTitle={true} />
+        </div>
+      ))}
       {filteredPathways?.map(({ id, title, organisms, annotations, description, url, terms }) => (
         <li key={id} className="p-2 flex items-start space-x-4">
           <div className="flex-shrink-0">
@@ -513,7 +526,7 @@ const TutorialsCard = React.memo(({ terms, searchEngine }) => {
   return (
     <div className="w-full h-full relative p-4 lg:pl-48 md:pl-16 min-h-28 sm:min-h-40 text-left">
     {loading && (
-      <LoadingMessage />
+      <SpinningIcon />
     )}
     {!loading && results && results.length > 0 && (
       <ul className="h-full space-y-2">
@@ -716,22 +729,20 @@ export const Results = React.memo(({ open = false, initialQuery, searchEngine, o
                   </div>
                 </div>
                 {/* CONTENT (cards) */}
-                <div className="flex flex-col items-stretch lg:items-center lg:justify-center flex-growm lg:py-2 md:py-1 py-0 xl:px-0 px-1 bg-white lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
+                <div className="flex flex-col items-stretch lg:items-center lg:justify-center flex-grow lg:py-2 md:py-1 py-0 xl:px-0 px-1 bg-white lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
                   <div className="flex flex-col lg:flex-row items-stretch lg:flex-1 lg:items-start lg:justify-center xl:max-w-7xl py-4 xl:px-0 md:px-4 px-2 lg:space-x-2 lg:space-y-0 space-y-2 overflow-y-auto overflow-x-hidden">
                   {(type !== 'tutorial') && (
                   <>
-                    <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2">
+                    <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2 lg:w-1/2">
                       <AIOverviewCard searchText={searchText} onOpenChatbot={handleOpenChatbot} />
                     {type === 'gene' && organism && (
                       <GeneManiaCard genes={terms} organism={organism} />
                     )}
                       <NDExCard genes={terms} />
                     </div>
-                    {/* {(type === 'pathway' || terms.length === 1) && ( */}
-                    <div className="flex-auto">
+                    <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2 lg:w-1/2">
                       <WikiPathwaysCard terms={terms} searchEngine={searchEngine} />
                     </div>
-                    {/* )} */}
                   </>
                   )}
                   {type === 'tutorial' && (

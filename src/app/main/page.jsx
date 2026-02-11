@@ -10,7 +10,7 @@ import { CompareSection } from '@/components/CompareSection'
 import { Results } from '@/components/Results'
 import { createMyGeneInfoQueryOptions } from '@/app/shared/queryOptions'
 import { geneManiaOrganisms, parseGeneList } from '@/app/shared/common'
-import { LoadingMessage } from '@/components/base/Loading'
+import { SpinningIcon } from '@/components/base/Loading'
 
 
 const detectOrganism = (taxidCounts) => {
@@ -134,7 +134,7 @@ export default function Home({ searchEngine }) {
       {submitting && ( 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
           <div className="flex space-x-2">
-            <LoadingMessage />
+            <SpinningIcon message="Loading..." />
           </div>
         </div>
       )}
