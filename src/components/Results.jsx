@@ -349,19 +349,19 @@ const NDExCard = React.memo(({ genes }) => {
           </span>
         )}
         {!error && (
-          <table className="w-full min-w-max divide-y divide-gray-300">
+          <table className="w-full divide-y divide-gray-300">
             <thead className={`bg-gray-50 ${isFetching ? 'animate-pulse antialiased leading-relaxed text-gray-300' : 'text-gray-900'}`}>
               <tr>
-                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">
+                <th scope="col" className="py-3.5 pl-4 pr-3 text-left md:text-sm text-xs font-semibold sm:pl-6">
                   Network
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                <th scope="col" width={128} className="px-3 py-3.5 text-left md:text-sm text-xs font-semibold">
                   Owner
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                <th scope="col" width={64} className="px-3 py-3.5 text-right md:text-sm text-xs font-semibold">
                   Nodes
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
+                <th scope="col" width={64} className="px-3 py-3.5 text-right md:text-sm text-xs font-semibold">
                   Edges
                 </th>
               </tr>
@@ -383,7 +383,7 @@ const NDExCard = React.memo(({ genes }) => {
             ))}
             {!isFetching && filteredNetworks.map((net) => (
               <tr key={net.externalId}>
-                <td className="max-w-96 text-wrap px-3 py-2 text-left text-sm text-gray-500">
+                <td className="text-wrap px-3 py-2 text-left md:text-sm text-xs text-gray-500">
                   <a
                     href={`https://www.ndexbio.org/viewer/networks/${net.externalId}`}
                     target="_blank"
@@ -393,9 +393,9 @@ const NDExCard = React.memo(({ genes }) => {
                     {net.name}
                   </a>
                 </td>
-                <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">{net.owner}</td>
-                <td className="whitespace-nowrap px-3 py-2 text-right text-sm text-gray-500">{net.nodeCount}</td>
-                <td className="whitespace-nowrap px-3 py-2 text-right text-sm text-gray-500">{net.edgeCount}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-left md:text-sm text-xs text-gray-500">{net.owner}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right md:text-sm text-xs text-gray-500">{net.nodeCount}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right md:text-sm text-xs text-gray-500">{net.edgeCount}</td>
               </tr>
             ))}
             </tbody>
