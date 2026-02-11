@@ -9,29 +9,35 @@ const stopWords = new Set([
   'the', 'this', 'to', 'with'
 ])
 
-
+/**
+ * Handles indexing and searching of tutorials and pathways.
+ */
 export class SearchEngine {
 
   constructor(bus) {
     console.log('Initializing SearchEngine...')
     this.bus = bus || new EventEmitter()
-    this.searchReady = false
+    this.tutorialSearchReady = false
+    this.pathwaySearchReady = false
 
     Promise.all([
       this._indexTutorials(),
       this._indexPathways(),
     ]).then(() => {
-      this.searchReady = true
       this.bus.emit('searchReady')
     })
   }
 
-  isSearchReady() {
-    return this.searchReady
+  isTutorialSearchReady() {
+    return this.tutorialSearchReady
+  }
+
+  isPathwaySearchReady() {
+    return this.pathwaySearchReady
   }
 
   searchTutorials(query) {
-    if (!this.isSearchReady()) {
+    if (!this.isTutorialSearchReady()) {
       throw "The tutorials haven't been fetched yet!"
     }
     if (query && query.length > 0) {
@@ -41,8 +47,9 @@ export class SearchEngine {
   }
 
   searchPathways(query) {
-    if (!this.isSearchReady()) {
-      throw "The pathways haven't been fetched yet!"
+    if (!this.isPathwaySearchReady()) {
+      console.error("The pathways haven't been fetched yet!")
+      return []
     }
     if (query && query.length > 0) {
       return this.pathwaysSearch.search(query, { fields: ['title', 'description', 'keywords', 'annotations'], prefix: true })
@@ -86,8 +93,10 @@ export class SearchEngine {
       },
     })
 
-    this.tutorialsSearch.addAll(tutorials)
-    this.bus.emit('tutorialsIndexed')
+    if (tutorials?.length > 0) {
+      this.tutorialsSearch.addAll(tutorials)
+      this.tutorialSearchReady = true
+    }
   }
 
   async _indexPathways() {
@@ -127,10 +136,6 @@ export class SearchEngine {
         return []
       })
 
-    if (!pathways || pathways.length === 0) {
-      return
-    }
-
     this.pathwaysSearch = new MiniSearch({
       fields: ['title', 'description', 'keywords', 'annotations'],
       storeFields: ['id', 'url', 'title', 'organisms', 'description', 'keywords', 'annotations'],
@@ -142,6 +147,9 @@ export class SearchEngine {
       },
     })
 
-    this.pathwaysSearch.addAll(pathways)
+    if (pathways?.length > 0) {
+      this.pathwaysSearch.addAll(pathways)
+      this.pathwaySearchReady = true
+    }
   }
 }

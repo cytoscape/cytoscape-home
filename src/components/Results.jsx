@@ -740,12 +740,14 @@ export const Results = React.memo(({ open = false, initialQuery, searchEngine, o
                     )}
                       <NDExCard genes={terms} />
                     </div>
+                  {searchEngine.isPathwaySearchReady() && (
                     <div className="flex flex-col flex-auto items-center justify-center lg:items-start space-y-2 lg:w-1/2">
                       <WikiPathwaysCard terms={terms} searchEngine={searchEngine} />
                     </div>
+                  )}
                   </>
                   )}
-                  {type === 'tutorial' && (
+                  {type === 'tutorial' && searchEngine.isTutorialSearchReady() && (
                     <TutorialsCard terms={terms} searchEngine={searchEngine} />
                   )}
                   </div>
@@ -784,6 +786,8 @@ Results.propTypes = {
     }),
   }),
   searchEngine: PropTypes.shape({
+    isTutorialSearchReady: PropTypes.func.isRequired,
+    isPathwaySearchReady: PropTypes.func.isRequired,
     searchPathways: PropTypes.func.isRequired,
     searchTutorials: PropTypes.func.isRequired,
   }).isRequired,
