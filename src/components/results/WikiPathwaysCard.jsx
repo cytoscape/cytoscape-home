@@ -8,6 +8,27 @@ import { WikiPathwaysLogo } from '@/components/Logos'
 import { ArrowTurnDownRightIcon } from '@heroicons/react/20/solid'
 
 
+const Thumbnail = ({ id, title, url, className }) => (
+  <div className={`flex-shrink-0 ${className}`}>
+    <a
+      href={`https://www.wikipathways.org${url}`}
+      target='_blank'
+      rel='noreferrer'
+    >
+      <img
+        src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`}
+        alt={`${title} thumbnail`}
+        className="w-32 h-auto" />
+    </a>
+  </div>
+)
+Thumbnail.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  className: PropTypes.string,
+}
+
 
 export const WikiPathwaysCard = React.memo(({ terms, searchEngine, onResults }) => {
   const MAX_RESULTS = 10
@@ -26,7 +47,7 @@ export const WikiPathwaysCard = React.memo(({ terms, searchEngine, onResults }) 
       onResults?.((results?.length ?? 0) > 0)
     }
   }, [loading, results, onResults])
-
+  
   const filteredResults = results?.length > MAX_RESULTS ? results?.slice(0, MAX_RESULTS) : results ?? []
 
   return (
@@ -46,18 +67,12 @@ export const WikiPathwaysCard = React.memo(({ terms, searchEngine, onResults }) 
       ))}
       {filteredResults?.map(({ id, title, organisms, annotations, description, url, terms }) => (
         <li key={id} className="p-2 flex items-start space-x-4">
-          <div className="flex-shrink-0">
-            <a
-              href={`https://www.wikipathways.org${url}`}
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`}
-                alt={`${title} thumbnail`}
-                className="w-32 h-auto" />
-            </a>
-          </div>
+          <Thumbnail
+            id={id}
+            title={title}
+            url={url}
+            className={`sm:block hidden`}
+          />
           <div>
             <h3 className="font-medium">
               <a
@@ -69,6 +84,12 @@ export const WikiPathwaysCard = React.memo(({ terms, searchEngine, onResults }) 
                 {title}
               </a>
             </h3>
+            <Thumbnail
+              id={id}
+              title={title}
+              url={url}
+              className={`sm:hidden block sm:pt-0 pt-2`}
+            />
             <div className="text-sm font-light text-gray-400">
               {id} &mdash; <i>{organisms.join(', ')}</i>
             </div>

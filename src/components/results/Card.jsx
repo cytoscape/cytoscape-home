@@ -6,7 +6,7 @@ export function Card({ id, icon, title, url, caption, isLoading, error, children
   return (
     <div
       id={id}
-      className={`w-full p-4 rounded-xl shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'} ${className}`}
+      className={`w-full sm:p-4 p-2 rounded-xl shadow-lg shadow-gray-200 ${error ? 'border-double border-4 border-red-100' : 'border border-gray-200'} ${className}`}
     >
       <div className="flex items-center">
         {icon}
