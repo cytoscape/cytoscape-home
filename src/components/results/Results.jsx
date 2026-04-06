@@ -16,11 +16,11 @@ import { SparklesIcon, BookOpenIcon } from '@heroicons/react/24/solid'
 
 
 const cardsDef = [
-  {
-    id: 'ai',
-    title: 'AI Overview',
-    icon: ({ className, ...props }) => <SparklesIcon className={className} {...props} />,
-  },
+  // {
+  //   id: 'ai',
+  //   title: 'AI Overview',
+  //   icon: ({ className, ...props }) => <SparklesIcon className={className} {...props} />,
+  // },
   {
     id: 'genemania',
     title: 'GeneMANIA',
@@ -294,10 +294,10 @@ export const Results = React.memo(({ open = false, initialQuery, searchEngine, o
                     className="lg:w-4/5 w-full overflow-y-auto px-2 py-4 space-y-5"
                   >
                     <div className="flex flex-col lg:gap-5 md:gap-4 gap-2.5 xl:w-3/4 w-full items-stretch">
-                      <AIOverviewCard
+                      {/* <AIOverviewCard
                         searchText={searchText}
                         onOpenChatbot={handleOpenChatbot}
-                      />
+                      /> */}
                     {type === 'gene' && organism && (
                       <GeneManiaCard
                         genes={terms}
