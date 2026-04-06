@@ -16,7 +16,7 @@ const Thumbnail = ({ id, title, url, className }) => (
       rel='noreferrer'
     >
       <img
-        src={`https://www.wikipathways.org/assets/img/${id}/${id}-thumb.png`}
+        src={`https://www.wikipathways.org/wikipathways-assets/pathways/${id}/${id}.svg`}
         alt={`${title} thumbnail`}
         className="w-32 h-auto" />
     </a>
