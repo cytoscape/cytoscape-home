@@ -1,9 +1,7 @@
-import { useState } from 'react'
-import { Button } from '@/components/base/Button'
-import { TextField } from '@/components/base/Fields'
 import { Container } from '@/components/base/Container'
 import { NavLinks } from '@/components/NavLinks'
 import { CytoscapeLogo } from '@/components/Logos'
+import { Link } from '@/components/base/Link'
 
 import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
 import logoUCSD from '@/images/logos/ucsd.svg'
@@ -70,23 +68,21 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center border-t border-gray-200 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
-          {/* <form className="flex w-full justify-center md:w-auto">
-            <TextField
-              type="email"
-              aria-label="Email address"
-              placeholder="Email address"
-              autoComplete="email"
-              required
-              className="w-60 min-w-0 shrink"
-            />
-            <Button type="submit" color="complement" className="ml-4 flex-none">
-              <span className="hidden lg:inline">Join our newsletter</span>
-              <span className="lg:hidden">Join newsletter</span>
-            </Button>
-          </form> */}
-          <p className="mt-6 text-sm text-gray-500 md:mt-0">
-            &copy; Copyright {new Date().getFullYear()}. All rights reserved.
+        <div className="flex lg:flex-row flex-col lg:items-start items-center border-t border-gray-200 pb-12 pt-8 lg:justify-between lg:pt-6 lg:space-x-10">
+          <p className="mt-6 text-sm text-gray-500 lg:mt-0 max-w-3xl lg:text-left text-center">
+            Funding for continued development and maintenance of Cytoscape is provided by the  
+            U.S. <Link href="https://www.genome.gov/" target="_blank" rel="noreferrer" linkOut>National Human Genome Research Institute (NHGRI)</Link> under 
+            award number NIH NHGRI U24 HG012107 (Previously: R01 HG009979; R01 GM070743).
+            <br />
+            Cytoscape user support, education and new initiatives are supported 
+            by the <Link href="https://nrnb.org/" target="_blank" rel="noreferrer" linkOut>National Resource for Network Biology (NRNB)</Link> under 
+            award number P41 GM103504.
+            <br />
+            The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
+          </p>
+          <p className="mt-6 text-sm text-gray-500 lg:mt-0 flex-1 text-center lg:text-right whitespace-nowrap">
+            &copy;{new Date().getFullYear()} <Link href="http://www.cytoscapeconsortium.org/" target="_blank" rel="noreferrer" linkOut>Cytoscape Consortium</Link>. 
+            All rights reserved.
           </p>
         </div>
       </Container>
