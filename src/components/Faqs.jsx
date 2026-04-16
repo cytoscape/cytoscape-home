@@ -1,17 +1,12 @@
 import clsx from 'clsx'
 import { Container } from '@/components/base/Container'
+import { Link } from '@/components/base/Link'
 
 
 const LinkOut = ({ href, ariaLabel='external link', children }) => (
-  <a href={href} aria-label={ariaLabel} target="_blank" rel="noreferrer" className="text-gray-900 underline">
+  <Link href={href} aria-label={ariaLabel} linkOut>
     {children}
-  </a>
-)
-
-const Link = ({ href, children }) => (
-  <a href={href} className="text-gray-900 underline">
-    {children}
-  </a>
+  </Link>
 )
 
 const Citation = ({ href, className, children }) => {
