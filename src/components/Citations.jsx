@@ -232,7 +232,7 @@ export function Citations() {
     <section
       id="citations"
       aria-labelledby="citations-title"
-      className="pb-16 pt-20 sm:pb-24 sm:pt-32"
+      className="pb-16 pt-20 sm:pb-24 sm:pt-32 bg-gray-50"
     >
       <Container>
         <h2
