@@ -3,9 +3,9 @@ import { NavLinks } from '@/components/NavLinks'
 import { CytoscapeLogo } from '@/components/Logos'
 import { Link } from '@/components/base/Link'
 
-import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
+// import consortiumLogo from '@/images/logos/cytoscape-consortium.svg'
 import logoUCSD from '@/images/logos/ucsd.svg'
-import logoUCSF from '@/images/logos/ucsf.svg'
+import logoGladstone from '@/images/logos/gladstone.png'
 import logoUofT from '@/images/logos/uoft.svg'
 
 
@@ -36,9 +36,9 @@ export function Footer() {
                 className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
               >
                 {[
-                  ['The Cytoscape Consortium', consortiumLogo, 'https://cytoscapeconsortium.org/'],
+                  // ['The Cytoscape Consortium', consortiumLogo, 'https://cytoscapeconsortium.org/'],
                   ['University of California San Diego', logoUCSD, 'https://ucsd.edu/'],
-                  ['University of California San Francisco', logoUCSF, 'https://www.ucsf.edu/'],
+                  ['Gladstone Institutes', logoGladstone, 'https://gladstone.org/'],
                   ['University of Toronto', logoUofT, 'https://www.utoronto.ca/'],
                 ].map(([name, logo, href]) => (
                   <li key={name}>
