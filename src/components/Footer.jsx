@@ -55,7 +55,7 @@ export function Footer() {
                 </Link>{' '}
                 <span className="text-gray-300">|</span>{' '}
                 <Link href="https://gladstone.org/" target="_blank" rel="noreferrer" linkOut>
-                  Gladstone Institute
+                  Gladstone Institutes
                 </Link>{' '}
                 <span className="text-gray-300">|</span>{' '}
                 <Link href="https://idekerlab.org/" target="_blank" rel="noreferrer" linkOut>
