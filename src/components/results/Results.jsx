@@ -36,11 +36,11 @@ const cardsDef = [
     title: 'WikiPathways',
     icon: ({ className, ...props }) => <WikiPathwaysLogo className={className} {...props} />
   },
-  {
-    id: 'tutorials',
-    title: 'Tutorials & Protocols',
-    icon: ({ className, ...props }) => <BookOpenIcon className={className} {...props} />
-  },
+  // {
+  //   id: 'tutorials',
+  //   title: 'Tutorials & Protocols',
+  //   icon: ({ className, ...props }) => <BookOpenIcon className={className} {...props} />
+  // },
 ]
 
 
@@ -318,13 +318,13 @@ export const Results = React.memo(({ open = false, initialQuery, searchEngine, o
                         onResults={handleWikiResults}
                       />
                     )}
-                    {visibleCards['tutorials'] !== false && searchEngine.isTutorialSearchReady() && (
+                    {/* {visibleCards['tutorials'] !== false && searchEngine.isTutorialSearchReady() && (
                       <TutorialsCard
                         terms={terms}
                         searchEngine={searchEngine}
                         onResults={handleTutorialResults}
                       />
-                    )}
+                    )} */}
                     </div>
                   </div>
 
