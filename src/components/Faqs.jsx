@@ -68,16 +68,16 @@ const faqs = [
   ],
   [
     {
-      question: 'How is Cytoscape addressing the needs of bench biologists?',
+      question: 'How does Cytoscape address the needs of bench biologists?',
       answer: <>
-        Cytoscape serves bench biologists by streamlining <Link href="https://cytoscape-home.pages.dev/#genes">common analysis workflows</Link> in Cytoscape tools, 
+        Cytoscape serves bench biologists by streamlining <LinkOut href="https://cytoscape-home.pages.dev/#genes">common analysis workflows</LinkOut> in Cytoscape tools, 
         providing easy access to powerful analysis methods without the need for complex data processing or programmatic knowledge. 
-        Cytoscape makes it easy to access and utilize pre-analysed data and networks via <LinkOut href="https://www.ndexbio.org/">NDEx</LinkOut>, 
+        Cytoscape makes it easy to access and use pre-analysed data and networks via <LinkOut href="https://www.ndexbio.org/">NDEx</LinkOut>, 
         and provides comprehensive <LinkOut href="https://github.com/cytoscape/cytoscape-tutorials/wiki">training materials</LinkOut> tailored to bench biologists.
       </>,
     },
     {
-      question: 'How is Cytoscape addressing the needs of computational biologists?',
+      question: 'How does Cytoscape address the needs of computational biologists?',
       answer: <>
         Cytoscape provides programmatic access via the <LinkOut href="https://apps.cytoscape.org/apps/cyrest">cyREST API</LinkOut> and 
         the <LinkOut href="https://github.com/cytoscape/py4cytoscape">py4cytoscape</LinkOut> Python 
@@ -89,14 +89,14 @@ const faqs = [
     },
 
     {
-      question: 'How is Cytoscape addressing the needs of software developers?',
+      question: 'How does Cytoscape address the needs of software developers?',
       answer: <>
         Cytoscape Desktop functionality can be expanded through the use of <LinkOut href="https://apps.cytoscape.org/">apps</LinkOut> to 
         accommodate specific data types, analysis, visualizations and connections to other tools. 
         Extensive <LinkOut href="https://github.com/cytoscape/cytoscape/wiki/Cytoscape-3.0-App-Development">documentation and guides</LinkOut> are 
         available to support software developers. 
         Cytoscape tools are open-source, and interested developers are encouraged 
-        to <LinkOut href="https://cytoscape.org/documentation_developers.html">join our development community</LinkOut> as contributors. 
+        to <LinkOut href="https://github.com/cytoscape/cytoscape/wiki//Cytoscape-App-Ladder">join our development community</LinkOut> as contributors. 
       </>,
     },
     {
@@ -176,7 +176,7 @@ export function Faqs() {
           <p className="mt-2 text-lg text-gray-600">
             If you have any other questions, feel free to contact us at the
             {' '}<LinkOut href="https://baderlab.org/">Bader Lab</LinkOut>,
-            {' '}<LinkOut href="https://gladstone.org/">Gladstone Institutes</LinkOut> or
+            {' '}<LinkOut href="https://gladstone.org/science/bioinformatics-core">Gladstone Institutes</LinkOut> or
             {' '}<LinkOut href="https://idekerlab.org/">Ideker Lab</LinkOut>.
           </p>
         </div>

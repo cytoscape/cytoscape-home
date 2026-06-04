@@ -38,7 +38,7 @@ export function Footer() {
                 {[
                   // ['The Cytoscape Consortium', consortiumLogo, 'https://cytoscapeconsortium.org/'],
                   ['University of California San Diego', logoUCSD, 'https://ucsd.edu/'],
-                  ['Gladstone Institutes', logoGladstone, 'https://gladstone.org/'],
+                  ['Gladstone Institutes', logoGladstone, 'https://gladstone.org/science/bioinformatics-core'],
                   ['University of Toronto', logoUofT, 'https://www.utoronto.ca/'],
                 ].map(([name, logo, href]) => (
                   <li key={name}>
@@ -54,7 +54,7 @@ export function Footer() {
                   Bader Lab
                 </Link>{' '}
                 <span className="text-gray-300">|</span>{' '}
-                <Link href="https://gladstone.org/" target="_blank" rel="noreferrer" linkOut>
+                <Link href="https://gladstone.org/science/bioinformatics-core" target="_blank" rel="noreferrer" linkOut>
                   Gladstone Institutes
                 </Link>{' '}
                 <span className="text-gray-300">|</span>{' '}
