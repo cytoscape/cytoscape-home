@@ -27,7 +27,7 @@ const faqs = [
       question: 'What is Cytoscape?',
       answer: <>
         Cytoscape is an ecosystem of software tools and resources designed for network biology analysis and visualisation.
-        It includes the popular desktop application <LinkOut href="https://cytoscape.org/">Cytoscape</LinkOut>, 
+        It includes the popular desktop application <LinkOut href="https://desktop.cytoscape.org/">Cytoscape</LinkOut>, 
         the web-based version of Cytoscape &#40;<LinkOut href="https://web.cytoscape.org/">Cytoscape Web</LinkOut>&#41;, 
         and other web-based applications and tools that extend Cytoscape&apos;s functionality and accessibility.
       </>,
@@ -36,7 +36,7 @@ const faqs = [
       question: 'What are the key components of Cytoscape?',
       answer: <>
         The key components are: 
-        the <LinkOut href="https://cytoscape.org/">Cytoscape Desktop</LinkOut> and <LinkOut href="https://web.cytoscape.org/">Cytoscape Web</LinkOut> applications 
+        the <LinkOut href="https://desktop.cytoscape.org/">Cytoscape Desktop</LinkOut> and <LinkOut href="https://web.cytoscape.org/">Cytoscape Web</LinkOut> applications 
         for network analysis and visualization, and associated <LinkOut href="https://apps.cytoscape.org/">apps</LinkOut> that extend their functionality;&nbsp;
         <LinkOut href="https://www.ndexbio.org/">NDEx Cloud Storage</LinkOut> for accessing, sharing and publishing networks; 
         web applications that extend Cytoscape&apos;s capabilities and cater to specific workflows &#40;<LinkOut href="https://enrichmentmap.org/">EnrichmentMap</LinkOut>&#41;; 
@@ -106,7 +106,7 @@ const faqs = [
         For example, If you are new to Cytoscape and want to use core Cytoscape functionality without having to install anything, 
         start with <LinkOut href="https://web.cytoscape.org/">Cytoscape Web</LinkOut>. 
         On the other hand, if you are working with large networks, or need access to specialized analysis methods, 
-        or if you want to integrate Cytoscape in programmatic workflows, <LinkOut href="https://cytoscape.org/">Cytoscape Desktop</LinkOut> is the right choice. 
+        or if you want to integrate Cytoscape in programmatic workflows, <LinkOut href="https://desktop.cytoscape.org/">Cytoscape Desktop</LinkOut> is the right choice. 
         The two applications also make it easy to switch between them seamlessly using built-in integration features 
         and the <LinkOut href="https://cytoscape.org/cx/">CX2</LinkOut> file format.
       </>,
@@ -116,7 +116,7 @@ const faqs = [
     {
       question: 'How can I use the Cytoscape tools to create figures and support data for my paper?',
       answer: <>
-        Starting with a network in <LinkOut href="https://cytoscape.org/">Cytoscape Desktop</LinkOut> or <LinkOut href="https://web.cytoscape.org/">Cytoscape Web</LinkOut>, 
+        Starting with a network in <LinkOut href="https://desktop.cytoscape.org/">Cytoscape Desktop</LinkOut> or <LinkOut href="https://web.cytoscape.org/">Cytoscape Web</LinkOut>, 
         you can customize its style and layout before exporting high-resolution, publication-ready images in multiple formats &#40;PNG, PDF etc&#41;. 
         You can also publish your network and analysis directly to the Network Data Exchange &#40;<LinkOut href="https://www.ndexbio.org/">NDEx</LinkOut>&#41;, 
         and request a DOI to include in your publications. 

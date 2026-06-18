@@ -20,7 +20,7 @@ const tiers = [
     name: 'Desktop',
     subtitle: 'Cytoscape Desktop on your computer, private and powerful',
     id: 'tier-desktop',
-    href: 'https://cytoscape.org/download.html',
+    href: 'https://desktop.cytoscape.org/#download',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     features: [
       'Install on your computer',

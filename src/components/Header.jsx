@@ -49,7 +49,7 @@ function CytoscapeLink(props) {
 
   return (
     <a
-      href="https://cytoscape.org"
+      href="https://desktop.cytoscape.org"
       target="_blank"
       rel="noreferrer"
       className={clsx(

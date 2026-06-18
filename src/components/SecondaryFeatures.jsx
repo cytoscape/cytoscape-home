@@ -122,12 +122,12 @@ const features = [
   {
     name: 'Cytoscape ',
     description: <>
-        Open source <Link href="https://cytoscape.org/download.html" ariaLabel="Download Cytoscape">software</Link> platform 
+        Open source <Link href="https://desktop.cytoscape.org/#download" ariaLabel="Download Cytoscape">software</Link> platform 
         for visualizing complex networks.<br />
         Customize it through the use of <Link href="https://apps.cytoscape.org/" ariaLabel="Cytoscape App Store">app extensions</Link>.<br />
         Use <Link href="https://doi.org/10.12688/f1000research.6767.1" ariaLabel="cyREST paper">cyREST</Link> to create reproducible workflows.
       </>,
-    href: 'https://cytoscape.org/',
+    href: 'https://desktop.cytoscape.org/',
     icon: CytoscapeLogo,
   },
 ]
