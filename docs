@@ -1,0 +1,49 @@
+
+## **Assignment 1 – Documentation Reengineering Task**
+
+### **1. Addressed Issue (1 mark)**  
+The repository lacked proper documentation. The original README was empty and GitHub displayed “No description, website, or topics provided.” This made the project unclear for new contributors, reduced maintainability, and created onboarding difficulties.
+
+---
+
+### **2. What I Have Reengineered (1.5 marks)**  
+
+- Project overview and purpose  
+- Explanation of the repository’s role as the Cytoscape website  
+- Technology stack (Vite, TailwindCSS, Node.js)  
+- Local development setup and build instructions  
+- Directory structure  
+- Contribution guidelines  
+- License information  
+- Links to documentation and related resources  
+
+
+
+### **3. Reengineering Strategy / Approach (1.5 marks)**  
+I used a **Documentation Reengineering Strategy**:
+
+1. **Reverse Engineering**  
+   - Analyzed the repository structure, build files, configs, and scripts.  
+   - Identified missing documentation gaps and user pain points.
+
+2. **Forward Engineering**  
+   - Rewrote the entire README from scratch using best practices for open-source documentation.  
+   - Added structured sections to cover all aspects that contributors need.
+
+3. **Evolutionary Improvement**  
+   - Improved maintainability without modifying code.  
+   - Created reusable documentation that will help future contributors.
+
+---
+
+### **4. Impact of the Changes (1 mark)**  
+The updated documentation significantly improves:
+
+- Project discoverability  
+- New contributor onboarding  
+- Developer coordination  
+- Long-term maintainability  
+- Professionalism and clarity of the repository  
+
+=======
+
