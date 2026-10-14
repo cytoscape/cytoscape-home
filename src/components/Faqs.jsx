@@ -144,6 +144,14 @@ const faqs = [
         </Citation>
       </>,
     },
+    {
+      question: "What's next for Cytoscape?",
+      answer: <>
+        Planned features, release targets and longer-term directions
+        for Cytoscape Desktop, Cytoscape Web and Cytoscape.js are
+        described in the <LinkOut href="https://github.com/cytoscape/cytoscape-home/blob/main/roadmap.md">Cytoscape Roadmap</LinkOut>.
+      </>,
+    },
     // {
     //   question: 'How to donate to Cytoscape?',
     //   answer: <>
