@@ -99,37 +99,41 @@ A bug-fix release, `v1.0.8`, will ship first, ahead of the v1.1.0 feature releas
 
 > Cytoscape Web is described in [*Cytoscape Web: bringing network biology to the browser*](https://doi.org/10.1093/nar/gkaf365), Nucleic Acids Research (2025).
 
+<a id="comparison"></a>
+
 #### Desktop ↔ Web feature comparison
 
-The two tools are complementary. Desktop leads on analysis depth, apps, and sessions; Web leads on access, workspaces, and hierarchical/Cell views. This mirrors the official [Functionality Support Matrix](https://github.com/cytoscape/cytoscape-web/wiki/Cytoscape-Web-vs-Desktop-Feature-Comparison) maintained in the Cytoscape Web wiki — capabilities evolve each release.
+The two tools are complementary. Desktop leads on analysis depth, apps, and sessions; Web leads on access, workspaces, and hierarchical/Cell views.
 
-| Functionality | Desktop | Web |
-| --- | :---: | :---: |
-| Network Visualization | Full | Full |
-| Visual Styles | Full | Full |
-| Table Editing | Full | Full |
-| Undo / Redo | Full | Full |
-| Access to External Databases | Full | Partial |
-| Import | Full | Partial |
-| Export | Full | Partial |
-| Layout | Full | Partial |
-| Layout Tools | Full | Partial |
-| Filters | Full | Partial |
-| Element Selection | Full | Partial |
-| Network Editing & Operation | Full | Partial |
-| Annotations | Full | Partial |
-| App interface <sup>1</sup> | Full | Partial |
-| Analysis Tools | Full | — |
-| Network Analyzer | Full | — |
-| App Store | Full | — |
-| Element Group | Full | — |
-| Session | Full | — |
-| Hierarchical Network & Cell View | — | Full |
-| Workspace | — | Full |
+**Versions compared:** Cytoscape Web **v1.1.0** (released 2026-10-14) and Cytoscape Desktop **3.10.5** (released 2026-09-28). Last reviewed 2026-10-21. This table is the single source for the comparison and is updated with each Cytoscape Web release; see the [Cytoscape Web release notes](https://github.com/cytoscape/cytoscape-web/releases) for changes since.
 
-**Full** = fully supported · **Partial** = partially supported · **—** = not supported
+| Functionality | Desktop 3.10.5 | Web 1.1.0 | Differences |
+| --- | :---: | :---: | --- |
+| Network Visualization | Full | Full | By default, Web doesn't open networks from NDEx with more than about 20,000 edges; each deployment can change this limit. |
+| Visual Styles | Full | Mostly | Web lacks edge bends, edge label position and bar, line and heat-map charts. Web keeps several named styles with each network, and they travel with it in CX2. |
+| Table Editing | Full | Mostly | Web lacks the formula builder and Desktop's switch between showing all rows and only the selected ones. |
+| Undo / Redo | Full | Mostly | In Web, Undo and Redo are only in the Edit menu, with no keyboard shortcut. Web keeps 20 steps per network, and some actions, such as importing a table or merging networks, can't be undone. |
+| Filters | Full | Mostly | Web lacks the Chain tab (adjacency and interaction transformers) and filter types added by Desktop apps. Filter files can be exchanged between Web and Desktop. |
+| Access to External Databases | Full | Partial | Web reaches NDEx (load, save and search, including private networks and folders) and enrichment services (iQuery, g:Profiler). Desktop also reaches STRING, WikiPathways, PSICQUIC and other sources through its network search bar and apps. |
+| Import | Full | Partial | Web reads CX2, SIF and CSV/TSV/TXT, but not CX (v1), GraphML, XGMML, GML or Excel. |
+| Export | Full | Partial | Web writes CX2, PNG, SVG and PDF, but not tables, GraphML, XGMML, SIF or style files. Web can send a network to a running Desktop. |
+| Layout | Full | Partial | Web has nine built-in layouts, including Biological Flow and a GPU force layout, plus layouts added by apps. Web lacks Desktop's yFiles, Prefuse, edge-weighted and attribute layouts, and laying out only the selected nodes. |
+| Layout Tools | Full | Partial | Web only scales (width, height or both), and always scales the whole network. It lacks rotate, align, distribute and stack. |
+| Element Selection | Full | Partial | Web lacks a Select menu (all, none, invert, first neighbors, adjacent edges) and lasso selection. Click, box select, search, table rows and filters all select. |
+| Network Editing & Operation | Full | Partial | Web lacks copy and paste, creating a network from a selection, and hiding or showing the selected elements. Web can add and delete nodes and edges, duplicate a network and merge networks. |
+| Annotations | Full | Partial | Web only displays shape, text and bounded-text annotations made in Desktop. It can't create or edit annotations, and doesn't draw arrow or image annotations. |
+| Analysis Tools | Full | Partial | Most of Desktop's analysis comes from App Store apps, which don't run in Web. Web offers LLM Query on hierarchy networks and analyses run by service apps. |
+| App interface | Full | Partial | Desktop apps don't run in Web. Web apps are React modules (Module Federation) or service apps written in any language. The Web App API is in beta (`1.0.0-beta.5`), and v1.1.0 made breaking changes. |
+| App Store | Full | Partial | Web installs apps from the [App Store](https://apps.cytoscape.org) website or by URL. A saved workspace records which apps are installed, not the apps themselves; opening it loads each app again from its original address. Desktop also browses, searches and updates apps from inside the app. |
+| Network Analyzer | Full | — | Web has no network statistics or centrality measures. |
+| Element Group | Full | — | Web has no groups, meta-nodes or collapse/expand. |
+| Session | Full | — | Web can't open or save `.cys` files. A workspace saved to NDEx fills this role, but the networks in it must be saved to NDEx too. |
+| Hierarchical Network & Cell View | — | Full | Desktop has no viewer for HCX hierarchies; Web's Hierarchy Viewer includes the Cell View. |
+| Workspace | — | Full | Desktop has no workspace; its closest equivalent is a `.cys` session file. Web keeps the workspace in the browser, shares it across browser tabs and saves it to NDEx. |
 
-<sup>1</sup> Both versions support external apps but use different app frameworks; the Cytoscape Web app interface is currently in public testing.
+**Full** = fully supported · **Mostly** = common features supported, some less-used ones missing · **Partial** = some commonly used features missing · **—** = not supported
+
+Manuals: [Cytoscape Web](https://cytoscape-web.readthedocs.io/en/latest/) · [Cytoscape Desktop](https://manual.cytoscape.org/en/stable/)
 
 <a id="cytoscapejs"></a>
 
