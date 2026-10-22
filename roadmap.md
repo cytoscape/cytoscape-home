@@ -105,13 +105,13 @@ A bug-fix release, `v1.0.8`, will ship first, ahead of the v1.1.0 feature releas
 
 The two tools are complementary. Desktop leads on analysis depth, apps, and sessions; Web leads on access, workspaces, and hierarchical/Cell views.
 
-**Versions compared:** Cytoscape Web **v1.1.0** (released 2026-10-14) and Cytoscape Desktop **3.10.5** (released 2026-09-28). Last reviewed 2026-10-21. This table is the single source for the comparison and is updated with each Cytoscape Web release; see the [Cytoscape Web release notes](https://github.com/cytoscape/cytoscape-web/releases) for changes since.
+**Versions compared:** Cytoscape Web **v1.1.0** (released 2026-10-14) and Cytoscape Desktop **3.10.5** (released 2026-09-28). Last reviewed 2026-10-22. This table is the single source for the comparison and is updated with each Cytoscape Web release; see the [Cytoscape Web release notes](https://github.com/cytoscape/cytoscape-web/releases) for changes since.
 
 | Functionality | Desktop 3.10.5 | Web 1.1.0 | Differences |
 | --- | :---: | :---: | --- |
 | Network Visualization | Full | Full | By default, Web doesn't open networks from NDEx with more than about 20,000 edges; each deployment can change this limit. |
-| Visual Styles | Full | Mostly | Web lacks edge bends, edge label position and bar, line and heat-map charts. Web keeps several named styles with each network, and they travel with it in CX2. |
-| Table Editing | Full | Mostly | Web lacks the formula builder and Desktop's switch between showing all rows and only the selected ones. |
+| Visual Styles | Full | Mostly | Web lacks edge bends, edge label position, tooltips, node gradients, and bar, line and heat-map charts. Web keeps several named styles with each network, and they travel with it in CX2. |
+| Table Editing | Full | Mostly | Web lacks the formula builder, column styles (cell colors, images, sparklines and so on) and Desktop's switch between showing all rows and only the selected ones. |
 | Undo / Redo | Full | Mostly | In Web, Undo and Redo are only in the Edit menu, with no keyboard shortcut. Web keeps 20 steps per network, and some actions, such as importing a table or merging networks, can't be undone. |
 | Filters | Full | Mostly | Web lacks the Chain tab (adjacency and interaction transformers) and filter types added by Desktop apps. Filter files can be exchanged between Web and Desktop. |
 | Access to External Databases | Full | Partial | Web reaches NDEx (load, save and search, including private networks and folders) and enrichment services (iQuery, g:Profiler). Desktop also reaches STRING, WikiPathways, PSICQUIC and other sources through its network search bar and apps. |
